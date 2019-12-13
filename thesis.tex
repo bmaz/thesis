@@ -31,8 +31,13 @@ bottom=30mm
     \newpage}
 
 %Bibliography style
-\usepackage[square, numbers]{natbib}
-\bibliographystyle{abbrvnat}
+\usepackage[hyperref=true,
+            url=false,
+            isbn=false,
+            backref=false,
+            style=ieee,
+            backend=biber]{biblatex}
+\bibliography{bibliography.bib}
 
 % Thesis title
 \newcommand{\PhDTitle}{Thesis title. It can extend over several lines (even 4 or 5)} 
@@ -82,7 +87,7 @@ bottom=30mm
         \cleardoublepage
     }
     
-    \bibliography{bibliography.bib}
+    \printbibliography
     \pagebreak
     
     \input{layout/lastpage.tex}

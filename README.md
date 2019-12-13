@@ -29,4 +29,6 @@ The content of the appendices is in:
 In case you add or remove a chapter file or an appendix file, don't forget to update 
 the corresponding variable (`\NumOfChapters` or `\NumOfAppendices`) in [thesis.tex](thesis.tex).
 
+I am not a latex expert so I tried to keep things as simple as possible. 
+If you want to improve this template, feel free to make pull requests!
 

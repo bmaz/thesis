@@ -16,7 +16,7 @@ To add acknowledgements or a dedication, you should modify:
 * [layout/acknowledgements](layout/acknowledgements.tex)
 * [layout/dedication](layout/dedication.tex)
 
-The content of the PhD chapters itself is in:
+The content of the thesis chapters is in:
 * [1](1.tex)
 * [2](2.tex)
 ...
@@ -27,6 +27,6 @@ The content of the appendices is in:
 ...
 
 In case you add or remove a chapter file or an appendix file, don't forget to update 
-the corresponding variable (`\NumOfChapters` or `\NumOfAppendices`).
+the corresponding variable (`\NumOfChapters` or `\NumOfAppendices`) in [thesis.tex](thesis.tex).
 
 

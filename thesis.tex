@@ -1,3 +1,5 @@
+% created on 2019-12-13
+% @author : bmazoyer
 \documentclass[a4paper, twoside]{report}
 \usepackage[utf8]{inputenc}
 \usepackage{helvet}
@@ -21,6 +23,9 @@ bottom=30mm
 \usepackage{afterpage}
 \usepackage{setspace}
 \usepackage{pgffor}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
 \setlength{\columnseprule}{0pt}
 \setlength\columnsep{10pt}
 
@@ -29,15 +34,13 @@ bottom=30mm
     \thispagestyle{empty}%
     \addtocounter{page}{-1}%
     \newpage}
+    
+% Headers
+\pagestyle{headings}
 
 %Bibliography style
-\usepackage[hyperref=true,
-            url=false,
-            isbn=false,
-            backref=false,
-            style=ieee,
-            backend=biber]{biblatex}
-\bibliography{bibliography.bib}
+\usepackage[square, numbers]{natbib}
+\bibliographystyle{abbrvnat}
 
 % Thesis title
 \newcommand{\PhDTitle}{Thesis title. It can extend over several lines (even 4 or 5)} 
@@ -46,7 +49,7 @@ bottom=30mm
 \newcommand{\PhDname}{FirstName LastName} 
 
 % Change this variable if you add or remove chapters
-\newcommand*{\NumOfChapters}{5}
+\newcommand*{\NumOfChapters}{6}
 
 % Change this variable if you add or remove appendices
 \newcommand*{\NumOfAppendices}{2}
@@ -87,7 +90,8 @@ bottom=30mm
         \cleardoublepage
     }
     
-    \printbibliography
+    \onehalfspacing
+    \bibliography{bibliography.bib}
     \pagebreak
     
     \input{layout/lastpage.tex}

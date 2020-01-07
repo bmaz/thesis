@@ -1,9 +1,11 @@
 \chapter{Building a corpus for event detection on Twitter}
 
-\section{Introduction: properties of a Twitter event detection corpus}
+\section{Introduction}
+
+Research on general topic detection and tracking on Twitter (without specification of the type of topic) lacks some publicly available tweet datasets to produce reproducible results. This is all the more true for non-English languages. Some datasets exist, but they often have different definitions of event or topic than ours: many works on event detection are actually focused on  burst detection (detecting topics such as natural disasters, attacks, etc., that cause an unusual volume of tweets). Therefore, we needed to build our own evaluation corpus that would fit our needs in term of language (French), representativity of the collected tweets, quality and diversity of the annotated events. This introduction details the dataset's desired properties. In the rest of the chapter, we present the existing Twitter events datasets, then we detail our tweet collection method and our annotation process. Finally, we propose several ways of evaluating the created corpus.
 
 \subsection{Representativity of the collected data}
-In an ideal world, to compare news production on social media and on mainstream media, one would need the universe – during a given period of time (e.g. the year 2017) and a geographical location (e.g. France, the UK or the US) – of all documents published on the one hand on social media and on the other hand on mainstream media. Unfortunately, given the limitation of the Twitter API, it is not possible for the researcher to capture the universe of the documents (or tweets) published on Twitter. However, the researcher can work on a sample of the documents, as long as this sample is ``representative”. Why do we need representativity?
+In an ideal world, to compare news production on social media and on mainstream media, one would need the universe – during a given period of time (e.g. the year 2018) and a geographical location (e.g. France, the UK or the US) – of all documents published on the one hand on social media and on the other hand on mainstream media. Unfortunately, given the limitation of the Twitter API, it is not possible for the researcher to capture the universe of the documents (or tweets) published on Twitter. However, the researcher can work on a sample of the documents, as long as this sample is ``representative”. Why do we need representativity?
 
 
 Assume that we get access to a subsample of the documents published on Twitter, but that this sample is not representative of the overall traffic. For example, assume that this sample of tweets is such that the tweets’ characteristics (perhaps because the API provides the researcher with documents tweeted by users with more followers) are such that these documents have a higher probability to make it to the mainstream media. Then using this biased subsample will lead the researcher to overestimate the probability for a news story broken on social media to appear on mainstream media.
@@ -41,6 +43,19 @@ The properties of a given corpus have an impact on the implementation of the det
 
 \section{State of the art: building event detection corpora}
 
+Twitter gives a limited access to its data, but still provides some API endpoints to retrieve tweets (which is not the case of other more popular social networks), hence the large number of works based on Twitter datasets. However, few of them provide access to their evaluation corpora. We detail available event detection collections in this section.
+
+\citet{mcminn_building_2013} created the largest available corpus on event detection. They used several methods to generate candidate events: two automatic event detection methods on their set of 120 million tweets in English and one method based on query expansion of Wikipedia events. The automatically generated events were then assessed using Amazon Mechanical Turk, firstly to evaluate if the automatically generated events corresponded to their definition of event, secondly to judge if the clustered tweets where all relevant to the event. They finally merged together the events from the three candidate generation methods and removed duplicate events. The final corpus consists in more than 100,000 annotated tweets covering 506 events. However, this corpus dates from 2012. Because of tweets beeing removed and Twitter accounts being closed, a large part of this dataset can no longer be recovered. We could only retrieve 66.5 million tweets from the original collection (55\%) and 72,790 tweets from  the annotated corpus (72\%).
+
+The SNOW dataset \citep{papadopoulos_snow_2014} can also be used as test corpus for an event detection task. It is composed of 59 events from the headlines of the BBC RSS newsfeed and from NewsWhip UK published during one day (25 Feb. 2014). However it does not provide comprehensive sets of tweets related to each event, only two to five “representative” tweets from a collection of more than 1 million tweets emitted on that date.
+
+The Signal-1M corpora consist on a dataset of 1 million news articles from September 2015 \citep{corney2016million}, and of a dataset of tweets related to 100 randomly selected articles \citep{suarez2018data}. The tweets dataset contains approximatively 6000 tweets.
+
+The News Event Dataset \citep{mele2019multi} contains 147,000 documents from 9 news channels and published on Twitter, RSS portals and news websites from March to June 2016. 57 media events were annotated on a crowdsourcing platform, to label 4300 documents, including 744 tweets.
+
+The last two datasets contain too few tweets to allow a large-scale evaluation of any event detection and tracking system. In addition, events in SNOW, Signal-1M and the News Events Dataset are selected from media sources only, which restricts the definition of an event. Only the corpus by \citet{mcminn_building_2013} relies on a topic detection step among collected tweets before proceeding to the annotation step. This method allows for a greater variety of events, but it is likely to influence the evaluation: indeed, event detection systems similar to those used by \citet{mcminn_building_2013} for corpus creation may get better results when tested on this corpus.
+
+We tried to avoid these biases when creating our own corpus. The methodology used to build our dataset is detailed in the two following sections.
 
 \section{Tweet collection}
 Our objective is to collect automatically and continuously a set of tweets representative to the real Twitter activity. In addition to being \textbf{representative}, this corpus must contain a \textbf{volume of tweets sufficient for media events to be represented} in it, in particular medium and small events. Besides, these tweets must be \textbf{in French}. The following sections present the methods used to achieve these objectives.
@@ -166,6 +181,16 @@ Table \ref{Tab:ttest_sample_c3200} summarize Student's t-tests for the samples c
 
 
 We decided to keep $C_{3,200} \cup C_{1French}$ as main collection method, since its similarity to the random sample was the highest with the two comparisons methods. Figure \ref{Figure:HistogramLanguagesFilter} illustrates the new distribution of language using that method combined to the Sample API.
+
+\subsection{Comparison with other corpora}
+The tweet collection tool has been running from June 2018 to the present day, allowing us to store around 3 billion tweets. This long collection period allowed us to compare our corpus with other French tweet corpora collected during that time. Two teams were kind enough to give us access to part of their data: the French Internet legal deposit at the INA, and the Médialab at Sciences Po Paris.
+
+\subsubsection{Corpus provided by the French Internet legal deposit}
+The French Internet legal deposit department at the INA is in charge of archiving French websites related to audiovisual media (television, radio, web TVs). As part of this mission, the team collects tweets concerning audiovisual media and therefore regularly updates a manually curated list of hashtags and Twitter accounts to be captured using the Filter API.
+
+
+\subsubsection{Corpus provided by the Médialab}
+\citet{cardon2019unfolding}
 
 \section{Tweet annotation}
 

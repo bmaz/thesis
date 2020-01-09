@@ -1,7 +1,7 @@
-# Latex template for PhD thesis at Paris-Saclay University (Université Paris-Saclay)
+# Latex template for my PhD thesis at Paris-Saclay University (Université Paris-Saclay)
 Please check on the 
 [university website](https://www.universite-paris-saclay.fr/fr/documents-de-reference-relatifs-a-la-soutenance-de-la-these) 
-that this template still matches their recommendations (first page and last page) before using it.
+that this template still matches their recommendations (first page and last page) before using it for yourself.
 
 
 ## How to use this template

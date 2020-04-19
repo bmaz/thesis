@@ -68,7 +68,7 @@ it is more efficient to represent each sentence in a vector space where similar 
  
  In this chapter, we show that the First Story Detection clustering algorithm is the most suitable for our event detection task. We show that the best vector representation of tweets for the FSD algorithm is the tf-idf approach. We compare this algorithm with another standard algorithm (DBSCAN) and a method from the literature (pDMM). We are also testing a two-step clustering method, to group tweets according to their textual content and then according to their visual content.
  
-We conduct our demonstration by starting with a state of the art, then a presentation of the different algorithms tested, before detailing the different text and image embeddings used as inputs to the FSD and re-clustering algorithms. Finally, we present our results in detail.
+We conduct our demonstration by starting with a review of the state of the art, then a presentation of the different algorithms tested, before detailing the different text and image embeddings used as inputs to the FSD and re-clustering algorithms. Finally, we present our results in detail.
 
 
 \section{State of the art}
@@ -84,7 +84,7 @@ We conduct our demonstration by starting with a state of the art, then a present
 		
 		EnBlogue \citep{alvanaki_see_2012} measures the correlation of hashtags pairs within a given time window. Emergent topics are then detected among the pairs with the highest shift in their correlation. EnBlogue produces an overall scoring of the topics depending on the shift in correlation and on the total popularity of each topic. This score is smoothed in order to give a higher rank to new topics. 
 		
-		MABED \citep{guille_event_2015} does not only uses the textual content of the tweets: the frequency at which users interact with each other using ``mentions" (i.e. the name of another Twitter account preceded by ``@") is also taken into account to detect events. The system models the number of tweets that contain word $t$ and at least one mention during a given time-window as a binomial distribution. It detects positive anomalies if the creation of mentions associated to word $t$ is strictly greater than the expectation of the model. The magnitude of impact of an event on a time interval I is computed by integrating the anomaly function on the interval I. For each word associated with a mention, the system finds the interval I that maximizes its magnitude of impact. After other steps of event description and duplicates removal, the events with the highest impact are returned.
+		MABED \citep{guille_event_2015} does not only use the textual content of the tweets: the frequency at which users interact with each other using ``mentions" (i.e. the name of another Twitter account preceded by ``@") is also taken into account to detect events. The system models the number of tweets that contain word $t$ and at least one mention during a given time-window as a binomial distribution. It detects positive anomalies if the creation of mentions associated to word $t$ is strictly greater than the expectation of the model. The magnitude of impact of an event on a time interval I is computed by integrating the anomaly function on the interval I. For each word associated with a mention, the system finds the interval I that maximizes its magnitude of impact. After other steps of event description and duplicates removal, the events with the highest impact are returned.
 		
 		The Twitter Live Detection Framework (TLDF) \citep{gaglio_framework_2016} modifies the Soft Frequent Pattern Mining (SFPM) algorithm \citep{petkos_soft_2014} to adapt to the dynamic nature of tweets. The authors use the relevance score of term $t$ proposed for SFPM: the ratio of the likelihood of appearance of the term in the current time-window and in a reference set of tweets. This relevance score is combined with a parameter boosting the score of named entities and multiplied by the $\mbox{tf-idf}$ of term $t$. Moreover, the size of the detection time-window is not fixed, but is controlled by a sigmoid function depending on the volume of emitted tweets at a given moment.
 	
@@ -119,35 +119,38 @@ We conduct our demonstration by starting with a state of the art, then a present
 \citet{yin_dirichlet_2014} provide a collapsed Gibbs Sampling algorithm (GSDMM) to approximate the hidden variables in this generative process. The interest of this method in our case is that over iterations, some clusters (topics) become empty, while others progressively gather more documents. This means that the algorithm can approximate the number of documents in the collection, as long as the initial number of topics (K) is large enough at initialization. DMM is therefore very relevant to our study because it addresses both problem 2. (number of clusters unknown) and problem 3. (only one topic per tweet).
 
 This simple and efficient method has been adapted and improved by several authors:
-\citet{nguyen2015improving} integrates Word2Vec embeddings into DMM by replacing the topic-word Dirichlet multinomial component with a draw from a Bernoulli distribution to determine whether the Dirichlet multinomial component or a word embedding component will be used to draw the word $w$. \citet{li_enhancing_2017} propose PDMM, an extension of the DMM model by allowing short texts to be generated by one to three topics and drawn from a Poisson distribution, and GPU-PDMM, that exploit word-embeddings to enrich the latent topic learning with external semantic relations. 
+\citet{nguyen2015improving} integrates Word2Vec embeddings into DMM by replacing the topic-word Dirichlet multinomial component with a draw from a Bernoulli distribution to determine whether the Dirichlet multinomial component or a word embedding component will be used to draw the word $w$. \citet{li_enhancing_2017} propose PDMM, an extension of the DMM model by allowing short texts to be generated by one or more topics, where the topic number is reduced (from 1 to 3) and drawn from a Poisson distribution, and GPU-PDMM, that exploit word-embeddings to enrich the latent topic learning with external semantic relations. 
+
+However, these advances seem to increase calculation times by several orders of magnitude. \citet{li_enhancing_2017} provide a comparative table of the time efficiency of these different models, which we compare with their accuracy in Table \ref{Tab: BenchmarkDMM}. According to their experiments (all models are implemented in Java), the extended DMM models seem to multiply by 10 or even 100 the calculation time of plain DMM, on the BaiduQA dataset\footnote{a corpus of 648,514 questions from a Chinese Q\&A website, containing 35 labels.} for an increase in accuracy of 2 to 3 points. Therefore, we decided to use DMM as comparison model with the First Story Detection algorithm (see next Section) rather than more recent approaches.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[h]
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \rowcolors{2}{white}{gray!25}
   \input{tables/benchmark_efficiency_DMM}
   \caption{Time cost (in seconds) per iteration of each model}
   \label{Tab: time_efficiency}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \rowcolors{2}{white}{gray!25}
   \input{tables/benchmark_accuracy_DMM}
   \caption{Average classification accuracy of each model}
   \label{Tab: classification_accuracy}
 \end{subfigure}
-\caption{Comparison of time efficiency and classification accuracy of several DMM-adapted models with different numbers of topics $K$ on the BaiduQA dataset. These values are provided by \citet{li_enhancing_2017}}.
+\caption{Comparison of time efficiency and classification accuracy of several DMM-adapted models with different numbers of topic $K$ settings on the BaiduQA dataset. These values are provided by \citet{li_enhancing_2017}}.
 \label{Tab: BenchmarkDMM}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 	 
 
-However, these advances seem to increase calculation times by several orders of magnitude. \citet{li_enhancing_2017} provide a comparative table of the time efficiency of these different models, which we compare with their accuracy in Table \ref{Tab: BenchmarkDMM}. According to their experiments (all models are implemented in Java), the extended DMM models seem to multiply by 10 or even 100 the calculation time of plain DMM, on the BaiduQA dataset\footnote{a corpus of 648,514 questions from a Chinese Q\&A website, containing 35 labels.} for an increase in accuracy of 2 to 3 points. Therefore, we decided to use DMM as comparison model with the First Story Detection algorithm (see next Section) rather than more recent approaches.
 
-	\subsubsection{Dynamic clustering \label{Subsubsec: incremental clustering}} Dynamic clustering approaches do not require a fixed number of clusters. These methods are well fitted for discovering clusters of textual documents dynamically as new documents are added to the collection. For this type of clustering, algorithms are often used that take into account both the thematic similarity of the documents and their temporal proximity, in order to avoid grouping in the same cluster tweets sent at very distant times. This type of approaches generally use the state of the art First Story Detection (FSD) \citep{allan_introduction_2002} algorithm as a reference method. In this method (see Algorithm 1), documents are represented using tf-idf (see Section \ref{Text embeddings} for a presentation of tf-idf encoding), their similarity is computed using cosine similarity, and each new document joins the cluster of its nearest neighbor in the collection. If the distance to the nearest neighbor is higher than a pre-defined threshold $t$ a new cluster is created, that contains the new document. Regularly, the oldest documents are dropped from the collection. This insures that each new document is only compared to the most recent documents. 
+	\subsubsection{Dynamic clustering \label{Subsubsec: incremental clustering}} Dynamic clustering approaches do not require a fixed number of clusters. These methods are well fitted for discovering clusters of textual documents dynamically as new documents are added to the collection. For this type of clustering, the algorithms that are often used take into account both the thematic similarity of the documents and their temporal proximity, in order to avoid grouping in the same cluster tweets sent at very distant times. This type of approaches generally use the state-of-the-art First Story Detection (FSD) \citep{allan_introduction_2002} algorithm as reference method. In this method (see Algorithm 1), documents are represented using tf-idf (see Section \ref{Text embeddings} for a presentation of tf-idf encoding), their similarity is computed using cosine similarity, and each new document joins the cluster of its nearest neighbor in the collection. If the distance to the nearest neighbor is higher than a pre-defined threshold $t$ a new cluster is created, that contains the new document. Regularly, the oldest documents are dropped from the collection. This insures that each new document is only compared to the most recent documents. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\label{FSD}
 \begin{algorithm}
 \caption{``First Story Detection"}
 \begin{algorithmic}[1]
@@ -178,7 +181,7 @@ However, these advances seem to increase calculation times by several orders of 
 
 
 
-Existing works on tweet incremental clustering have adapted this reference method initially developed for streams of news (such as RSS streams) to process much higher volumes of documents, and very short texts. Indeed the maximum size of a tweet is 280 characters (140 characters before 2018). Changes in that baseline method are done either in the type of text representation, or in the clustering algorithm itself. A step of noise filtering is also frequently added before the clustering step, to distinguish event from non-event tweets (according to \citet{liu_reuters_2016}, the proportion of event tweets in well established corpora such as the one by \citet{mcminn_building_2013} is less than 0.2\%). This section explores the variations introduced in the clustering algorithm.
+Existing works on tweet incremental clustering have adapted this reference method initially developed for streams of news (such as RSS streams) to process much higher volumes of documents, and very short texts. Indeed the maximum size of a tweet is 280 characters (140 characters before 2018). Changes in that baseline method are done either in the type of text representation, or in the clustering algorithm itself. A step of noise filtering is also frequently added before the clustering step, to distinguish event from non-event tweets (according to \citet{liu_reuters_2016}, the proportion of event tweets in well-established corpora such as the one by \citet{mcminn_building_2013} is less than 0.2\%). This section explores the variations introduced in the clustering algorithm.
 
 
 In TwitterStand, \citet{sankaranarayanan_twitterstand:_2009} first perform a filtering step, that classify tweets as either ``junk" or ``news" using a naive Bayes classifier. Then, their online clustering algorithm associates a vector to each cluster, which is composed from the contained tweets' terms weighted with tf-idf. Each new tweet is represented using tf-idf and compared to the clusters' vectors using a modified cosine distance that accounts for the temporal dimension of clusters. The distance formula is 
@@ -186,7 +189,7 @@ $$
 \dot{\delta}(t,c) = \delta(t,c)\times e^{\frac{-(T_t-T_c)^2}{2\sigma^2}}
 $$
 
-where $\delta(t,c)$ is the cosine distance between tweet $t$ and cluster $c$, $T_t$ is tweet $t$'s publication time and $T_c$ is cluster $c$'s mean publication time. The distance is only computed for clusters with a mean publication time $T_c$ more recent than 3 days, and that have a word in common with $t$. If $\dot{\delta}(t,c^*) \leqslant \epsilon$ (where $c^*$ is the nearest cluster to $t$), the tweet $t$ is added to the cluster $c^*$. Else, a new cluster is created. To speed up the search for the nearest cluster, an inverted index of the cluster's words is maintained: for each word $w$, the inverted index stores pointers to the clusters that contain $w$. The clustering algorithm in TwitterStand is adapted to the noisy nature of tweets by maintaining a list of reputable sources. A cluster is dropped from the list of active clusters if none of the first $k$ tweets are from a reputable source. The system also deals with fragmentation (the fact that several clusters about the same topic are created) by removing duplicate clusters. If a cluster $c'$  is identified as the duplicate of an older cluster $c$, $c'$ is marked as ``slave" of the cluster $c$, and $c$ as ``master" of $c'$. Any tweet that should be added to $c'$ is now added to $c$.
+\noindent where $\delta(t,c)$ is the cosine distance between tweet $t$ and cluster $c$, $T_t$ is tweet $t$'s publication time and $T_c$ is cluster $c$'s mean publication time. The distance is only computed for clusters with a mean publication time $T_c$ more recent than 3 days, and that have a word in common with $t$. If $\dot{\delta}(t,c^*) \leqslant \epsilon$ (where $c^*$ is the nearest cluster to $t$), the tweet $t$ is added to the cluster $c^*$. Else, a new cluster is created. To speed up the search for the nearest cluster, an inverted index of the cluster's words is maintained: for each word $w$, the inverted index stores pointers to the clusters that contain $w$. The clustering algorithm in TwitterStand is adapted to the noisy nature of tweets by maintaining a list of reputable sources. A cluster is dropped from the list of active clusters if none of the first $k$ tweets are from a reputable source. The system also deals with fragmentation (the fact that several clusters about the same topic are created) by removing duplicate clusters. If a cluster $c'$  is identified as the duplicate of an older cluster $c$, $c'$ is marked as ``slave" of the cluster $c$, and $c$ as ``master" of $c'$. Any tweet that should be added to $c'$ is now added to $c$.
 
 \citet{petrovic_streaming_2010} speed up the standard FSD algorithm by replacing the nearest neighbor search by an approximate nearest neighbor search using Locality Sensitive Hashing. Instead of searching for the nearest neighbor in the set of all documents, the search is done among a small set $S$ of potential nearest neighbors. The set $S$ is the set of documents that have the same hash as current document $x$:
 $$
@@ -202,15 +205,15 @@ The system proposed by \citet{petrovic_streaming_2010} has later been improved b
 
 \citet{becker_beyond_2011} use the same clustering algorithm as \citet{sankaranarayanan_twitterstand:_2009}, with each new tweet being represented as a tf-idf vector and compared using cosine similarity to the centroid of each cluster (the centroid is the mean weight of all terms in all tweets contained in the cluster). The specificity of their approach lies in the step following the clustering: instead of processing to a noise/event classification at the tweet level, the classification step takes place at the cluster level. They use a wide range of features in order to run a classification algorithm able to distinguish event clusters from noise clusters. The considered features are temporal features (taking into account the frequency of emission of the tweets in the cluster), social features (percentage of messages being retweets, replies, or mentions), topical features (based on the assumption that event clusters have a smaller diversity of topics), and Twitter-Centric features (hashtag usage, presence of multi-word hashtags).
 
-\citet{mcminn_real_2015} base their event-detection approach on Part Of Speech (POS) Tagging and Named Entity Recognition (NER). Their first step is to extract named entities (persons, locations and organizations) and lemmatized nouns and verbs from each tweets. They then proceed to an aggressive filtering step (95\% of the tweets are removed): the system removes retweets, tweets with no named entities, and tweets containing terms associated with noise (``follow", ``watch", etc.). Then two steps are conducted in parallel: a clustering and a burst detection step. The clustering is based on an inverted index of all named entities: for each new tweet, the tweets containing the same named entities are retrieved from the index. The nearest neighbor is searched among these tweets using tf-idf representation, cosine similarity and a similarity threshold. If a nearest neighbor is found and does not already belong to a cluster, a new cluster is created containing the two tweets. In parallel, the bust detection module looks for bursts in the frequency of the detected entities. Once a burst has been detected, the clusters associated with the given entity are associated to it if the average timestamp of the tweets in the cluster is after the initial burst. The clusters associated to one burst form an event. If an entity associated to another event is mentioned in more than 50\% of the event's tweets, the two events are merged.
+\citet{mcminn_real_2015} base their event-detection approach on Part Of Speech (POS) Tagging and Named Entity Recognition (NER). Their first step is to extract named entities (persons, locations and organizations) and lemmatized nouns and verbs from each tweets. They then proceed to an aggressive filtering step (95\% of the tweets are removed): the system removes retweets, tweets with no named entities, and tweets containing terms associated with noise (``follow", ``watch", etc.). Then two steps are conducted in parallel: a clustering and a burst detection step. The clustering is based on an inverted index of all named entities: for each new tweet, the tweets containing the same named entities are retrieved from the index. The nearest neighbor is searched among these tweets using tf-idf representation, cosine similarity and a similarity threshold. If a nearest neighbor is found and does not already belong to a cluster, a new cluster is created containing the two tweets. In parallel, the burst detection module looks for bursts in the frequency of the detected entities. Once a burst has been detected, the clusters associated with the given entity are associated to it if the average timestamp of the tweets in the cluster is after the initial burst. The clusters associated to one burst form an event. If an entity associated to another event is mentioned in more than 50\% of the event's tweets, the two events are merged.
 
-With Reuters Tracer, \citet{liu_reuters_2016} propose an event detection system that is also largely based on POS tagging and NER. This system combines a tweet level noise filtering and a cluster level noise filtering. Are considered as ``noise" all tweets and all clusters of tweets that are not linked to an event (in the sense of \citet{mcminn_building_2013}). The clustering algorithm itself is quite different from the standard FSD algorithm. New tweets are added to clusters based on three criteria: (1) Retweets of the same tweets are all added to the same cluster. (2) Tweets containing the same url are all added to the same cluster. (3) Finally, a similarity metric with the existing clusters is computed as follows:
+With Reuters Tracer, \citet{liu_reuters_2016} propose an event detection system that is also largely based on POS tagging and NER. This system combines a tweet-level noise filtering and a cluster-level noise filtering. Are considered as ``noise" all tweets and all clusters of tweets that are not linked to an event (in the sense of \citet{mcminn_building_2013}). The clustering algorithm itself is quite different from the standard FSD algorithm. New tweets are added to clusters based on three criteria: (1) Retweets of the same tweets are all added to the same cluster. (2) Tweets containing the same url are all added to the same cluster. (3) Finally, a similarity metric with the existing clusters is computed as follows:
 $$
 S_i = aN_e + bN_n + cN_v + dN_h
 $$
 where $N_e,N_n,N_v,N_h$ are the numbers of matching Named Entities, nouns, verbs and hashtags between the tweet and the cluster, and $a, b, c, d$ are learned parameters. Liu and al. explain that their system is primarily based on named entities (``An event is usually defined by \textit{who}, \textit{where} and \textit{what}" according to \citet{mcminn_building_2013}), and that there is no need for high dimensional tf-idf vectors to compute a good similarity function. The obtained clusters, called ``unit clusters" are progressively merged into bigger clusters using the same steps (merging based on retweets, urls, then similarity metric) as the unit clustering step. However, the used $a, b, c, d$ parameters are different.
 
-\citet{hasan_twitternews_2016} use the technique of First Story Detection with LSH developed by \citet{petrovic_streaming_2010}. However, they observe that the $k$ independent random vectors in a single hash table need to be updated every time the size of the input tf-idf vectors increases (which happens at a high rate in Twitter data since the vocabulary evolves faster than in traditional news). To alleviate this problem, they propose a technique using random indexing \citep{sahlgren_introduction_2005}. Random indexing  aims at representing terms with fixed-size vectors. Each term $t$ is associated with two vectors: an index vector and a context vector. The index vector is a random vector. The context vector has the same size as the index vector and it is initialized with zeroes. When a co-occurrence of the term $t$ with another term $t'$ is observed, the context vector of $t$ is updated by adding the index vector of $t'$. A tweet can then be represented as an average of the vectors of each term in the tweet. This tweet representation is then used to perform the LSH approximate neighbors search of the tweet $d$. However, once the set $S$ of all documents that collide with $d$ in a hash table is computed, the exact nearest neighbor search is done using cosine similarity on tf-idf vectors, rather than random indexing vectors. \citet{hasan_twitternews_2016} use this method as a first algorithm in order to detect ``non unique" tweets, that are then clustered using a second algorithm close to the one by \citet{sankaranarayanan_twitterstand:_2009}: this time, the similarity to the clusters' centroids is computed. Hasan et al. explain the use of this two-steps clustering method by the necessity to restrain the number of ``one tweet clusters". A defragmentation step is finally done in order to merge similar clusters.
+\citet{hasan_twitternews_2016} use the technique of First Story Detection with LSH developed by \citet{petrovic_streaming_2010}. However, they observe that the $k$ independent random vectors in a single hash table need to be updated every time the size of the input tf-idf vectors increases (which happens at a high rate in Twitter data since the vocabulary evolves faster than in traditional news media). To alleviate this problem, they propose a technique using random indexing \citep{sahlgren_introduction_2005}. Random indexing  aims at representing terms with fixed-size vectors. Each term $t$ is associated with two vectors: an index vector and a context vector. The index vector is a random vector. The context vector has the same size as the index vector and it is initialized with zeroes. When a co-occurrence of the term $t$ with another term $t'$ is observed, the context vector of $t$ is updated by adding the index vector of $t'$. A tweet can then be represented as an average of the vectors of each term in the tweet. This tweet representation is then used to perform the LSH approximate neighbors search of the tweet $d$. However, once the set $S$ of all documents that collide with $d$ in a hash table is computed, the exact nearest neighbor search is done using cosine similarity on tf-idf vectors, rather than random indexing vectors. \citet{hasan_twitternews_2016} use this method as a first algorithm in order to detect ``non unique" tweets, that are then clustered using a second algorithm close to the one by \citet{sankaranarayanan_twitterstand:_2009}: this time, the similarity to the clusters' centroids is computed. Hasan et al. explain the use of this two-steps clustering method by the necessity to restrain the number of ``one tweet clusters". A defragmentation step is finally done in order to merge similar clusters.
 
 
 In these works, tweets are represented in the form of tf-idf vectors in the vast majority of cases \citep{sankaranarayanan_twitterstand:_2009, petrovic_streaming_2010, becker_automatic_2011, hasan_twitternews_2016}. \citet{repp_extracting_2018} test different types of representation of tweets (Word2Vec average, GloVe average, Doc2Vec, Word2Vec average weighted by the idf of each word). However, these representations are only tested on a classification task, and the best representation (the average of Word2Vec) is then used for clustering. We therefore wanted to update this work by testing recent embeddings, and in particular those developed for representation of sentences. The next section details recent advances in text embeddings, from word embeddings to sentence or short-text embeddings.
@@ -226,7 +229,7 @@ number of occurrences of the words it contains ("term frequency"). The tf-idf re
 The publication of Word2Vec \citep{mikolov_efficient_2013} and GloVe \citep{pennington2014glove}, two methods based on the prediction of the context of each word (or the prediction of each word depending on its context), made it possible to create word vectors carrying semantics other than the word frequency in the corpus. However, these representations lost the ability to describe each document by a single vector. To get around this problem, each document is often represented by an average of word vectors.
 
 With ELMo \citep{peters2018deep} appears a new generation of models,
-allowing words to be represented not only depending on their usual context (the words with which they are frequently used in the training corpus), but also according to their local context: the word representation is specific to a given sentence. This constitutes an important advance in language processing, since a word no longer has a single representation that aggregates its different meanings, but several representations for each of the contexts in which it is used. ELMo is based on on a bi-directional LSTM neural network trained to predict the next word in a sequence in both directions (i.e. predict the next word in a sentence, but also, given the end of a sentence, predict the word just before it). However, ELMo is not designed to produce sentence embeddings, but to be used as input to task-specific neural models. Nevertheless, the authors test the performance of word vectors directly from the first or second layer of their model (which contains three layers) for a disambiguation task by searching for the first nearest neighbor. The results obtained are close to the state of the art.
+allowing words to be represented not only depending on their usual context (the words with which they are frequently used in the training corpus), but also according to their local context: the word representation is specific to a given sentence. This constitutes an important advance in language processing, since a word no longer has a single representation that aggregates its different meanings, but several representations for each of the contexts in which it is used. ELMo is based on a bi-directional LSTM neural network trained to predict the next word in a sequence in both directions (i.e. predict the next word in a sentence, but also, given the end of a sentence, predict the word just before it). However, ELMo is not designed to produce sentence embeddings, but to be used as input to task-specific neural models. Nevertheless, the authors test the performance of word vectors directly from the first or second layer of their model (which contains three layers) for a disambiguation task by searching for the first nearest neighbor. The results obtained are close to the state of the art.
 
 BERT \cite{devlin2018bert} is even more generic than ELMo, because this model does not require a specific architecture for each type of task: it can be fine-tuned to a new dataset by simply adding an output layer. BERT is built with a Transformer-type architecture \cite{vaswani2017attention}, and pre-trained on two types of tasks: predicting hidden words in a sentence and predicting the next sentence in a text. As in ELMo, the authors of BERT do not intend to create sentence embeddings from their model, but rather to provide an architecture that should be trained differently for each specific task. However, they demonstrate that a simple transfer learning (extraction of  word vectors used at the input of a new model without fine-tuning) can match the state of the art for a named entities detection task.
 
@@ -239,9 +242,9 @@ For example, Skip-Thought \citep{kiros2015skip} is based on an encoder-decoder a
 
 With Universal Sentence Encoder, \citet{cer2018universal} apply the results of \citet{kiros2015skip} and \citet{conneau2017supervised} by training a Transformer architecture both on unsupervised tasks, as it was done for Skip-Thought, and on the SNLI dataset, like InferSent. 
 
-Sentence-BERT \cite{reimers_2019_sentence} does not provide universal vectors, but a fine-tuning architecture of the BERT model specifically adapted to produce sentence embeddings adapted to certain types of tasks. This model modifies BERT into a Siamese network, with a final layer depending on the type of task on which the network is trained. The authors test their representations on the STS dataset \cite{cer2017semeval} (8628 pairs of sentences with a similarity score between 0 and 5) by computing a simple cosine similarity score between the vectors associated with each sentence. They show that the best performances on the STS dataset are obtained by a first fine-tuning on SNLI and then a second fine-tuning on the STS training set.
+Sentence-BERT \cite{reimers_2019_sentence} does not provide universal vectors, but a fine-tuning architecture of the BERT model specifically adapted to produce sentence embeddings adapted to certain types of tasks. This model modifies BERT into a Siamese network, with a final layer depending on the type of task on which the network is trained. The authors test their representations on the STS dataset \cite{cer2017semeval} ($8,628$ pairs of sentences with a similarity score between 0 and 5) by computing a simple cosine similarity score between the vectors associated with each sentence. They show that the best performances on the STS dataset are obtained by a first fine-tuning on SNLI and then a second fine-tuning on the STS training set.
 
-All these embedding methods are potential ways of representing the text of tweets. We compare their performance in Section \ref{Subsec: text embeddings}. However, we were also interested in the information carried by the image, because communication on social networks is increasingly carried by visual supports. The next section reviews the existing literature on multimodal event detection.
+All these embedding methods are potential ways of representing the text of tweets. We compare their performance in Section \ref{Results}. However, we were also interested in the information carried by the image, because communication on social networks is increasingly carried by visual supports. The next section reviews the existing literature on multimodal event detection.
 
 \subsection{Text-Image event detection}
 
@@ -265,14 +268,14 @@ automatically detect keypoints from images. These keypoints are then clustered t
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%
 
-The "MediaEval Social Event Detection" challenges \cite{reuter2013social, petkos2014social} have led to the publication of research articles on social event detection, unfortunately it is based on Flickr datasets. A description of the datasets is provided in Section \ref{state of the art}. Flickr is more an image hosting service than a social network: text plays a very limited role, and the images posted are rather personal photos than memes\footnote{A meme is an amusing image or video that is spread massively on the Internet, often with slight variations. See Figure \ref{Figure:meme} for a classical example of meme.} or images containing text.  
+The "MediaEval Social Event Detection" challenges \cite{reuter2013social, petkos2014social} have led to the publication of research articles on social event detection, unfortunately it is based on Flickr datasets. A description of the datasets is provided in Section \ref{state of the art}. Flickr is more an image hosting service than a social network: text plays a very limited role, and the images posted are personal photos rather than memes\footnote{A meme is an amusing image or video that is spread massively on the Internet, often with slight variations. See Figure \ref{Figure:meme} for a classical example of meme.} or images containing text.  
 
-On Twitter, conversely, not all tweets contain images, and and a very large part of the images contains text. \citet{chen2016context} find that 35\% of the images in their dataset contain text, mainly in the form of memes (37\%), photos of text (22\%) or tweet screenshots (8\%). Due to the high proportion of textual content and memes in Twitter images, the contribution of the image to the event detection task may be small or even negative compared to text alone, as tweets about very different events may contain the same image. In the remainder of this chapter, we test several types of text and image representations, as well as several types of event detection, in order to answer this question.
-
+On Twitter, conversely, not all tweets contain images (in our annotated corpus, 23\% of tweets contain a visual
+content - image, video or animated GIF.), and a very large part of the images contains text. \citet{chen2016context} find that 35\% of the images in their dataset contain text, mainly in the form of memes (37\%), photos of text (22\%) or tweet screenshots (8\%). Due to the high proportion of textual content and memes in Twitter images, the contribution of the image to the event detection task may be small or even negative compared to text alone, as tweets about very different events may contain the same image. In the remainder of this chapter, we test several types of text and image representations, as well as several types of event detection, in order to answer this question.
 
 \section{Algorithms}
 
-Different algorithms are tested in this chapter. In this section, we present them and explain how their parameters where tested. Some of these algorithms are not directly suited for our event detection task,
+Different algorithms are tested in this chapter. In this section, we present them and explain how their parameters were tested. Some of these algorithms are not directly suited for our event detection task,
 since they take the number of classes or topics as an input, whereas we need an algorithm capable of automatically discovering the optimal number of clusters. This is the case for SVM classifiers, that are rather used to evaluate the quality of different embeddings. In total, we present five methods: SVM classification, FSD algorithm, FSD algorithm with re-clustering, DBSCAN, and Dirichlet Multinomial Mixture model.
 
 \subsection{Support Vector Machines (SVM)}
@@ -285,7 +288,7 @@ k(x, y) = 1 - \|x - y\|
 \end{align}
 Our experiments with this type of kernel show that, in addition to being invariant to scale changes \citep{fleuret2003scale}, it can be applied effectively to both dense and sparse vectors. It achieves performance similar to parametric kernels on text classification, with the advantage of not requiring a lengthy grid search process to select the right parameters.
 
-Our first experiments were conducted only with a triangular kernel. However, as this is not a very well known form, several reviewers have requested that further tests be conducted with a more common kernel. We therefore also conducted classification experiments with an RBF kernel:
+Our first experiments were conducted only with a triangular kernel. However, as this is not a very well-known form, several reviewers have requested further tests to be conducted with a more common kernel. We therefore also conducted classification experiments with an RBF kernel:
 \begin{align}
 \label{eq:RBF kernel}
 k(x, y) = \exp(-\gamma \|x - y \|^{2})
@@ -353,6 +356,14 @@ One way of introducing multimodality into the standard First Story Detection alg
 As the second step of this algorithm consists in merging the clusters resulting from the first step, it is important that these first clusters have a good precision. This is why, during our experiments we set the $t$ parameter to 0.6, a bit lower than for the standard FSD algorithm. In this way we obtain at the end of the first step more homogeneous clusters. The $w$ parameter remains set to the average number of tweets per day in the dataset.
 
 The distance metric used in the re-clustering part depends on the type of image representation chosen (see the next Section for the detail of tweet representations). For ResNet vectors, we use euclidean distance. For SIFT features, we compute our own distance metric based on the estimated linear transformation between each image and a combination of the matching points similarities.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\linewidth]{figures/four_image_clusters.png}
+  \caption{Four clusters created using the vizualisation algorithm t-SNE on the ResNet representation of images from our dataset.}
+  \label{Fig:t-SNE}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{DBSCAN}
 We use the DBSCAN algorithm \cite{ester1996density} as a baseline since it is a classical clustering algorithm that does not require a fixed number of clusters as input. DBSCAN uses 2 parameters: the distance $\epsilon$ and the minimum number of points $m$ that must be within a radius $\epsilon$ for these points to be considered as a cluster. The $\epsilon$ parameter controls the local neighborhood of each point. A too large $\epsilon$ leads to different clusters being merged, while a too small $\epsilon$ will cause most points to be labelled as "outliers". The $m$ parameter controls the tolerance to noise. Since we run tests only on the annoted part of the datasets (only event related tweets), the level of noise is rather low, and small values of $m$ are sufficient. We test different values of $m$ and $\epsilon$ for each corpus.
@@ -368,15 +379,8 @@ Taking into account these different factors, we conducted the experiments by set
 
 \section{Tested embeddings}
 
-In this part we present the different types of embeddings tested for the FSD and re-clustering algorithms. We also report on our fine-tuning tests aimed at improving the performance of SBERT on the French corpus. Finally, we detail the text preprocessing applied depending on each model.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\linewidth]{figures/four_image_clusters.png}
-  \caption{Four clusters created using the vizualisation algorithm t-SNE on the ResNet representation of images from our dataset.}
-  \label{Fig:t-SNE}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this part we present the different types of embeddings tested for the FSD and re-clustering algorithms. We also report our fine-tuning tests aimed at improving the performance of SBERT on the French corpus. Finally, we detail the text preprocessing applied depending on each model.
+
 
 \subsection{Types of representations \label{SubSec: representations}}
 
@@ -384,9 +388,9 @@ In this part we present the different types of embeddings tested for the FSD and
 \subsubsection{Image}
 
 \begin{enumerate}
-    \item{\textit{ResNet layer.}} To create image vectors, we test a CNN model trained on ImageNet as the encoder. More precisely, we experiment with the 50 layers version of the ResNet model \citep{he2016deep}. We use the penultimate layer as the vector representation of images. The dimension of the image embedding is 2048.
+    \item{\textit{ResNet layer.}} To create image vectors, we test a CNN model trained on ImageNet as the encoder. More precisely, we experiment with the 50 layers version of the ResNet model \citep{he2016deep}. We use the penultimate layer as the vector representation of images. The dimension of the image embedding is $2,048$.
     
-    The drawback of this type of representations trained on ImageNet is that the semantic expressed by vectors is categorical: vectors allow distinctions to be made between categories such as "people", "animals", "buildings", but cannot, for example, easily distinguish between two soccer games, or two different buildings. Figure \ref{Fig:t-SNE} illustrates this by showing some of the clusters created using the t-SNE visualization algorithm  \cite{maaten2008visualizing} on images from one day of our dataset represented as ResNet layers. All faces tend to produce similar vectors, whether they are the faces of politicians or "memes" such as the little girl to the right of the picture. On the contrary, the Amazon building is not in the same cluster as the press conference of Amazon executives that appears in one of the pictures above, although a human knowing the company's logo would probably have grouped them together.
+    The drawback of this type of representations trained on ImageNet is that the semantic expressed by vectors is categorical: vectors allow distinctions to be made between categories such as "people", "animals", "buildings", but cannot, for example, easily distinguish between two soccer games, or two different buildings. Figure \ref{Fig:t-SNE} illustrates this by showing some of the clusters created using the t-SNE visualization algorithm  \cite{maaten2008visualizing} on images from one day of our dataset represented as ResNet layers. All faces tend to produce similar vectors, whether they are the faces of politicians or "memes" such as the little girl to the right of the picture. Similarly, the Amazon building is not in the same cluster as the press conference of Amazon executives that appears in one of the pictures above, although a human knowing the company's logo would probably have grouped them together.
     
     \item{\textit{SIFT features.}} Knowing this characteristic of ResNet vectors, we have also used a standard approach based on bag of local features for image descriptions. This category of image retrieval methods is known to integrate low-level visual information, less semantic and more local than that conveyed by global vectors obtained from deep-learning networks. Thus, it focuses on the existence of visually very similar details, in all or part of the images. The underlying idea of this approach is to enable the detection of places or similar objects between images, which can be useful to create links between the tweets. Figure \ref{Fig:Benalla} shows an example of the kind of similarities that can be detected using local features.
     
@@ -417,12 +421,15 @@ We have distinguished two calculation modes for $n$ and $df(t)$: \textbf{tfidf-d
 \item \textit{Word2Vec.} We used pre-trained models for English, and trained our own French models. For each corpus, we distinguish between \textbf{w2v-twitter}, models trained on tweets, and \textbf{w2v-news}, models trained on press articles. For English, w2v-twitter is a pre-trained model published by \citet{godin2015multimedia}\footnote{\url{github.com/loretoparisi/word2vec-twitter}} (400 dimensions) and w2v-news is a model trained on Google News and published by Google\footnote{\url{code.google.com/archive/p/word2vec/}}  (300 dimensions). In French, w2v-twitter was trained with the CBOW algorithm on 370 million tweets collected between 2018 and 2019, and w2v-news was similarly trained on 1.9 million AFP dispatches collected between 2011 and 2019. Both models have 300 dimensions.
 As Word2Vec provides word embeddings and not sentence embeddings, the representation of tweets is obtained by averaging the word vectors of each word. Two methods were used for averaging: a simple average, and an idf-weighted average using the \textbf{tfidf-all-tweets} calculation method.
 
-\item \textit{ELMo.} For English, we used the model published on TensorFlow Hub\footnote{\url{tfhub.dev/google/elmo/2}}. For French, a model trained on French published by \citet{che2018towards}\footnote{\url{github.com/HIT-SCIR/ELMoForManyLangs}}. In each case, we use the average of the three layers of the network as a representation of each word. The representation of a tweet is produced by averaging these vectors (of dimension 1024).
+\item \textit{ELMo.} For English, we used the model published on TensorFlow Hub\footnote{\url{tfhub.dev/google/elmo/2}}. For French, a model trained on French published by \citet{che2018towards}\footnote{\url{github.com/HIT-SCIR/ELMoForManyLangs}}. In each case, we use the average of the three layers of the network as a representation of each word. The representation of a tweet is produced by averaging these vectors (of dimension $1,024$).
 
 
 \item \textit{BERT.} Google provides an English model and a multilingual model\footnote{\url{github.com/google-research/bert} models: bert-large, uncased and bert-base, multilingual cased}. In order to improve the performance of the multilingual model on French tweets, we continued training for 150,000 steps on tweets collected in June 2018. We refer to the simple multilingual model as \textbf{bert} and the model trained on tweets as \textbf{bert-tweets}. In each case, we used the penultimate layer of the network (of dimension 768) as embedding, by averaging the tokens to obtain a tweet representation.
 
-\item \textit{Universal Sentence Encoder.} The provided models\footnote{\url{tfhub.dev/google/universal-sentence-encoder-large/3}}\textsuperscript{,}\footnote{\url{tfhub.dev/google/universal-sentence-encoder-multilingual-large/1}} (english and multilingual) are designed to provide sentence embeddings, so we were able to use them as is. The vectors are of dimension 512.
+\item \textit{Universal Sentence Encoder.}
+    \item The provided models\footnote{\url{tfhub.dev/google/universal-sentence-encoder-large/3}}\textsuperscript{,}\footnote{\url{tfhub.dev/google/universal-sentence-encoder-multilingual-large/1}}
+    (english and multilingual) are designed to provide sentence embeddings, so we were able to use them as is, without averaging vectors
+    like in the previous representations. The vectors are of dimension 512.
 
 \item \textit{Sentence-BERT} The authors of SBERT provide pre-trained models for English\footnote{\url{github.com/UKPLab/sentence-transformers}. Model: bert-large-nli-stsb-mean-tokens}. For French, we had to perform a fine-tuning of the multilingual BERT model, which we present in Section \ref{Subsec: Fine-tuning}. The vectors obtained are of dimension 768.
 \end{enumerate}
@@ -445,7 +452,7 @@ We build a common vector of text and image by concatenating the ResNet vectors w
 The SBERT model is specifically trained to provide cosine similarity scores: the architecture presented in Figure \ref{Fig:SBERT} is used to train the model
 on the STS corpus. The objective function is a mean-square-error loss between $cosine\text{-}sim(u,v)$ and the similarity score evaluated manually in the dataset. This model seems particularly suitable for a clustering algorithm based on cosine similarity, and indeed, among the sentence embeddings (\textit{Universal Sentence Embedding} and SBERT), this it is the one that provides the best clustering results in English.
 
-However, the English pre-trained model is based on fine-tuning on supervised tasks (see \ref{embedding_phrases} for details of SNLI and STS tasks), which cannot be done in French without an annotated corpus. We have therefore implemented two strategies to perform a fine-tuning of the \textbf{bert-tweets} model on French data: first we have used \textit{Cloud Translation API}\footnote{\url{cloud.google.com/translate/docs/reference/rest/}} within the free use limit to translate part of the STS dataset (we obtained 2984 pairs of sentences in French). Second, we manually annotated 500 pairs of headlines of selected newspaper articles (we selected headlines that contained common terms). The annotation was done on a scale of 0 to 5, in the same way as for STS. However, instead of indicating the degree of semantic similarity between the sentences, we sought instead to assess whether the two headlines described the same event. The two types of fine-tuning (translated corpus, or translated corpus + annotated corpus) are designated by \textbf{sbert-tweets-sts-short} and \textbf{sbert-tweets-sts-long}. The performances of the different representations are described in Section \ref{Sec: results}.
+However, the English pre-trained model is based on fine-tuning on supervised tasks (see \ref{embedding_phrases} for details of SNLI and STS tasks), which cannot be done in French without an annotated corpus. We have therefore implemented two strategies to perform a fine-tuning of the \textbf{bert-tweets} model on French data: first we have used \textit{Cloud Translation API}\footnote{\url{cloud.google.com/translate/docs/reference/rest/}} within the free use limit to translate part of the STS dataset (we obtained $2,984$ pairs of sentences in French). Second, we manually annotated 500 pairs of headlines of selected newspaper articles (we selected headlines that contained common terms). The annotation was done on a scale of 0 to 5, in the same way as for STS. However, instead of indicating the degree of semantic similarity between the sentences, we sought to assess whether the two headlines described the same event. The two types of fine-tuning (translated corpus, or translated corpus + annotated corpus) are designated by \textbf{sbert-tweets-sts-short} and \textbf{sbert-tweets-sts-long}. The performances of the different representations are described in Section \ref{Sec: results}.
 
 \subsection{Preprocessing}
 
@@ -460,15 +467,12 @@ Each text embedding model takes different text formats as inputs: for example, m
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}
+\begin{sidewaystable}
 \begin{center}
-\resizebox{\textwidth}{!}{%
-\rowcolors{2}{white}{gray!25}
-\input{tables/preprocessing}
-}
+\makebox[\textwidth][c]{\input{tables/preprocessing}}
 \end{center}
 \caption{Preprocessing applied for each model \label{Tab:preprocessing}}
-\end{table}
+\end{sidewaystable}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Results}
@@ -483,7 +487,6 @@ SVM classification results are consistent and robust to kernel change (see Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
 \begin{center}
-\rowcolors{2}{gray!25}{white}
 \input{tables/results_classif_SVD_en}
 \\
 
@@ -496,7 +499,6 @@ SVM classification results are consistent and robust to kernel change (see Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
 \begin{center}
-\rowcolors{2}{gray!25}{white}
 \input{tables/results_classif_SVD_fr}
 \\
 
@@ -509,7 +511,6 @@ SVM classification results are consistent and robust to kernel change (see Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
 \begin{center}
-\rowcolors{2}{gray!25}{white}
 \input{tables/results_clustering}
 \\
 
@@ -523,7 +524,7 @@ For each model, the best $t$ threshold value was selected by successive tests.}
 The tfidf-all-tweets vectors also give the best results for the clustering task (see Table \ref{clustering}), even more clearly than for classification. This is due to the shape of the tf-idf vectors, which are particularly well suited for cosine similarity calculations, as well as to the event-specific characteristics of the two datasets: the same terms are obviously widely used among tweets of the same event.
 These results are consistent with those of \citet{cage2020production}, who came to similar conclusions regarding event detection in press articles.
 
-Concerning neural models adapted to sentence embeddings (SBERT, \textit{Universal Sentence Encoder}), they do not perform better than the tf-idf weighted w2v-news models. On the English corpus, we note that the fine-tuning of \textit{Sentence-BERT} on semantic similarity corpora (sbert-nli-sts) allows slightly better results than the generic vectors of \textit{Universal Sentence Encoder}.
+Concerning neural models adapted to sentence embeddings (SBERT, \textit{Universal Sentence Encoder}), they do not do better than the tf-idf weighted w2v-news models. On the English corpus, we note that the fine-tuning of \textit{Sentence-BERT} on semantic similarity corpora (sbert-nli-sts) allows better results than the generic vectors of \textit{Universal Sentence Encoder}.
 
 Our own fine-tuning of BERT (sbert-tweets-sts-short and sbert-tweets-sts-long) does not outperform \textit{Universal Sentence Encoder} on the French corpus. However, we note that the thematic similarity corpus (which contains only 500 pairs of sentences) allows to increase the clustering performance by 2 points. Nevertheless, our fine-tuning does not achieve as good results as the English model, due to the fact that it could not be trained on a corpus of similar size to SNLI.
 
@@ -561,14 +562,23 @@ threshold parameter $t$ for each corpus}
 
 It is surprising that Word2Vec models trained on tweets are no better than models trained on news. However, this can be explained by two factors: the content of the datasets, which are made up of tweets referring to news, and whose vocabulary is therefore probably closer to the corpus from the AFP or from Google News than to the average Twitter. The second factor is the great variability in the vocabulary of tweets: it is possible that the w2v\_twitter\_en model, trained on tweets from 2015, does not correspond to the vocabulary used in the \citet{mcminn_building_2013} corpus, collected in 2012.
 
-The better performance on the French corpus than on the English corpus is probably due to the fact that classification and clustering on the English corpus are more difficult tasks, for several reasons: first, the English corpus is dated 2012, and therefore an important part of the tweets have been deleted (our last download in November 2019 allowed us to retrieve 72,484 tweets \textit{i.e.} 72\% of the original annotated dataset). This can have important consequences, especially for the FSD algorithm which over-segments clusters if a tweet is missing to link them. Second, it seems that there are duplicate events in the English corpus: "Hurricane Sandy in the Bahamas", "Tweets for Praying for people affected by the hurricane sandy", "Superstorm Sandy hits the east coast of the USA.", "They all discuss about Sandy Storm" are for example four different events in the corpus by \citet{mcminn_building_2013}.
+The better performance on the French corpus than on the English corpus is probably due to the fact that classification
+and clustering on the English corpus are more difficult tasks, for several reasons: first, the English corpus is from
+2012, and therefore an important part of the tweets have been deleted (our last download in November 2019 allowed us to
+retrieve 72,484 tweets \textit{i.e.} 72\% of the original annotated dataset). This can have important consequences,
+especially for the FSD algorithm which over-segments clusters if a tweet is missing to link them.
+Second, it seems that many events in the English corpus could be considered as
+"sub-events" of the same macro event:
+"Hurricane Sandy in the Bahamas", "Tweets for Praying for people affected by the hurricane sandy", "Superstorm Sandy
+hits the east coast of the USA.", "They all discuss about Sandy Storm" are for example four different events in the
+corpus by \citet{mcminn_building_2013}. These events with very close topical similarity are probably more difficult to
+separate for the algorithm.
 
 \subsection{Comparison of text-image embeddings}
 \label{Subsec: text-image embeddings}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
 \begin{center}
-\rowcolors{2}{white}{gray!25}
 \input{tables/text_image_clustering}
 \\
 
@@ -578,7 +588,7 @@ For each model, the best $t$ threshold value was selected by successive tests.}
 \end{center}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-The results presented in this section concern only our dataset, as the English dataset does not include enough images: among the annotated tweets that we were able to retrieve, only 570 contained a link to a video, image or animated gif. In 2012, the use of smartphones was much more restricted than at present, which probably explains the small number of images. 
+The results presented in this section concern only our dataset, as the English dataset does not include enough images: among the annotated tweets that we were able to retrieve, only 570 contained a link to a video, image or animated gif. In 2012, the use of smartphones was much more restricted than at present, which probably explains the low number of images. 
 
 Conversely, our dataset built up in 2018 contains many visual contents. Among the 95,796 annotated tweets, we were able to download multimedia content for 22,477 of them (19.8\% photos, 2.5\% videos and 1.5\% GIFs). In order to get the highest possible number of images, we processed videos and GIFs as images by using the thumbnails provided by Twitter for a static display.  We thus obtained 20,481 unique images. We only considered tweets containing visual contents for clustering, which is why the clustering results that we present below are slightly different from those of the previous part, even for the text-only methods.
 
@@ -593,7 +603,7 @@ Conversely, our dataset built up in 2018 contains many visual contents. Among th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-We present the clustering results in Table \ref{Tab: text_image}. These results show that visual features do not bring a significant gain a performance to the FSD algorithm. Image may improve the results of the textual representations that perform the worst (ELMo). However, this gain is not significant enough to outperform the tf-idf representation. Moreover, the weights that needs to be applied to the ResNet layer so that it does not degrade the performance of the text vectors are extremely small (0.005 for the tf-idf / ResNet concatenation). This in an indication of the very little role played by visual features in the nearest neighbor search. Figure \ref{Fig:text-image} illustrates this result more clearly by showing the change in macro-F1 depending on $t$: ELMo and Word2Vec embeddings are distinctly improved through the concatenation with visual features, whereas the tf-idf embedding provides the same results when it is combined with the ResNet layer.
+We present the clustering results in Table \ref{Tab: text_image}. These results show that visual features do not bring a significant gain a performance to the FSD algorithm. Image may improve the results of the textual representations that perform the worst (ELMo). However, this gain is not significant enough to outperform the tf-idf representation. Moreover, the weights applied to the ResNet layer before it is concatenated with textual features are extremely small (0.005 for the tf-idf / ResNet concatenation). This in an indication of the very small role played by visual features in the nearest neighbor search. Figure \ref{Fig:text-image} illustrates this result more clearly by showing the change in macro-F1 depending on $t$: ELMo and Word2Vec embeddings are distinctly improved through the concatenation with visual features, whereas the tf-idf embedding provides the same results when it is combined with the ResNet layer.
 
 \subsection{Comparison of event detection methods}
 
@@ -611,12 +621,12 @@ For each model, the best $t$, $t_1$ and $p_1$ values were selected by successive
 \end{center}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Table \ref{Tab: reclustering} shows the results of the re-clustering approach using each type of visual representation: either a semantic representation, with ResNet vectors, or local features representation, with SIFT similarities. These results indicate that local features tend to better perform to improve the first clustering step. Overall, however, this way of combining representations degrades the performance of the FSD algorithm alone. The very high values selected for the $p_1$ parameter, that indicate that very few clusters are allowed to merge, seem to indicate that the only way to obtain correct results with the re-clustering algorithm is to minimize the role of the second step. The obtained results are thus close to the results of the FSD algorithm alone with a too low $t$ parameter.
+Table \ref{Tab: reclustering} shows the results of the re-clustering approach using each type of visual representation: either a semantic representation, with ResNet vectors, or local features representation, with SIFT similarities. These results indicate that local features tend to perform best to improve the first clustering step. Overall, however, this way of combining representations degrades the performance of the FSD algorithm alone. The very high values selected for the $p_1$ parameter, that indicate that very few clusters are allowed to merge, seem to indicate that the only way to obtain correct results with the re-clustering algorithm is to minimize the role of the second step. The obtained results are thus close to the results of the FSD algorithm alone with a too low $t$ parameter.
 
-The comparative results of DBSCAN, DMM and FSD are summarized in Table \ref{}. The First Story Detection algorithm outperforms the other tested methods by a clear margin on both datasets. 
+The comparative results of DBSCAN, DMM and FSD are summarized in Table \ref{}. The First Story Detection algorithm outperforms the other tested methods by a clear margin on both datasets.
 
 \subsection{Results on the entire collection}
-All previous experiments were conducted on the annotated part of our dataset. However, the final objective of our study is to detect events in the entire collection of tweets (4.5 million tweets per day) and over a period of several months. In order to be able to process such a large amount of tweets in an acceptable time frame, we had to introduce some modifications to the "Mini Batch FSD" algorithm presented in Section \ref{Subsec: FSD}. These changes also aim to manage the large volume of "noise" (very short documents, whose subject is difficult to know, even for a human reader) naturally present in a dataset of non-pre-selected tweets.
+All previous experiments were conducted on the annotated part of our dataset. However, the final objective of our study is to detect events in the entire collection of tweets (4.5 million tweets per day on average) and over a period of several months. In order to be able to process such a large amount of tweets in an acceptable time frame, we had to introduce some modifications to the "Mini Batch FSD" algorithm presented in Section \ref{Subsec: FSD}. These changes also aim to manage the large volume of "noise" (very short documents, whose subject is difficult to know, even for a human reader) naturally present in a dataset of non-pre-selected tweets.
 
 The changes are as follows: 
 \begin{itemize}
@@ -625,7 +635,7 @@ The changes are as follows:
 \end{itemize}
 Irrelevant tweets can be clustered if a nearest neighbor is found, however, if no nearest neighbor is found within a radius $t$ they are excluded from the collection and labelled as $-2$. Whether they are clustered or not, irrelevant tweets cannot be selected as nearest neighbors in the following iterations of the algorithm. 
 
-This method has two advantages: firstly, it prevents very vague tweets from extending the vocabulary of the cluster to which they are attached. This reinforces the stability of the vocabulary of each cluster. Secondly, it reduces the number of past tweets to which each tweet must be compared, thus increasing the time efficiency of the algorithm. Indeed, the complexity of the FSD algorithms shifts from $O(nw)$ (with $n$ the number of documents in the collection and $w$ the number of documents in the comparison window) to $O(nwp)$, with $p$ the proportion of relevant tweets in the collection.
+This method has two advantages: first, it prevents very vague tweets from extending the vocabulary of the cluster to which they are attached. This reinforces the stability of the vocabulary of each cluster. Second, it reduces the number of past tweets to which each tweet must be compared, thus increasing the time efficiency of the algorithm. Indeed, the complexity of the FSD algorithms shifts from $O(nw)$ (with $n$ the number of documents in the collection and $w$ the number of documents in the comparison window) to $O(nwp)$, with $p$ the proportion of relevant tweets in the collection.
 
 We tested this improvement on the entire corpus (retweets excluded), i.e. 38 million tweets, with the following parameters: $t=0.6, r=0.21, m=5$. The value of $r$ was calculated from our annotated dataset as follows: 
 \begin{align*}
@@ -652,7 +662,7 @@ This chapter does not provide any new algorithm, only some improvements of the "
 
 Second, we show, among a large panel of embedding methods, that the tf-idf weighting remains the most suitable representation of documents for an algorithm such as FSD, that is based on nearest neighbor search with cosine similarity. In addition, tf-idf is not only the representation that provides the best results, but also the most stable to changes in the algorithm parameter (threshold $t$). These are important results for us, and I think for many researchers who are looking to use vector representations of short texts for Information Retrieval tasks. This does not mean that recent neural embedding methods will not eventually outperform tf-idf for this kind of tasks as well. In fact, we would like in future work to re-test BERT's fine-tuning (bert-tweets) with a model specially trained on French like CamemBERT \cite{martin2020camembert} and not a multimodal model. We would also like to test fine-tuning of Sentence-BERT on a forthcoming French corpus of semantic similarity \cite{cardon2020french}, and further explore the idea that semantic similarity (two sentences mean the same thing) and thematic similarity (two sentences talk about the same subject) are two different things that require different approaches.
 
-Finally, we provide partial results on the role of image for the clustering of tweets. It is true that our two approaches to include multimodality (vector concatenation and re-clustering) in clustering are quite naive and could be improved with a more appropriate text-image fusion method. However this is a first step, which suggests that image in tweets is more often a source of additional noise than a source of additional information.
+Finally, we provide partial results on the role of image for the clustering of tweets. It is true that our two approaches to include multimodality (vector concatenation and re-clustering) in clustering are quite naive and could be improved with a more appropriate text-image fusion method. However this is a first step, which already shows that image in tweets is more often a source of additional noise than a source of additional information.
 
 
 

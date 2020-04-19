@@ -233,6 +233,10 @@ We decided to keep $C_{3,200} \cup C_{1French}$ as our main collection method, s
 The tweet collection tool has been running from June 2018 to the present day, allowing us to store around 3 billion tweets. This long collection period allowed us to compare our corpus with other French tweet corpora collected during that time. Two teams were kind enough to give us access to part of their data: the French Internet legal deposit at the INA, and the Médialab at Sciences Po Paris. We also used metrics from Twitter (the number of tweets per user) to estimate the percentage of tweets that we collect, and conversely, the number of tweets we miss.
 
 \subsubsection{Corpus provided by the French Internet legal deposit (DLWeb)}
+
+
+The French Internet legal deposit department at the INA (DLWeb) is in charge of archiving French websites related to audiovisual media (television, radio, web TVs). As part of this mission, the team collects tweets concerning audiovisual media and therefore regularly updates a manually curated list of hashtags and Twitter accounts to be captured using the Filter API. The DLWeb team provided us with the tweets collected for 25 of these hashtags over the course of a month (248,037 tweets), and we counted how many of these tweets had been collected over the same time period using our method. The results are presented in Figure \ref{Figure:HistogramHashtagsDLWeb}. On average, we collected 74\% of the tweets from the DLWeb, and 78\% if we exclude retweets. Original tweets are better captured than retweets by our collection method, because each retweet allows us to archive the original tweet to which it refers. Therefore, we only need to capture one of the retweets of a tweet to get the original tweet. Retweets, on the other hand, are not retweeted, so we lose any chance of catching them if they were not obtained at the time they were sent.
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
 \begin{center}
@@ -244,8 +248,6 @@ The tweet collection tool has been running from June 2018 to the present day, al
 \label{Figure:HistogramHashtagsDLWeb}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%
-
-The French Internet legal deposit department at the INA (DLWeb) is in charge of archiving French websites related to audiovisual media (television, radio, web TVs). As part of this mission, the team collects tweets concerning audiovisual media and therefore regularly updates a manually curated list of hashtags and Twitter accounts to be captured using the Filter API. The DLWeb team provided us with the tweets collected for 25 of these hashtags over the course of a month, and we counted how many of these tweets had been collected over the same time period using our method. The results are presented in Figure \ref{Figure:HistogramHashtagsDLWeb}. On average, we collected 74\% of the tweets from the DLWeb, and 78\% if we exclude retweets. Original tweets are better captured than retweets by our collection method, because each retweet allows us to archive the original tweet to which it refers. Therefore, we only need to capture one of the retweets of a tweet to get the original tweet. Retweets, on the other hand, are not retweeted, so we lose any chance of catching them if they were not obtained at the time they were sent.
 
 It should also be mentioned that the DLWeb does not guarantee to collect all tweets containing a given hashtag. Capturing on specific hashtags allows them to get a larger share of the tweets containing these hashtags than we do, but we also captured some tweets that they didn't collect.
 Overall, since Twitter does not communicate on this subject, it is difficult to evaluate precisely the reasons why the relative performance of the collection methods varies depending on the hashtag. The volume collected by the DLWeb may depend on the popularity of the hashtag, and the popularity of other collected hashtags during the same time period.

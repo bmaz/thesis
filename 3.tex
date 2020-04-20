@@ -461,8 +461,8 @@ Each text embedding model takes different text formats as inputs: for example, m
 \begin{itemize}
     \item remove mentions: mentions are a Twitter-specific way of referring to another Twitter user in a tweet, so that she is notified that the tweet is talking about her or is addressed to her. Entries take the following form: @name\_of\_the\_user. For tf-idf models, removing mentions is a way to reduce the size of the vocabulary. For most Word2Vec models, mentions are not part of the vocabulary, except for w2v\_twitter\_en.
     \item unidecode: we use the Python module unidecode to convert Unicode characters to ASCII characters. In French, for example, all accents are removed: "Wikipédia" becomes "Wikipedia".
+    \item hashtag split: we split hashtags on capital letters. "\#HappyEaster" becomes "Happy Easter".
     \item lower: we set the text in lowercase letters.
-    \item hashtag split: we split hashtags on capital letters. "\#HappyEaster" becomes "Happy Easter". This step is of course applied before lowercasing.
     \item remove long numbers: we remove numbers longer than 4 digits.
     \item remove repeated characters: we limit the number of repeated characters inside a word to three. "looooool" becomes "loool".
 \end{itemize}
@@ -491,8 +491,10 @@ SVM classification results are consistent and robust to kernel change (see Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
 \begin{center}
+\resizebox{\textwidth}{!}{%
 \rowcolors{2}{gray!25}{white}
 \input{tables/results_classif_SVD_en}
+}
 \\
 
 {\scriptsize \textbf{Note:} Each cell indicates the mean and standard deviation of 5 runs (with different train/test splits), in percentages.}
@@ -504,8 +506,10 @@ SVM classification results are consistent and robust to kernel change (see Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
 \begin{center}
+\resizebox{\textwidth}{!}{%
 \rowcolors{2}{gray!25}{white}
 \input{tables/results_classif_SVD_fr}
+}
 \\
 
 {\scriptsize \textbf{Note:} Each cell indicates the mean and standard deviation of 5 runs (with different train/test splits), in percentages.}

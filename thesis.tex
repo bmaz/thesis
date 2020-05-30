@@ -33,6 +33,7 @@ bottom=30mm
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{amsmath}
+\usepackage[nottoc]{tocbibind}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 \setlength{\columnseprule}{0pt}
@@ -48,7 +49,7 @@ bottom=30mm
 \pagestyle{headings}
 
 %Bibliography style
-\usepackage[square, numbers]{natbib}
+\usepackage[square]{natbib}
 \bibliographystyle{abbrvnat}
 
 % Thesis title
@@ -92,16 +93,13 @@ bottom=30mm
         \input{\i}
         \cleardoublepage
     }
-    
+    \bibliography{bibliography.bib}
     \appendix
     \foreach \i in {1,2,...,\NumOfAppendices}{
         \input{appendices/\i}
         \cleardoublepage
     }
     
-    \onehalfspacing
-    \bibliography{bibliography.bib}
-    \pagebreak
-    
+    \blankpage{}
     \input{layout/lastpage.tex}
 \end{document}

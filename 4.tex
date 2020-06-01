@@ -6,12 +6,12 @@ The task of discovering joint events from news streams including both social and
 
 \subsection{Social content alignment}
 \label{Social content alignment}
-\cite{hu_et-lda:_2012}
+A first way of linking tweets and news is to associate to each part of a text the corresponding tweets (that are considered as comments or reactions to this specific part). \cite{hu_et-lda:_2012} develop ET-LDA, a Bayesian model that jointly extract topics from a text and a collection of tweets, and perform text segmentation. A segment may consist of one or several paragraphs, and each segment discusses a set of topics. Tweets are "aligned" with one segment if most of their words belong to one of the topics of this segment. Conversely, they are defined as "general tweets" if most of their words belong to general topics. The model is tested on two texts: a speech by President Obama and the transcript of a Republican Primary debate. The tweets are collected using hashtags ("\#MESpeech" and "\#ReaganDebate") that unambiguously relate to these events. 
 
 \cite{hou2017learning}
 \subsection{Match tweets-articles pairs}
 \label{Match tweets-articles pairs}
-\cite{guo_linking_2013}
+Another related task consists in finding, for a given tweet, the most relevant tweet article. This research area aim at providing more context for the reader of a tweet, or for an automatic NLP tool. \cite{guo_linking_2013} propose a graph-based latent variable model that extracts text-to-text correlations via hashtags and named entities in order to enrich the sense of a short text and help to identify the most related article. They also introduce a dataset of articles from CNN and the New York Times and of tweets containing a link to one of these media outlets.
 
 \cite{zhao_interactive_2019}
 \subsection{Social content retrieval}

@@ -154,34 +154,38 @@ In an approach similar to that of Chapter 3 (see Section \ref{metric_best_matchi
 
 In the first step of our approach (First Story Detection applied on tweets and news articles separately), we use the same parameters as \cite{cage2020production} for news articles (threshold $t$ of $0.67$ and time window $w$ of one day), and the best parameters found in  \cite{mazoyer2020french} (see Section \ref{Subsec: text embeddings}: $t=0.7$ and $w$ set to one day) for tweets.
 
-The graph construction step of our method requires many different parameters, leading to a risk of overfitting. To test the robustness of our model on different samples, we divide our dataset in 4 sub-samples of equal number of documents. The FSD algorithm requires documents to be sorted in chronological order, this is why we do not select documents randomly: we split the dataset in 4 different time periods and test each combination of parameters on each subset. We present the role of the different parameters in the next Section.
+The graph construction step of our method requires many different parameters, leading to a risk of over-fitting. To test the robustness of our model on different samples, we divide our dataset in 4 sub-samples of equal number of documents. The FSD algorithm requires documents to be sorted in chronological order, this is why we do not select documents randomly: we split the dataset in 4 different time periods and test each combination of parameters on each subset. We present the role of the different parameters in the next Section.
 
 \section{Results}
 
-The different parameters tend to have similar effects on each subset. We first detail the contribution of the different modalities of event similarity (word similarity, URLs, hashtags). We then present the best choice of $\Delta$ and $s$ parameter.
-\subsection{Effect of word similarity, URLs and hashtags}
-Figures \ref{fig:louvain_macro} and \ref{fig:louvain_macro_tweets} show 
-the best configuration of parameters $\alpha_{text}$, $\alpha_{url}$, $\alpha_{htag}$ and $\Delta$ for each subset. Overall, the results are quite stable to the change of parameters, event if the model performs better on all subsets when the weight of word-similarity ($\alpha_{text}$) is high. URLs and hashtags seems to have a much lower effect, particularly when evaluating the model only on tweets (Figure \ref{fig:louvain_macro_tweets}). Increasing $\alpha_{url}$ or $\alpha_{htag}$ may slightly improve the performance on some time periods  but there is no configuration that performs equally well on each subset.
+We observe a clear effect of the choice of the community detection quality metric on the results of our model: surprise outperforms modularity in every case. Regarding the choice of parameters, they tend to have similar effects on each subset of our evaluation corpus. We analyze the role of each parameter more in depth in the rest of this section. We first detail the contribution of the different modalities of event similarity (word similarity, URLs, hashtags). We then present the best choice of $\Delta$ and $s$ parameters.
 
-  We therefore chose to eliminate these modalities, in order to simplify the graph construction step and to obtain a model that is more stable to the change of dataset. We show the results with a model relying on text only in the right column of Figures \ref{fig:louvain_macro} and \ref{fig:louvain_macro_tweets}. The low effect of URLs and hashtags can be explained by the fact that the information carried by these modalities is in most cases already present in the text of the documents.
+\subsection{Effect of word similarity, URLs and hashtags}
+Figure \ref{fig:louvain_macro} shows 
+the best configuration of parameters $\alpha_{text}$, $\alpha_{url}$, $\alpha_{htag}$ and $\Delta$ for each subset, with other parameters being fixed ($s = 0.3$ and $l = 3$). Overall, the results are quite stable to the change of parameters, even if the model performs better on all subsets when the weight of word-similarity ($\alpha_{text}$) is high. URLs and hashtags seems to have a much lower effect, particularly when evaluating the model only on tweets (Figure \ref{fig:louvain_macro_tweets}). Increasing $\alpha_{url}$ or $\alpha_{htag}$ may slightly improve the performance on some time periods  but there is no configuration that performs equally well on each subset.
+
+  We therefore chose to eliminate these modalities, in order to simplify the graph construction step and to obtain a model that is more stable to the change of dataset. We show the results with a model relying on text only in the right column of Figures \ref{fig:louvain_macro_all} and \ref{fig:louvain_macro_tweets}. The low effect of URLs and hashtags can be explained by the fact that the information carried by these modalities is in most cases already present in the text of the documents.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  \begin{figure}
- \begin{center}
-      \includegraphics[height=.38\textheight]{figures/louvain_macro_tfidf.pdf}
-    \caption[Cross-validation results on all documents]{Cross-validation results on all documents. The result of community detection with the best set of parameters for a given sample is displayed on the diagonal of the square matrix. The results of that set of parameters on the other samples are displayed on the corresponding lines. The right column presents the results of community detection on the word-similarity graph (urls and hashtags are not taken into account).}
-    \label{fig:louvain_macro}
- \end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \begin{figure}
- \begin{center}
-      \includegraphics[height=.38\textheight]{figures/louvain_macro_tfidf_tweets_only.pdf}
-    \caption[Cross-validation results on tweets only]{Cross-validation results on tweets only. The result of community detection with the best set of parameters for a given sample is displayed on the diagonal of the square matrix. The results of that set of parameters on the other samples are displayed on the corresponding lines.
-     The right column presents the results of community detection on the word-similarity graph (urls and hashtags are not taken into account).}
+ 
+ \begin{subfigure}[b]{1\textwidth}
+    \begin{center}
+      \includegraphics[height=.4\textheight]{figures/louvain_macro_tfidf.pdf}
+    \caption{Evaluation on all documents}
+    \label{fig:louvain_macro_all}
+    \end{center}
+\end{subfigure}
+\begin{subfigure}[b]{1\textwidth}
+\begin{center}
+ \includegraphics[height=.4\textheight]{figures/louvain_macro_tfidf_tweets_only.pdf}
+       \caption{Evaluation on tweets only}
     \label{fig:louvain_macro_tweets}
- \end{center}
+     \end{center}
+\end{subfigure}
+\caption[Best matching F1 score of our approach on different sub-samples]{Best matching F1 score of our approach on different sub-samples. The result of community detection with the best set of parameters for a given sample is displayed on the diagonal of the square matrix. The results of that set of parameters on the other samples are displayed on the corresponding lines. The right column presents the results of community detection on the word-similarity graph only (urls and hashtags are not taken into account). The other parameters are fixed: $s=0.3$, $l=3$}
+\label{fig:louvain_macro}
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Effect of $\Delta$ parameter}
 \subsection{Effect of $s$ parameter}
 \subsection{Results on the entire corpus}

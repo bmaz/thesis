@@ -139,7 +139,7 @@ where
     \item $\hat{q} = \frac{\sum\limits_{c}\binom{n_c}{2}}{\binom{n}{2}}$ is the expected fraction of internal edges, and
     \item $D(x||y) = x \log \frac{x}{y} + (1 - x) \log \frac{1-x}{1-y}$ is the binary Kullback-Leibler divergence.
 \end{itemize}
-Our event similarity graph is expected to contain a lot of very small communities, containing only one $(e_M, e_T)$ pair. However, in the case of long-lasting events with many sub-events, it is likely that the FSD algorithm over-clusters the events in one of the two spheres (and more likely in tweets). The community detection algorithm should then be able to detect also large communities with many nodes. We therefore also test the algorithm provided by \cite{traag2015detecting}\footnote{\url{https://github.com/vtraag/louvain-igraph}}. We detail our experiments in the next Section.
+Our event similarity graph is expected to contain a lot of very small communities, containing only one $(e_M, e_T)$ pair. However, in the case of long-lasting events with many sub-events, it is likely that the FSD algorithm over-clusters the events in one of the two spheres (and more likely in tweets). The community detection algorithm should then be able to detect also large communities with many nodes. We therefore also test the algorithm provided by \cite{traag2015detecting}\footnote{\url{https://github.com/vtraag/louvain-igraph}} using surprise as quality function. We detail our experiments in the next Section.
 
 \section{Experimental Setup}
 \subsection{Dataset}
@@ -158,11 +158,11 @@ The graph construction step of our method requires many different parameters, le
 
 \section{Results}
 
-We observe a clear effect of the choice of the community detection quality metric on the results of our model: surprise outperforms modularity in every case. Regarding the choice of parameters, they tend to have similar effects on each subset of our evaluation corpus. We analyze the role of each parameter more in depth in the rest of this section. We first detail the contribution of the different modalities of event similarity (word similarity, URLs, hashtags). We then present the best choice of $\Delta$ and $s$ parameters.
+We observe a clear effect of the choice of the community detection quality metric on the results of our model: surprise outperforms modularity in every case. Regarding the choice of parameters, they tend to have similar effects on each subset of our evaluation corpus. We analyze the role of each parameter more in depth in the rest of this section. We first detail the contribution of the different modalities of event similarity (word similarity, URLs, hashtags). We then present the best choice of $\Delta$ and $s$ parameters. Last, we give the results of our approach with the best choice of parameters on the entire corpus.
 
 \subsection{Effect of word similarity, URLs and hashtags}
 Figure \ref{fig:louvain_macro} shows 
-the best configuration of parameters $\alpha_{text}$, $\alpha_{url}$, $\alpha_{htag}$ and $\Delta$ for each subset, with other parameters being fixed ($s = 0.3$ and $l = 3$). Overall, the results are quite stable to the change of parameters, even if the model performs better on all subsets when the weight of word-similarity ($\alpha_{text}$) is high. URLs and hashtags seems to have a much lower effect, particularly when evaluating the model only on tweets (Figure \ref{fig:louvain_macro_tweets}). Increasing $\alpha_{url}$ or $\alpha_{htag}$ may slightly improve the performance on some time periods  but there is no configuration that performs equally well on each subset.
+the best configuration of parameters $\alpha_{text}$, $\alpha_{url}$, $\alpha_{htag}$ and $\Delta$ for each subset, with other parameters being fixed ($s = 0.3$ and $l = 3$). Overall, the results are quite stable to the change of parameters, even if the model performs better on all subsets when the weight of word-similarity ($\alpha_{text}$) is high. URLs and hashtags seem to have a much lower effect, particularly when evaluating the model on tweets only (Figure \ref{fig:louvain_macro_tweets}). Increasing $\alpha_{url}$ or $\alpha_{htag}$ may slightly improve the performance on some time periods but there is no configuration that performs equally well on each subset.
 
   We therefore chose to eliminate these modalities, in order to simplify the graph construction step and to obtain a model that is more stable to the change of dataset. We show the results with a model relying on text only in the right column of Figures \ref{fig:louvain_macro_all} and \ref{fig:louvain_macro_tweets}. The low effect of URLs and hashtags can be explained by the fact that the information carried by these modalities is in most cases already present in the text of the documents.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -182,7 +182,7 @@ the best configuration of parameters $\alpha_{text}$, $\alpha_{url}$, $\alpha_{h
     \label{fig:louvain_macro_tweets}
      \end{center}
 \end{subfigure}
-\caption[Best matching F1 score of our approach on different sub-samples]{Best matching F1 score of our approach on different sub-samples. The result of community detection with the best set of parameters for a given sample is displayed on the diagonal of the square matrix. The results of that set of parameters on the other samples are displayed on the corresponding lines. The right column presents the results of community detection on the word-similarity graph only (urls and hashtags are not taken into account). The other parameters are fixed: $s=0.3$, $l=3$}
+\caption[Best matching F1 score of our approach on different sub-samples of the dataset]{Best matching F1 score of our approach on different sub-samples of the dataset. The result of community detection with the best set of parameters for a given sample is displayed on the diagonal of the square matrix. The results of that set of parameters on the other samples are displayed on the corresponding lines. The right column presents the results of community detection on the word-similarity graph only (urls and hashtags are not taken into account). The other parameters are fixed: $s=0.3$, $l=3$.}
 \label{fig:louvain_macro}
 \end{figure}
 

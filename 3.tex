@@ -551,8 +551,8 @@ F1{\text -}score = 2 \cdot \frac{precison \cdot recall}{precision + recall}
 \end{align}
 
 \subsubsection{Event detection}
-
-Event detection performance is evaluated by a measure we call "best matching F1". It is defined by \citet{yang1998study}: we evaluate the F1 score of each (cluster, event) pair.\footnote{Clusters are detected by the algorithm, while events are annotated in the ground truth} Each event is then matched to the cluster for which the F1-score is the best. Each event can be associated to only one cluster. The best matching F1 thus corresponds to the average of the F1-scores of the cluster/event pairs, once the matching is done.
+\label{metric_best_matching}
+Event detection performance is evaluated by a measure we call ``best matching F1". It is defined by \citet{yang1998study}: we evaluate the F1 score of each (cluster, event) pair.\footnote{Clusters are detected by the algorithm, while events are annotated in the ground truth} Each event is then matched to the cluster for which the F1-score is the best. Each event can be associated to only one cluster. The best matching F1 thus corresponds to the average of the F1-scores of the cluster/event pairs, once the matching is done.
 
 We chose to use this metric, rather than the one defined by \citet{mcminn_real_2015}: they consider all clusters with more than 75 tweets as candidate events. A candidate is evaluated as true positive if 5\% or more than 15 tweets of the candidate's tweets match those of an annotated event. We denote $a$ the number of true positives. From the detail of their experimental results, we can deduce that all candidates that match with a ground truth's event are counted as true positives, even if several clusters match the same event. Conversely, all candidates that do not match an event from the ground truth are considered false positives. 
 

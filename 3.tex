@@ -126,25 +126,25 @@ However, these advances seem to increase calculation times by several orders of 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[h]
+\begin{table}[ht]
 \centering
-\begin{subfigure}{.5\textwidth}
+\begin{subtable}{.5\textwidth}
   \centering
   \rowcolors{2}{white}{gray!25}
   \input{tables/benchmark_efficiency_DMM}
   \caption{Time cost (in seconds) per iteration of each model}
   \label{Tab: time_efficiency}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
+\end{subtable}%
+\begin{subtable}{.5\textwidth}
   \centering
   \rowcolors{2}{white}{gray!25}
   \input{tables/benchmark_accuracy_DMM}
   \caption{Average classification accuracy of each model}
   \label{Tab: classification_accuracy}
-\end{subfigure}
+\end{subtable}
 \caption{Comparison of time efficiency and classification accuracy of several DMM-adapted models with different numbers of topics $K$ on the BaiduQA dataset. These values are provided by \citet{li_enhancing_2017}}.
 \label{Tab: BenchmarkDMM}
-\end{figure}
+\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  	 
 
@@ -433,7 +433,7 @@ The vectors given as input to the DBSCAN algorithm are the same tdidf vectors as
 Taking into account these different factors, we conducted the experiments by setting $\alpha=0.1$, $i=20$, and $\beta \in [0.08, 0.12]$, which seem to be the values for which the algorithm's performance is the best. We set $K$ differently for each corpus: for the French corpus, with 257 events, we set $K$ to 450. For the corpus by \citet{mcminn_building_2013}, with 505 events, we set $K$ to 700. For each corpus, we apply the same preprocessing as for the FSD algorithm with tf-idf (see Table \ref{Tab:preprocessing}) : remove mentions, stop-words, urls, long numbers, punctuation, split hashtags on capital letters, lowercase and transpose to ASCII characters.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=\linewidth]{figures/four_image_clusters.png}
   \caption{Four clusters created using the vizualisation algorithm t-SNE on the ResNet representation of images from our dataset.}
@@ -458,7 +458,7 @@ In this part we present the different types of embeddings tested for the mini-ba
     We did not use SIFT features to create image vectors, and therefore we cannot test this representation with the FSD algorithm. Moreover, the distance between images is only computed between the query image and its neighbors as returned by the approximate K-NN search algorithm. Therefore, we do not have the complete distance matrix of images and cannot compute an adapted version of the FSD algorithm with a custom distance metric. However, we can use the distance metric between an image and its close neighbours in the second step of our re-clustering method (\ref{SubSec: reclustering}).
     
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=\linewidth]{./figures/Benalla.png}
   \caption{Example of near neighbors detected using SIFT features among the images from our dataset. The first image is used as query, and the following ones are matched neighbors.}
@@ -496,7 +496,7 @@ As Word2Vec provides word embeddings and not sentence embeddings, the representa
 \subsubsection{Fine-tuning Sentence-BERT for French}
 \label{Subsec: Fine-tuning}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=.3\linewidth]{figures/SentenceBERT.pdf}
   \caption{SBERT architecture at inference, to compute similarity scores. This architecture is also used during part of the training with mean-square-error as regression objective function. This diagram is provided in the Sentence-BERT paper \cite{reimers_2019_sentence}.}
@@ -694,7 +694,7 @@ Conversely, our dataset built up in 2018 contains many visual contents. Out of t
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=.7\linewidth]{figures/text_image_clustering.png}
   \caption{Best Matching F1 score for FSD clustering depending on the treshold parameter $t$ for text-only and text-image vectors on the tweets of the French corpus that include visual content}

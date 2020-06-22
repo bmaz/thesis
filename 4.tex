@@ -1,5 +1,15 @@
 \chapter{Linking Media events and Twitter events}
 \section{Introduction}
+
+Detecting common events in heterogeneous collections of documents like tweets and news articles is a useful task for several reasons. First of all, from the point of view of a reader wishing to learn more about a given event, the two types of documents are complementary. News articles can add contextual information to tweets, that are often too short to fully report on a situation or an event. On the other hand, tweets may help to understand the reactions and comments that the news event generates in the public. 
+
+Second, using news articles is a way to improve event detection on tweets alone. Indeed, the sparsity of tweets makes the task of grouping together posts that cover different aspects 
+of the same event very difficult. Adding news articles, that are much more detailed, is thus a way to provide contextual information that may help to solve this problem \citep{phan_2008_learning}.
+
+Last, finding the tweets and news articles that are linked to each other is the only way to study information propagation across news and social media. It is an essential prerequisite to answer a wide range of questions on this subject: what type of Twitter events are considered newsworthy enough to be reported by journalists? What is the share of media events that break on Twitter first? What is the average speed of propagation of a story across both spheres?
+
+Unlike previous approaches that jointly detect events along all document types using topic models, we propose to solve the task in two steps: first, detect events separately among news articles and tweets. Second, link together Twitter events and media events that belong together. Indeed, a joint detection approach is based on the assumption that all topics within one sphere may also be covered in the other sphere, which is in contradiction with the type of phenomena that we want to observe (events that start on Twitter and never make it to mainstream media, for example). Therefore, we use a clustering approach on tweets and news separately before applying a community detection on the graph formed by the created clusters.
+
 \section{Related Work}
 
 The task of discovering joint events from news streams including both social and mainstream media has received little attention in the recent literature. In this section, we review existing works on similar tasks: aligning social-media contents with parts or paragraphs of a longer text, matching a tweet with a relevant news article, retrieve tweets related to a news article and, finally, jointly discover events from heterogeneous streams of documents.
@@ -102,7 +112,7 @@ where $0 \leq \alpha_i \leq 1$ and $\sum\limits_{\substack{i \in \{text, url, ht
  \begin{figure}
  \begin{center}
       \includegraphics[]{figures/event_time.pdf}
-    \caption[Example of different time configurations between a given Twitter event and some media events]{Example of different time configurations between a given Twitter event and some media events. Here the value of parameter $\Delta$ is set to 2 days. Media events ending before $start - \Delta$ or beginning after $end + \Delta$ appear in red. The edges between these events and $e_{T,1}$ are removed in the graph.}
+    \caption[Example of different time configurations between a given Twitter event and some media events]{Example of different time configurations between a given Twitter event and some media events. Here the value of parameter $\Delta$ is set to 2 days. Media events ending before $start - \Delta$ or beginning after $end + \Delta$ appear in red. The edges between these red events and $e_{T,1}$ are removed in the graph.}
     \label{fig:event_time}
  \end{center}
 \end{figure}
@@ -148,7 +158,7 @@ We test our approach on the dataset presented in Chapter 2: it contains 95,796 t
 We ran the FSD algorithm on the OTMedia collection in order to automatically group the selected articles with other articles adressing the same topics. From these 323 articles (296 + 27), 167 were automatically clustered with other articles from our pool. In total, we obtained 15,544 news articles from 61 media outlets. We are aware that automatically grouping articles using the FSD algorithm may bias the dataset in favour of our approach, since part of it relies on the FSD algorithm. In order to prove the validity of our approach, we therefore systematically present two type of results: first, results computed on the entire dataset, second, results computed only on tweets (that were entirely manually annotated and are therefore not biased).
 
 \subsection{Evaluation metric}
-In an approach similar to that of Chapter 3 (see Section \ref{metric_best_matching}), we evaluate the performance of our algorithm using the ``best matching" precision, recall and F1 score \citep{yang1998study} for each event in the ground truth. We then compute the average of the events, to provide a macro-average result.
+In an approach similar to that of Chapter 3 (see Section \ref{metric_best_matching}), we evaluate the performance of our algorithm using the ``best matching" precision, recall and F1 score \citep{yang1998study} for each event in the ground truth. We then compute the average on all events, to provide a macro-average result.
 
 \subsection{Parameter tuning}
 
@@ -187,30 +197,59 @@ the best configuration of parameters $\alpha_{text}$, $\alpha_{url}$, $\alpha_{h
 \caption[Best matching F1 score of our approach on different sub-samples of the dataset]{Best matching F1 score of our approach on different sub-samples of the dataset. The result of community detection with the best set of parameters for a given sample is displayed on the diagonal of the square matrix. The results of that set of parameters on the other samples are displayed on the corresponding lines. The right column presents the results of community detection on the word-similarity graph only (urls and hashtags are not taken into account). The other parameters are fixed: $s=0.3$, $l=3$.}
 \label{fig:louvain_macro}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Effect of the maximum time distance between 2 events ($\Delta$)}
-Figure \ref{fig:louvain_macro_days} presents the average F1 score of our model on the 4 subsets depending on the value of $\Delta$, all other parameters being fixed. We observe little impact of that variable, with a slightly better performance when $\Delta=1$. However, each subset contains less than 6 days of data, a period during which it is unlikely that two semantically close nodes actually belong to two different joint events. 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{figures/louvain_macro_days.pdf}
-    \caption[Effect of the of the maximum time distance on the performance of our method]{Effect of the of the maximum time distance ($\Delta$) on the performance of our method. This Figure plots the average best matching F1 score for the 4 subsets, with standard deviation, depending on $\Delta$.}
-    \label{fig:louvain_macro_days}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Effect of the minimum cosine similarity between 2 events ($s$)}
-Figure \ref{fig:louvain_macro_sim} shows the average performance of our approach on each subset depending on the value of $s$. The optimal value of $s$ is $0.3$. The choice of the objective function has a real impact for low values of $s$, i.e. when practically all edges are kept in the event-similarity graph. It appears that the surprise function gives better results when the number of edges increases. However, for $s=0.3$ and higher, the choice of the quality function makes no difference.
+Figure \ref{fig:louvain_macro_sim} shows the average performance of our approach on each subset depending on the value of $s$. The optimal value of $s$ is $0.3$. The choice of the objective function has a real impact for low values of $s$, i.e. when practically all edges are kept in the event-similarity graph: it seems that the surprise objective function gives better results when the number of edges increases. However, for $s=0.3$ and higher, the choice of the quality function makes no difference.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{figures/louvain_macro_sim.pdf}
-    \caption[Effect of the minimum cosine similarity between 2 events on the performance of our method.]{Effect of the minimum cosine similarity between 2 events ($s$) on the performance of our method. This Figure plots the average best matching F1 score for the 4 subsets, with standard deviation, depending on $s$.}
+    \caption[Effect of the minimum cosine similarity between 2 events on the performance of our method.]{Effect of the minimum cosine similarity between 2 events ($s$) on the performance of our method measured with the best matching F1 score. This Figure plots the average best matching F1 score for the 4 subsets, with standard deviation, depending on $s$.}
     \label{fig:louvain_macro_sim}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Effect of the maximum time distance between 2 events ($\Delta$)}
+
+Figure \ref{fig:louvain_macro} suggests that a better performance is obtained with lower values of $\Delta$. However, each subset contains less than 6 days of data, a period during which it is unlikely that two semantically close nodes actually belong to two different joint events. This is why we rather measure the effect of the time distance between events on the entire dataset of 22 days. Figure \ref{fig:louvain_macro_days} presents the macro F1 score of our model on the evaluation dataset depending on the value of $\Delta$, all other parameters being fixed. We observe that $\Delta=1$ provides the best results, and that the score is a decreasing function of $\Delta$. Similarly to the effect noted in the previous Section, when the model keeps more edges in the graph -- i.e. $\Delta$ increases --, the difference in performance between surprise and modularity objective functions is larger: surprise gives better results on denser graphs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/louvain_macro_days_all_corpus.pdf}
+    \caption[Effect of the of the maximum time distance on the performance of our method]{Effect of the of the maximum time distance ($\Delta$) on the performance of our method measured on the entire dataset. This Figure plots the best matching F1 score depending on $\Delta$.}
+    \label{fig:louvain_macro_days}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results on the entire corpus}
 \label{Joint_results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h]
+\centering
+\begin{subtable}{.5\textwidth}
+  \centering
+  \rowcolors{2}{white}{gray!25}
+  \input{tables/best_results_joint_detection_all_documents}
+  \caption{Evaluation on all documents}
+  \label{Tab: best_results_louvain_all}
+\end{subtable}%
+\begin{subtable}{.5\textwidth}
+  \centering
+  \rowcolors{2}{white}{gray!25}
+  \input{tables/best_results_joint_detection_tweets_only}
+  \caption{Evaluation on tweets only}
+  \label{Tab: best_results_louvain_tweets}
+\end{subtable}
+\caption{Results of the proposed approach compared to a joint event detection using the FSD algorithm}.
+\label{Tab: best_results_louvain}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Table \ref{Tab: best_results_louvain} shows the comparative results of our approach and on a joint clustering approach using the FSD algorithm on the entire dataset. The proposed approach uses surprise as objective function for the community detection step. The choice of parameters is the following: $(\alpha_{text}=1, s=0.3, \Delta=1)$. The important difference in the FSD results between Tables \ref{Tab: best_results_louvain_all} and \ref{Tab: best_results_louvain_tweets} can be explained by the fact that the FSD algorithm totally fails to join tweets and news articles inside the same events. As a result, the tweets clusters are consistent, but when we evaluate on the entire dataset, all news articles are missing from the created clusters. Overall, we show that our proposed approach allows to clearly improve the detection of joint events between tweets and news.
+
 
 \section{Conclusion}
+In this Chapter, we propose a novel event detection method accross heterogeneous types of news documents. Our approach is able to take into account the multi-modal relationships (URLs, hashtags, words) between Twitter events and media events. However, we show that using only the word similarity does not significantly decrease performance and simplifies the model in terms of number of parameters. Overall, our model outperforms a joint clustering algorithm on all tested subsets. Future works should focus on implementing existing methods from the literature \citep{mele_linking_2017, hua_topical_2016} in order to prove the superiority of our approach on a realistic dataset.
+
+This work opens the way for an in-depth analysis of the relationships between Twitter and traditional news media, that we present in the next Chapter.

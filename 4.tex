@@ -158,11 +158,13 @@ The graph construction step of our method requires many different parameters, le
 
 \section{Results}
 
-We observe a clear effect of the choice of the community detection quality metric on the results of our model: surprise outperforms modularity in every case. Regarding the choice of parameters, they tend to have similar effects on each subset of our evaluation corpus. We analyze the role of each parameter more in depth in the rest of this section. We first detail the contribution of the different modalities of event similarity (word similarity, URLs, hashtags). We then present the best choice of $\Delta$ and $s$ parameters. Last, we give the results of our approach with the best choice of parameters on the entire corpus.
+
+We observe a small effect of the choice of the community detection quality metric on the results of our model: surprise outperforms modularity in all cases, however not significantly (see Figures \ref{fig:louvain_macro_days} and \ref{fig:louvain_macro_sim}). Regarding the choice of parameters, they tend to have similar effects on each subset of our evaluation corpus. We analyze the role of each parameter more in depth in the rest of this section. We first detail the contribution of the different modalities of event similarity (word similarity, URLs, hashtags). We then present the best choice of $\Delta$ and $s$ parameters.
 
 \subsection{Effect of word similarity, URLs and hashtags}
 Figure \ref{fig:louvain_macro} shows 
-the best configuration of parameters $\alpha_{text}$, $\alpha_{url}$, $\alpha_{htag}$ and $\Delta$ for each subset, with other parameters being fixed ($s = 0.3$ and $l = 3$). Overall, the results are quite stable to the change of parameters, even if the model performs better on all subsets when the weight of word-similarity ($\alpha_{text}$) is high. URLs and hashtags seem to have a much lower effect, particularly when evaluating the model on tweets only (Figure \ref{fig:louvain_macro_tweets}). Increasing $\alpha_{url}$ or $\alpha_{htag}$ may slightly improve the performance on some time periods but there is no configuration that performs equally well on each subset.
+the best configuration of parameters $\alpha_{text}$, $\alpha_{url}$, $\alpha_{htag}$ and $\Delta$ for each subset, with other parameters being fixed ($s = 0.3$ and $l = 3$). Overall, the results are quite stable to the change of parameters, even if the model performs better on all subsets when the weight of word-similarity ($\alpha_{text}$) is high. URLs and hashtags seem to have a much lower effect, particularly when evaluating the model only on tweets (Figure \ref{fig:louvain_macro_tweets}). Increasing $\alpha_{url}$ or $\alpha_{htag}$ may slightly improve the performance on some time periods  but there is no configuration that performs equally well on each subset.
+
 
   We therefore chose to eliminate these modalities, in order to simplify the graph construction step and to obtain a model that is more stable to the change of dataset. We show the results with a model relying on text only in the right column of Figures \ref{fig:louvain_macro_all} and \ref{fig:louvain_macro_tweets}. The low effect of URLs and hashtags can be explained by the fact that the information carried by these modalities is in most cases already present in the text of the documents.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -186,8 +188,28 @@ the best configuration of parameters $\alpha_{text}$, $\alpha_{url}$, $\alpha_{h
 \label{fig:louvain_macro}
 \end{figure}
 
-\subsection{Effect of $\Delta$ parameter}
-\subsection{Effect of $s$ parameter}
+\subsection{Effect of the maximum time distance between 2 events ($\Delta$)}
+Figure \ref{fig:louvain_macro_days} presents the average F1 score of our model on the 4 subsets depending on the value of $\Delta$, all other parameters being fixed. We observe little impact of that variable, with a slightly better performance when $\Delta=1$. However, each subset contains less than 6 days of data, a period during which it is unlikely that two semantically close nodes actually belong to two different joint events. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/louvain_macro_days.pdf}
+    \caption[Effect of the of the maximum time distance on the performance of our method]{Effect of the of the maximum time distance ($\Delta$) on the performance of our method. This Figure plots the average best matching F1 score for the 4 subsets, with standard deviation, depending on $\Delta$.}
+    \label{fig:louvain_macro_days}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Effect of the minimum cosine similarity between 2 events ($s$)}
+Figure \ref{fig:louvain_macro_sim} shows the average performance of our approach on each subset depending on the value of $s$. The optimal value of $s$ is $0.3$. The choice of the objective function has a real impact for low values of $s$, i.e. when practically all edges are kept in the event-similarity graph. It appears that the surprise function gives better results when the number of edges increases. However, for $s=0.3$ and higher, the choice of the quality function makes no difference.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/louvain_macro_sim.pdf}
+    \caption[Effect of the minimum cosine similarity between 2 events on the performance of our method.]{Effect of the minimum cosine similarity between 2 events ($s$) on the performance of our method. This Figure plots the average best matching F1 score for the 4 subsets, with standard deviation, depending on $s$.}
+    \label{fig:louvain_macro_sim}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Results on the entire corpus}
 \label{Joint_results}
 

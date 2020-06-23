@@ -33,6 +33,7 @@ bottom=30mm
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{amsmath}
+\usepackage{booktabs}
 \usepackage[nottoc]{tocbibind}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -44,7 +45,7 @@ bottom=30mm
     \thispagestyle{empty}%
     \addtocounter{page}{-1}%
     \newpage}
-    
+\newcommand{\fns}{\footnotesize}
 % Headers
 \pagestyle{headings}
 
@@ -60,9 +61,6 @@ bottom=30mm
 
 % Change this variable if you add or remove chapters
 \newcommand*{\NumOfChapters}{6}
-
-% Change this variable if you add or remove appendices
-\newcommand*{\NumOfAppendices}{2}
 
 % PDF metadata
 \hypersetup{
@@ -95,10 +93,7 @@ bottom=30mm
     }
     \bibliography{bibliography.bib}
     \appendix
-    \foreach \i in {1,2,...,\NumOfAppendices}{
-        \input{appendices/\i}
-        \cleardoublepage
-    }
+    \input{appendices/1}
     
     \blankpage{}
     \input{layout/lastpage.tex}

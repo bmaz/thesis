@@ -1,0 +1,25 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{cccccc}}
+\hline\hline
+                    &\multicolumn{6}{c}{}                                                         \\
+                    &        Mean&      St.Dev&         P25&      Median&         P75&         Max\\
+\hline
+\textbf{User activity}&            &            &            &            &            &            \\
+Total number of tweets&      15,174&      40,642&         286&       2,265&      12,762&   6,183,567\\
+Nb of tweets btw first \& last time&          99&         445&           4&           9&          38&      61,203\\
+Nb of tweets user has liked&       8,520&      23,184&         158&       1,220&       6,655&   2,831,010\\
+Nb of users the account is following&         688&        4549&          88&         211&         519&     1672425\\
+\textbf{User identity}&            &            &            &            &            &            \\
+Date of creation of the account&   2,014.469&       2.742&       2,012&       2,015&       2,017&       2,018\\
+=1 if verified account&       0.005&       0.074&           0&           0&           0&           1\\
+=1 if user is a journalist&      0.0012&       0.034&           0&           0&           0&           1\\
+=1 if user is a media&           0&           0&           0&           0&           0&           1\\
+\textbf{User popularity}&            &            &            &            &            &            \\
+Nb of followers     &       2,200&      86,685&          32&         147&         515&  58,775,462\\
+Nb of public lists  &          20&         578&           0&           1&           6&   1,028,438\\
+\hline
+Observations        &   4,222,734&            &            &            &            &            \\
+\hline\hline
+\end{tabular}
+}

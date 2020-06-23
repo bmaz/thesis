@@ -1,0 +1,37 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{8}{c}}
+\hline\hline
+                    &\multicolumn{4}{c}{Number of tweets (log)}                                             &\multicolumn{4}{c}{Number of articles}                                                 \\\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         &\multicolumn{1}{c}{(7)}         &\multicolumn{1}{c}{(8)}         \\
+\hline
+\textbf{Instruments - Seed}&                     &                     &                     &                     &                     &                     &                     &                     \\
+Previous tweets' interactions after 1 day&       0.002         &       0.001         &       0.001         &       0.001         &                     &                     &                     &                     \\
+                    &     (0.003)         &     (0.002)         &     (0.002)         &     (0.003)         &                     &                     &                     &                     \\
+Previous tweets' interactions after 2 days&       0.023\sym{***}&       0.022\sym{***}&       0.022\sym{***}&       0.026\sym{***}&                     &                     &                     &                     \\
+                    &     (0.008)         &     (0.007)         &     (0.007)         &     (0.007)         &                     &                     &                     &                     \\
+Nb gatekeepers following seed&                     &                     &      -0.000         &      -0.001         &                     &                     &                     &                     \\
+                    &                     &                     &     (0.001)         &     (0.001)         &                     &                     &                     &                     \\
+Nb linked gatekeepers through 1 node&                     &                     &      -0.000         &       0.000         &                     &                     &                     &                     \\
+                    &                     &                     &     (0.000)         &     (0.000)         &                     &                     &                     &                     \\
+\textbf{Instruments - Ranks 2-10}&                     &                     &                     &                     &                     &                     &                     &                     \\
+Previous tweets' interactions (thsd)&                     &       1.662\sym{***}&       1.661\sym{***}&       1.455\sym{***}&                     &                     &                     &                     \\
+                    &                     &     (0.383)         &     (0.382)         &     (0.331)         &                     &                     &                     &                     \\
+\textbf{Controls}   &                     &                     &                     &                     &                     &                     &                     &                     \\
+Number of followers (thsd)&       0.000         &       0.000         &       0.000         &       0.000         &      -0.009         &      -0.007         &      -0.007         &      -0.012\sym{**} \\
+                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         &     (0.006)         &     (0.005)         &     (0.005)         &     (0.005)         \\
+\textbf{Second stage}&                     &                     &                     &                     &                     &                     &                     &                     \\
+Number of tweets (log)&                     &                     &                     &                     &      19.455\sym{*}  &      14.872\sym{*}  &      14.792\sym{*}  &      13.979\sym{*}  \\
+                    &                     &                     &                     &                     &    (10.203)         &     (8.494)         &     (8.301)         &     (7.920)         \\
+\hline
+Month \& DoW FEs    &                     &                     &                     &                     &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Hour 1st tweet FEs  &                     &                     &                     &                     &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &                     &                     &                     &                     &                     &                     &  \checkmark         \\
+Drop multiple       &                     &                     &                     &                     &                     &                     &                     &  \checkmark         \\
+Observations        &       2,312         &       2,300         &       2,300         &       2,031         &       2,312         &       2,300         &       2,300         &       2,031         \\
+Clusters (date)     &          88         &          88         &          88         &          88         &          88         &          88         &          88         &          88         \\
+F-stat Weak identification&                     &                     &                     &                     &        4.43         &        5.94         &        6.26         &        7.28         \\
+Underidentification (p-value)&                     &                     &                     &                     &        0.13         &        0.09         &        0.05         &        0.06         \\
+\hline\hline
+\end{tabular}
+}

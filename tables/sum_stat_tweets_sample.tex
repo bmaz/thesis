@@ -1,0 +1,27 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{ccccccc}}
+\hline\hline
+                    &\multicolumn{7}{c}{}                                                                      \\
+                    &        Mean&      St.Dev&         P25&      Median&         P75&         Max&         Obs\\
+\hline
+\textbf{Characteristics of the tweet}&            &            &            &            &            &            &            \\
+Length of the tweet (nb of characters)&          99&          72&          46&          77&         128&       1,097&  35,070,001\\
+Number of words     &         6.1&         5.2&         2.0&         4.0&         8.0&       125.0&  35,070,001\\
+=1 if tweet contains an URL&        0.13&        0.34&        0.00&        0.00&        0.00&        1.00&  35,070,001\\
+=1 if the tweet is a retweet&        0.00&        0.00&        0.00&        0.00&        0.00&        0.00&  35,070,001\\
+=1 if the tweet is a reply&        0.47&        0.50&        0.00&        0.00&        1.00&        1.00&  35,070,001\\
+=1 if the tweet is a quote&        0.14&        0.35&        0.00&        0.00&        0.00&        1.00&  35,070,001\\
+\textbf{Popularity of the tweet}&            &            &            &            &            &            &            \\
+Number of retweets  &         2.6&       119.0&         0.0&         0.0&         0.0&    93,089.0&  35,070,000\\
+Number of replies   &         0.2&         4.3&         0.0&         0.0&         0.0&     4,581.0&  35,070,000\\
+Number of likes     &         4.1&       186.7&         0.0&         0.0&         0.0&   393,414.0&  35,070,001\\
+\textbf{Characteristics of the user}&            &            &            &            &            &            &            \\
+Total nb of Tweets  &      43,141&     405,857&       1,745&       8,784&      32,106&  15,082,219&  35,070,001\\
+Nb of followers     &       6,094&     108,881&          90&         307&         944&  58,484,193&  35,070,001\\
+Nb of users the account is following&         754&       6,765&         111&         248&         542&   1,571,148&  35,070,001\\
+=1 if user is a media&       0.003&       0.054&       0.000&       0.000&       0.000&       1.000&  35,070,001\\
+=1 if user is a journalist&       0.003&       0.052&       0.000&       0.000&       0.000&       1.000&  35,070,001\\
+\hline\hline
+\end{tabular}
+}

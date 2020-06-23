@@ -1,0 +1,21 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{ccccccc}}
+\hline\hline
+                    &\multicolumn{7}{c}{}                                                                      \\
+                    &        Mean&      St.Dev&         P25&      Median&         P75&         Max&         Obs\\
+\hline
+\textbf{Characteristics of the tweet}&            &            &            &            &            &            &            \\
+Length of the tweet (nb of characters)&         102&          52&          61&          98&         140&       1,121& 417,153,648\\
+Number of words     &         6.2&         4.0&         3.0&         6.0&         9.0&       269.0& 417,153,648\\
+=1 if tweet contains an URL&        0.13&        0.33&        0.00&        0.00&        0.00&        1.00& 417,153,648\\
+=1 if the tweet is a retweet&        0.63&        0.48&        0.00&        1.00&        1.00&        1.00& 417,153,648\\
+=1 if the tweet is a reply&        0.17&        0.38&        0.00&        0.00&        0.00&        1.00& 417,153,648\\
+=1 if the tweet is a quote&        0.19&        0.39&        0.00&        0.00&        0.00&        1.00& 417,153,648\\
+\textbf{Popularity of the original tweet}&            &            &            &            &            &            &            \\
+Number of retweets  &         2.3&       111.5&         0.0&         0.0&         0.0&  117,389.00& 154,273,618\\
+Number of replies   &         0.2&         6.6&         0.0&         0.0&         0.0&   47,892.00& 154,273,618\\
+Number of likes     &         3.7&       172.2&         0.0&         0.0&         0.0&  449,881.00& 154,273,619\\
+\hline\hline
+\end{tabular}
+}

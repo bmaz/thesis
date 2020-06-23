@@ -1,0 +1,21 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+                    &\multicolumn{2}{c}{National dailies}       &\multicolumn{2}{c}{Local dailies}          &\multicolumn{2}{c}{Weeklies}               \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         \\
+\hline
+Nb of articles      &                     &                     &                     &                     &                     &                     \\
+Nb of tweets (in thsd)&       0.018         &                     &       0.045         &                     &       0.096\sym{**} &                     \\
+                    &     (0.043)         &                     &     (0.050)         &                     &     (0.040)         &                     \\
+Nb of retweets (in thsd)&                     &       0.005         &                     &       0.009\sym{**} &                     &       0.014\sym{***}\\
+                    &                     &     (0.004)         &                     &     (0.005)         &                     &     (0.003)         \\
+\hline
+Date FEs            &           X         &           X         &           X         &           X         &           X         &           X         \\
+Media FEs           &           X         &           X         &           X         &           X         &           X         &           X         \\
+Observations        &      34,725         &      34,725         &      67,135         &      67,135         &      71,765         &      71,765         \\
+Clusters (event)    &       2,315         &       2,315         &       2,315         &       2,315         &       2,315         &       2,315         \\
+Marginal Effect     &       0.007         &       0.002         &       0.015         &       0.003         &       0.025         &       0.004         \\
+\hline\hline
+\end{tabular}
+}

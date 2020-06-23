@@ -1,0 +1,21 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{8}{c}}
+\hline\hline
+                    &\multicolumn{4}{c}{Number of articles (log)}                                           &\multicolumn{4}{c}{Reaction time}                                                      \\\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         &\multicolumn{1}{c}{(7)}         &\multicolumn{1}{c}{(8)}         \\
+\hline
+Nb followers (log) (1st Twitter user)&      0.0021         &                     &                     &     -0.0052         &   -213.1298         &                     &                     & -1,872.5320         \\
+                    &    (0.0028)         &                     &                     &    (0.0067)         &(11,894.9562)         &                     &                     &(8,666.3116)         \\
+Average nb followers (log) (first 1$\%$)&                     &      0.0058\sym{**} &                     &     -0.0263         &                     &  1,133.9428         &                     &-21,130.7534         \\
+                    &                     &    (0.0029)         &                     &    (0.0260)         &                     &(15,366.9841)         &                     &(61,662.8419)         \\
+Sum nb followers (log) (first 1$\%$)&                     &                     &      0.0069\sym{**} &      0.0364         &                     &                     &  1,944.4360         & 23,585.7253         \\
+                    &                     &                     &    (0.0030)         &    (0.0234)         &                     &                     &(14,476.6016)         &(53,494.9992)         \\
+\hline
+Date FEs            &           X         &           X         &           X         &           X         &           X         &           X         &           X         &           X         \\
+Media FEs           &           X         &           X         &           X         &           X         &           X         &           X         &           X         &           X         \\
+Observations        &       5,159         &       5,159         &       5,159         &       5,159         &       5,159         &       5,159         &       5,159         &       5,159         \\
+Clusters (event)    &       1,763         &       1,763         &       1,763         &       1,763         &       1,763         &       1,763         &       1,763         &       1,763         \\
+\hline\hline
+\end{tabular}
+}

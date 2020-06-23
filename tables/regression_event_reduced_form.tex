@@ -1,0 +1,33 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{7}{c}}
+\hline\hline
+                    &\multicolumn{6}{c}{Number of articles (log)}                                                                                       &\multicolumn{1}{c}{Number of media (log)}\\\cmidrule(lr){2-7}\cmidrule(lr){8-8}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         &\multicolumn{1}{c}{(7)}         \\
+\hline
+\textbf{Seed}       &                     &                     &                     &                     &                     &                     &                     \\
+Nb of retweets day 1&      -0.002\sym{**} &      -0.003\sym{***}&      -0.003\sym{***}&      -0.002\sym{***}&      -0.003\sym{***}&      -0.002\sym{***}&      -0.001\sym{***}\\
+                    &     (0.001)         &     (0.001)         &     (0.001)         &     (0.001)         &     (0.001)         &     (0.001)         &     (0.000)         \\
+Nb of retweets day 2&                     &       0.008\sym{**} &       0.007\sym{*}  &       0.007\sym{*}  &       0.007\sym{*}  &       0.007\sym{*}  &       0.007\sym{**} \\
+                    &                     &     (0.004)         &     (0.004)         &     (0.004)         &     (0.004)         &     (0.004)         &     (0.003)         \\
+\textbf{Ranks 2-10} &                     &                     &                     &                     &                     &                     &                     \\
+Total retweets day 1&                     &                     &      -0.001\sym{*}  &      -0.001\sym{*}  &      -0.000         &      -0.000         &      -0.001\sym{*}  \\
+                    &                     &                     &     (0.000)         &     (0.000)         &     (0.001)         &     (0.001)         &     (0.000)         \\
+Total retweets day 2&                     &                     &       0.003         &       0.003         &      -0.002         &      -0.003         &       0.004         \\
+                    &                     &                     &     (0.003)         &     (0.003)         &     (0.004)         &     (0.005)         &     (0.003)         \\
+Nb gatekeepers following seed&                     &                     &                     &       0.001         &       0.001         &       0.001         &       0.000         \\
+                    &                     &                     &                     &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+Nb linked gatekeepers through 1 node&                     &                     &                     &      -0.000         &      -0.000         &      -0.000         &      -0.000         \\
+                    &                     &                     &                     &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+Seed listed by gatekeeper&                     &                     &                     &      -0.250         &      -0.260         &      -0.222         &      -0.096         \\
+                    &                     &                     &                     &     (0.330)         &     (0.330)         &     (0.327)         &     (0.075)         \\
+\hline
+DayofWeek*Month FEs &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Hour 1st tweet FEs  &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &                     &                     &                     &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop multiple       &                     &                     &                     &                     &                     &  \checkmark         &  \checkmark         \\
+Observations        &       2,312         &       2,312         &       2,300         &       2,300         &       2,201         &       2,031         &       2,031         \\
+Clusters (date)     &          88         &          88         &          88         &          88         &          88         &          88         &          88         \\
+\hline\hline
+\end{tabular}
+}

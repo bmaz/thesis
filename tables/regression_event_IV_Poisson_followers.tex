@@ -1,0 +1,31 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{Nb tweets}&\multicolumn{1}{c}{Nb articles}&\multicolumn{1}{c}{Nb tweets}&\multicolumn{1}{c}{Nb articles}\\\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         \\
+\hline
+main                &                     &                     &                     &                     \\
+\textbf{Instruments - Seed's followers'}&                     &                     &                     &                     \\
+Interactions after 1 hour&       0.030\sym{***}&                     &       0.024\sym{*}  &                     \\
+                    &     (0.010)         &                     &     (0.012)         &                     \\
+Interactions after 1 day&      -0.009\sym{***}&                     &      -0.008\sym{***}&                     \\
+                    &     (0.003)         &                     &     (0.003)         &                     \\
+Interactions after 2 day&       0.018\sym{***}&                     &       0.016\sym{***}&                     \\
+                    &     (0.005)         &                     &     (0.004)         &                     \\
+\textbf{Controls}   &                     &                     &                     &                     \\
+Number of followers (thsd)&       0.000\sym{***}&      -0.000         &       0.000\sym{**} &      -0.000\sym{**} \\
+                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+\textbf{Second stage}&                     &                     &                     &                     \\
+Number of tweets (log)&                     &       0.403\sym{**} &                     &       0.354\sym{**} \\
+                    &                     &     (0.180)         &                     &     (0.165)         \\
+\hline
+Month \& DoW FEs    &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Hour 1st tweet FEs  &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &                     &  \checkmark         &  \checkmark         \\
+Drop multiple       &                     &                     &  \checkmark         &  \checkmark         \\
+Observations        &       1,919         &       1,919         &       1,677         &       1,677         \\
+Clusters (date)     &          88         &          88         &          88         &          88         \\
+\hline\hline
+\end{tabular}
+}

@@ -1,0 +1,26 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{5}{c}}
+\hline\hline
+                    &\multicolumn{5}{c}{Number of articles}                                                                       \\\cmidrule(lr){2-6}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         \\
+\hline
+Nb of articles      &                     &                     &                     &                     &                     \\
+Nb of tweets (in thsd)&       0.008\sym{***}&                     &                     &                     &       0.011\sym{***}\\
+                    &     (0.001)         &                     &                     &                     &     (0.003)         \\
+Nb of reweets (in thsd)&                     &       0.002\sym{***}&                     &                     &       0.003\sym{*}  \\
+                    &                     &     (0.000)         &                     &                     &     (0.001)         \\
+Nb of likes (in thsd)&                     &                     &       0.001\sym{***}&                     &      -0.002         \\
+                    &                     &                     &     (0.000)         &                     &     (0.001)         \\
+Nb of replies (in thsd)&                     &                     &                     &       0.016\sym{***}&      -0.010\sym{**} \\
+                    &                     &                     &                     &     (0.001)         &     (0.005)         \\
+\hline
+Date FEs            &           X         &           X         &           X         &           X         &           X         \\
+Media FEs           &           X         &           X         &           X         &           X         &           X         \\
+Observations        &      65,520         &      65,520         &      65,520         &      65,520         &      65,520         \\
+Clusters (media)    &          63         &          63         &          63         &          63         &          63         \\
+Marginal Effect     &        0.25         &        0.01         &        0.01         &        0.05         &                     \\
+Marginal Effect: Number of tweets&                     &                     &                     &                     &        0.14         \\
+\hline\hline
+\end{tabular}
+}

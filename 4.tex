@@ -138,7 +138,7 @@ where
 The Louvain algorithm \citep{blondel2008fast} is, to the best of our knowledge, the fastest algorithm to find a partition of the nodes that maximizes modularity. We therefore use this algorithm to identify communities within the event-similarity graph.
 
 \subsubsection{Surprise}
-Another metric called surprise \citep{aldecoa_deciphering_2011} outperforms modularity on several benchmarks. It appears to be more efficient when the network contains communities of different sizes, since the modularity metric does not take into account $n_c$ the number of nodes inside a community and $n$ the total number of nodes, in the calculation of the density of links. \cite{traag2015detecting} propose an approximation of surprise in large networks, and an algorithm adapted from the Louvain algorithm, in order to maximize the surprise objective function. Their formulation of the function takes the following form:
+Another metric called surprise outperforms modularity on several benchmarks  \citep{aldecoa_deciphering_2011}. It appears to be more efficient when the network contains communities of different sizes, since the modularity metric does not take into account $n_c$ the number of nodes inside a community and $n$ the total number of nodes, in the calculation of the density of links. \cite{traag2015detecting} propose an approximation of surprise in large networks, and an algorithm adapted from the Louvain algorithm, in order to maximize the surprise objective function. Their formulation of the function takes the following form:
 \begin{equation}
     Q=mD(q || \hat{q})
 \end{equation}

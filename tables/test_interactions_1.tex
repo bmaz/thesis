@@ -1,0 +1,20 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{5}{c}}
+\hline\hline
+                    &\multicolumn{3}{c}{Number articles (neg bin)}                    &\multicolumn{2}{c}{Log nb articles (OLS)}  \\\cmidrule(lr){2-4}\cmidrule(lr){5-6}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         \\
+\hline
+main                &                     &                     &                     &                     &                     \\
+Average retweets 1st day&     -0.0020         &     -0.0029\sym{**} &     -0.0056\sym{**} &     -0.0063\sym{***}&     -0.0077\sym{***}\\
+                    &    (0.0014)         &    (0.0015)         &    (0.0023)         &    (0.0017)         &    (0.0014)         \\
+Average retweets 2nd day&                     &      0.0097\sym{*}  &      0.0125\sym{*}  &      0.0257\sym{*}  &      0.0247\sym{*}  \\
+                    &                     &    (0.0052)         &    (0.0066)         &    (0.0150)         &    (0.0138)         \\
+\hline
+Date FEs            &           X         &           X         &           X         &           X         &           X         \\
+Media FEs           &           X         &           X         &           X         &           X         &           X         \\
+Observations        &     435,220         &     435,220         &     395,176         &     435,220         &     395,176         \\
+Clusters (event)    &       2,315         &       2,315         &       2,102         &       2,315         &       2,102         \\
+\hline\hline
+\end{tabular}
+}

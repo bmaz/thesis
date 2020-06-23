@@ -1,0 +1,26 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{ccc}}
+\hline\hline
+                    &\multicolumn{3}{c}{ }                          \\
+                    &Not in event&    In event&     Diff/se         \\
+\hline
+\textbf{Characteristics of the tweet}&            &            &                     \\
+Length of the tweet (nb of characters)&         134&          73&          61\sym{***}\\
+                    &            &            &       (0.0)         \\
+Number of words     &           9&           5&           4\sym{***}\\
+                    &            &            &       (0.0)         \\
+=1 if tweet contains an URL&         0.1&         0.2&      -0.037\sym{***}\\
+                    &            &            &     (0.000)         \\
+\textbf{Popularity of the tweet}&            &            &                     \\
+Number of retweets  &         1.8&         2.5&        -0.7\sym{***}\\
+                    &            &            &       (0.0)         \\
+Number of replies   &         0.2&         0.2&        -0.0\sym{***}\\
+                    &            &            &       (0.0)         \\
+Number of likes     &         3.0&         3.8&        -0.8\sym{***}\\
+                    &            &            &       (0.0)         \\
+\hline
+Observations        & 114,698,415&            &                     \\
+\hline\hline
+\end{tabular}
+}

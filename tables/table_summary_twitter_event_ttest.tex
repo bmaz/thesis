@@ -1,0 +1,22 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{1}{ccc}}
+\hline\hline
+                    &\multicolumn{3}{c}{ }                          \\
+                    &Not media event& Media event&     Diff/se         \\
+\hline
+Length of the events (in hours)&          42&          85&         -43\sym{***}\\
+                    &            &            &       (0.5)         \\
+Number of tweets in event&        39.2&     1,403.9&    -1,364.7\sym{***}\\
+                    &            &            &     (151.2)         \\
+Nb tweets with url  &         6.1&       211.3&      -205.2\sym{***}\\
+                    &            &            &      (17.4)         \\
+Nb tweets with url in corpus&         6.1&       210.8&      -204.7\sym{***}\\
+                    &            &            &      (17.3)         \\
+Number of different users&        32.4&       503.1&      -470.6\sym{***}\\
+                    &            &            &      (28.1)         \\
+\hline
+Observations        &     295,385&            &                     \\
+\hline\hline
+\end{tabular}
+}

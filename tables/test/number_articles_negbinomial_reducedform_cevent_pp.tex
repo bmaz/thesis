@@ -1,0 +1,21 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{4}{c}{Number of articles}                                                 \\\cmidrule(lr){2-5}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         \\
+\hline
+Nb followers (log) (1st Twitter user)&      0.0009         &                     &                     &     -0.0010         \\
+                    &    (0.0063)         &                     &                     &    (0.0155)         \\
+Average nb followers (log) (first 1$\%$)&                     &      0.0071         &                     &     -0.2208\sym{***}\\
+                    &                     &    (0.0068)         &                     &    (0.0678)         \\
+Sum nb followers (log) (first 1$\%$)&                     &                     &      0.0119\sym{*}  &      0.2253\sym{***}\\
+                    &                     &                     &    (0.0069)         &    (0.0615)         \\
+\hline
+Date FEs            &           X         &           X         &           X         &           X         \\
+Media FEs           &           X         &           X         &           X         &           X         \\
+Observations        &     145,845         &     145,845         &     145,845         &     145,845         \\
+Clusters (event)    &       2,315         &       2,315         &       2,315         &       2,315         \\
+\hline\hline
+\end{tabular}
+}

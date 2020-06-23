@@ -1,0 +1,29 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{8}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         &\multicolumn{1}{c}{(7)}         &\multicolumn{1}{c}{(8)}         \\
+\hline
+Number of news articles in the event&                     &                     &                     &                     &                     &                     &                     &                     \\
+Nb of tweets in event before first media&       0.011         &                     &       0.018         &                     &                     &       0.011         &       0.011         &                     \\
+                    &     (0.008)         &                     &     (0.015)         &                     &                     &     (0.007)         &     (0.008)         &                     \\
+nb\_original\_tweet\_event\_BM&                     &      -0.000         &                     &      -0.000         &      -0.000         &                     &                     &      -0.000         \\
+                    &                     &     (0.000)         &                     &     (0.000)         &     (0.000)         &                     &                     &     (0.000)         \\
+Nb of retweet in event before first media&                     &       0.000\sym{**} &                     &       0.000\sym{**} &       0.000\sym{**} &                     &                     &       0.000\sym{**} \\
+                    &                     &     (0.000)         &                     &     (0.000)         &     (0.000)         &                     &                     &     (0.000)         \\
+Nb of reply in event before first media&                     &      -0.000         &                     &      -0.000         &      -0.000         &                     &                     &      -0.000         \\
+                    &                     &     (0.000)         &                     &     (0.000)         &     (0.000)         &                     &                     &     (0.000)         \\
+Number of interactions before first article (if BK)&                     &                     &      -0.000         &      -0.000         &                     &                     &                     &                     \\
+                    &                     &                     &     (0.000)         &     (0.000)         &                     &                     &                     &                     \\
+Number of followers of the news breakers (if BK)&       0.000\sym{*}  &       0.000\sym{*}  &       0.000\sym{*}  &       0.000\sym{*}  &       0.000\sym{*}  &      -0.000         &      -0.000\sym{**} &      -0.000\sym{**} \\
+                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+\hline
+Month*DoW FEs       &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &  \checkmark         &  \checkmark         &  \checkmark         &                     &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop multiple       &                     &                     &  \checkmark         &                     &                     &                     &  \checkmark         &                     \\
+Observations        &       2,485         &       2,485         &       2,485         &       2,485         &       2,485         &       2,101         &       2,000         &       2,000         \\
+Clusters (date)     &                     &                     &                     &                     &                     &                     &                     &                     \\
+Marginal Effect     &        0.51         &       -0.00         &        0.87         &       -0.00         &       -0.00         &        0.52         &        0.52         &       -0.00         \\
+\hline\hline
+\end{tabular}
+}

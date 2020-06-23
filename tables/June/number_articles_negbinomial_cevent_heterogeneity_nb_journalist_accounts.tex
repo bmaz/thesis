@@ -1,0 +1,23 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{2}{c}{Low nb of journalists with Twitter}&\multicolumn{2}{c}{High nb of journalists with Twitter}\\\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         \\
+\hline
+Number of articles  &                     &                     &                     &                     \\
+Number of tweets    &       0.044\sym{***}&       0.038\sym{***}&       0.046\sym{***}&       0.039\sym{***}\\
+                    &     (0.010)         &     (0.009)         &     (0.010)         &     (0.008)         \\
+Seed's number of followers&       0.000         &      -0.000         &       0.000         &      -0.000         \\
+                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+\hline
+Media FEs           &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Month \& DoW FEs    &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &  \checkmark         &                     &  \checkmark         \\
+Drop multiple       &                     &  \checkmark         &                     &  \checkmark         \\
+Observations        &     127,770         &      94,890         &     383,310         &     284,670         \\
+Clusters (events)   &       4,259         &       3,163         &       4,259         &       3,163         \\
+Marginal Effect     &       0.010         &  \emph{0.008}       &       0.019         &  \emph{0.015}       \\
+\hline\hline
+\end{tabular}
+}

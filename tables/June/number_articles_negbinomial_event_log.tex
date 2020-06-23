@@ -1,0 +1,28 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+                    &\multicolumn{3}{c}{Number of articles}                           &\multicolumn{3}{c}{Number of media}                              \\\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         \\
+\hline
+Number of news articles in the event&                     &                     &                     &                     &                     &                     \\
+lnb\_tweet\_event\_BM  &       0.002         &                     &       0.033         &                     &      -0.005         &      -0.008         \\
+                    &     (0.014)         &                     &     (0.041)         &                     &     (0.016)         &     (0.016)         \\
+lnb\_original\_tweet\_event\_BM&                     &       0.129\sym{***}&                     &       0.129\sym{***}&                     &                     \\
+                    &                     &     (0.045)         &                     &     (0.045)         &                     &                     \\
+lnb\_retweet\_event\_BM&                     &      -0.023         &                     &       0.026         &                     &                     \\
+                    &                     &     (0.025)         &                     &     (0.053)         &                     &                     \\
+lnb\_reply\_event\_BM  &                     &      -0.107\sym{***}&                     &      -0.107\sym{***}&                     &                     \\
+                    &                     &     (0.026)         &                     &     (0.026)         &                     &                     \\
+linteractions\_twitter\_event&                     &                     &      -0.025         &      -0.047         &                     &                     \\
+                    &                     &                     &     (0.029)         &     (0.041)         &                     &                     \\
+\hline
+Month*DoW FEs       &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &  \checkmark         &  \checkmark         &                     &  \checkmark         &  \checkmark         \\
+Drop multiple       &                     &                     &  \checkmark         &                     &                     &  \checkmark         \\
+Observations        &       2,485         &       1,709         &       2,136         &       1,701         &       2,101         &       2,000         \\
+Clusters (date)     &                     &                     &                     &                     &                     &                     \\
+Marginal Effect     &        0.09         &        6.11         &        1.57         &        6.09         &       -0.23         &       -0.37         \\
+\hline\hline
+\end{tabular}
+}

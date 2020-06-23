@@ -1,0 +1,31 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{Nb tweets}&\multicolumn{1}{c}{Nb articles}&\multicolumn{1}{c}{Nb tweets}&\multicolumn{1}{c}{Nb articles}\\\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         \\
+\hline
+main                &                     &                     &                     &                     \\
+\textbf{Instrument} &                     &                     &                     &                     \\
+High pressure * Previous interactions&       0.004         &                     &       0.004         &                     \\
+                    &     (0.006)         &                     &     (0.009)         &                     \\
+\textbf{Controls}   &                     &                     &                     &                     \\
+Previous interactions&       0.002\sym{***}&       0.001         &       0.002\sym{***}&      -0.001         \\
+                    &     (0.001)         &     (0.002)         &     (0.001)         &     (0.003)         \\
+High pressure       &      -0.045         &      -0.051         &      -0.065         &      -0.029         \\
+                    &     (0.053)         &     (0.112)         &     (0.062)         &     (0.147)         \\
+Seed's followers (thsd)&       0.000\sym{***}&       0.000\sym{**} &       0.000         &      -0.000         \\
+                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+Reaction time 1st media&       0.740\sym{***}&       0.783         &       0.883\sym{***}&      -0.261         \\
+                    &     (0.012)         &     (0.476)         &     (0.017)         &     (1.151)         \\
+\textbf{Second stage}&                     &                     &                     &                     \\
+Number of original tweets&                     &      -0.754         &                     &       0.430         \\
+                    &                     &     (0.531)         &                     &     (1.201)         \\
+\hline
+Month \& DoW FEs    &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &                     &  \checkmark         &  \checkmark         \\
+Drop multiple       &                     &                     &  \checkmark         &  \checkmark         \\
+Observations        &       4,084         &       4,084         &       3,014         &       3,014         \\
+\hline\hline
+\end{tabular}
+}

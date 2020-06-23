@@ -1,0 +1,21 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{Nat. dail.}&\multicolumn{1}{c}{Local dail.}&\multicolumn{1}{c}{Weeklies}&\multicolumn{1}{c}{Pure online}&\multicolumn{1}{c}{TV}&\multicolumn{1}{c}{Radio}\\\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}\cmidrule(lr){6-6}\cmidrule(lr){7-7}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         \\
+\hline
+Nb of articles      &                     &                     &                     &                     &                     &                     \\
+Nb of tweets (log)  &      -0.021         &       0.006         &       0.021         &       0.114\sym{***}&       0.072\sym{***}&       0.000         \\
+                    &     (0.017)         &     (0.019)         &     (0.020)         &     (0.021)         &     (0.021)         &     (0.018)         \\
+\hline
+Media FEs           &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Month*DoW FEs       &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop multiple       &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Observations        &      30,630         &      59,218         &      65,344         &     128,646         &      14,294         &      22,462         \\
+Clusters (events)   &       2,042         &       2,042         &       2,042         &       2,042         &       2,042         &       2,042         \\
+Marginal Effect     &       -0.01         &        0.00         &        0.01         &        0.01         &        0.02         &        0.00         \\
+\hline\hline
+\end{tabular}
+}

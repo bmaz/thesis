@@ -1,102 +1,73 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Modèle pour la 4ème de couverture des thèses préparées à l'Université Paris-Saclay, basé sur le modèle produit par Nikolas STOTT / Template for back cover of thesis made at Université Paris-Saclay, based on the template made by Nikolas STOTT
-%%% Mis à jour par Aurélien ARNOUX (École polytechnique)/ Updated by Aurélien ARNOUX (École polytechnique)
-%%% Les instructions concernant chaque donnée à remplir sont données en bloc de commentaire / Rules to fill this file are given in comment blocks
-%%% ATTENTION Ces informations doivent tenir sur une seule page une fois compilées / WARNING These informations must contain in no more than one page once compiled
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Version du 23 mai 2019 (Merci à Thibault CHEVALÉRIAS (CEA) pour ses suggestions et corrections)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\label{form_last}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Formulaire / Form
-%%% Remplacer les paramètres des \newcommand par les informations demandées / Replace \newcommand parameters by asked informations
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand{\logoEd}{INTERFACES}																		%% Logo de l'école doctorale. Indiquer le sigle / Doctoral school logo. Indicate the acronym : 2MIB; AAIF; ABIES; BIOSIGNE; CBMS; EDMH; EDOM; EDPIF; EDSP; EOBE; INTERFACES; ITFA; PHENIICS; SDSV; SDV; SHS; SMEMAG; SSMMH; STIC
-\newcommand{\PhDTitleFR}{titre (en français)}													%% Titre de la thèse en français / Thesis title in french
-\newcommand{\keywordsFR}{3 à 6 mots clés}														%% Mots clés en français, séprarés par des , / Keywords in french, separated by ,
-\newcommand{\abstractFR}{\lipsum[1-3]}															%% Résumé en français / abstract in french
-
-\newcommand{\PhDTitleEN}{titre (en anglais)}													%% Titre de la thèse en anglais / Thesis title in english
-\newcommand{\keywordsEN}{3 à 6 mots clés}														%% Mots clés en anglais, séprarés par des , / Keywords in english, separated by ,
-\newcommand{\abstractEN}{\lipsum[1-3]}															%% Résumé en anglais / abstract in english
-
-\label{layout_last}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Mise en page / Page layout      
-%%% NE RIEN MODIFIER / DO NOT MODIFY
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\pagestyle{empty}
-
-%%% Logo de l'école doctorale. Le nom du fichier correspond au sigle de l'ED / Doctoral school logo. Filename correspond to doctoral school acronym
-%%% Les noms valides sont / Valid names are : 2MIB; AAIF; ABIES; BIOSIGNE; CBMS; EDMH; EDOM; EDPIF; EDSP; EOBE; INTERFACES; ITFA; PHENIICS; SDSV; SDV; SHS; SMEMAG; SSMMH; STIC
-\begin{textblock*}{61mm}(16mm,3mm)
-    \textblockcolour{white}
-	\noindent\includegraphics[height=24mm]{media/ed/\logoEd.jpeg}
-\end{textblock*}
-
-
-
-%%%Titre de la thèse en français / Thesis title in french
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 4eme de couverture
+\fontsize{14}{16}\selectfont
 \begin{singlespace}
-\begin{center}
-\fcolorbox{bordeau}{white}{\parbox{0.95\textwidth}{
-{\bf Titre:} \PhDTitleFR 
-\medskip
+\setlength{\parindent}{0pt}
+\ifthispageodd{\newpage\thispagestyle{empty}\null\newpage}{}
+\thispagestyle{empty}
+\vspace*{-2.5cm}%
+\enlargethispage{10cm}
+%\newgeometry{top=-1cm, bottom=1.25cm, left=2cm, right=2cm}
+%\fontfamily{rm}\selectfont
 
-%%%Mots clés en français, séprarés par des ; / Keywords in french, separated by ;
-{\bf Mots clés:} \keywordsFR 
-\vspace{-2mm}
+%\lhead{}
+%\rhead{}
+%\rfoot{}
+%\cfoot{}
+%\lfoot{}
 
-%%% Résumé en français / abstract in french
+%*****************************************************
+%***** LOGO DE L'ED À CHANGER ÉVENTUELLEMENT *********
+%*****************************************************
+\includegraphics[height=2cm]{media/ed/ed-interfaces-h.png}
+\vspace{.2cm}
+%*****************************************************
+\fontsize{11}{13}\selectfont
+\begin{mdframed}[linecolor=Prune,linewidth=1]
+
+\vspace{-.25cm}
+\paragraph*{Title:} Social Media Stories\\
+Event detection in heterogeneous streams of documents applied to the study of information spreading across social and news media
+
+
+\vspace{-.25cm}
+\paragraph*{Keywords:} Twitter, media, data-mining, event detection, embeddings, multi-modality
+
+\vspace{-.5cm}
 \begin{multicols}{2}
-{\bf Résumé:} 
-\abstractFR 
+\paragraph*{Abstract:} Social Media, and Twitter in particular, has become a privileged source of information for journalists in recent years. Most journalists monitor Twitter as part of their search for newsworthy stories. This thesis aims to investigate and quantify the effect of this technological change on editorial decisions. Does the popularity of a story affect the way it is covered by traditional news media, regardless of its intrinsic interest?
+
+To highlight this relationship, we take a multidisciplinary approach at the crossroads of computer science and economics: first, we design a novel approach in order to collect a representative sample of 70\% of all French tweets emitted during an entire year. Second, we study different types of algorithms to automatically detect tweets that relate to the same stories. We test several vector representations of tweets, looking at both text and text-image representations. Third, we design a new method to group together Twitter events and media events. Finally, we design an econometric instrument to identify a causal effect of the popularity of an event on Twitter on its coverage by traditional media. We show that the popularity of a story on Twitter does have an effect on the number of articles devoted to it by traditional media, with an increase of about 1 article per 1000 additional tweets.
 \end{multicols}
-}}
-\end{center}
+\smallskip
+\end{mdframed}
 
-\vspace*{0mm}
+\begin{mdframed}[linecolor=Prune,linewidth=1]
+\vspace{-.25cm}
+\paragraph*{Titre:} Social Media Stories\\
+Détection d'événements dans des flux de documents hétérogènes appliquée à l'étude de la diffusion de l'information entre réseaux sociaux et médias
 
-%%%Titre de la thèse en anglais / Thesis title in english
-\begin{center}
-\fcolorbox{bordeau}{white}{\parbox{0.95\textwidth}{
-{\bf Title:} \PhDTitleEN 
+\vspace{-.25cm}
+\paragraph*{Mots clés:} Twitter, médias, fouille de données, détection d'événements, plongements sémantiques, multimodalité
 
-\medskip
-
-%%%Mots clés en anglais, séprarés par des ; / Keywords in english, separated by ;
-{\bf Keywords:}  \keywordsEN %%3 à 6 mots clés%%
-\vspace{-2mm}
+\vspace{-.5cm}
 \begin{multicols}{2}
-	
-%%% Résumé en anglais / abstract in english
-{\bf Abstract:} 
-\abstractEN
+\paragraph*{Résumé:} Les réseaux sociaux, et Twitter en particulier, sont devenus une source d'information privilégiée pour les journalistes ces dernières années. Beaucoup effectuent une veille sur Twitter, à la recherche de sujets qui puissent être repris dans les médias. Cette thèse vise à étudier et à quantifier l'effet de ce changement technologique sur les décisions  prises par les rédactions. La popularité d’un événement sur les réseaux sociaux affecte-t-elle sa couverture par les médias traditionnels, indépendamment de son intérêt intrinsèque ?
+
+Pour mettre en évidence cette relation, nous adoptons une approche pluridisciplinaire, à la rencontre de l'informatique et de l'économie : tout d’abord, nous concevons une approche inédite pour collecter un échantillon représentatif de 70\% de tous les tweets en français émis pendant un an. Par la suite, nous étudions différents types d'algorithmes pour découvrir automatiquement les tweets qui se rapportent aux mêmes événements. Nous testons différentes représentation vectorielles de tweets, en nous intéressants aux représentations vectorielles de texte, et aux représentations texte-image.  Troisièmement, nous concevons une nouvelle méthode pour regrouper les événements Twitter et les événements médiatiques. Enfin, nous concevons un instrument économétrique pour identifier un effet causal de la popularité d'un événement sur Twitter sur sa couverture par les médias traditionnels. Nous montrons que la popularité d’un événement sur Twitter a un effet sur le nombre d'articles qui lui sont consacrés dans les médias traditionnels, avec une augmentation d'environ 1 article pour 1000 tweets supplémentaires.
 \end{multicols}
-}}
-\end{center}
+\smallskip
+\end{mdframed}
 
-\begin{textblock*}{161mm}(10mm,270mm)
-\textblockcolour{white}
-\color{bordeau}
-{\bf\noindent Université Paris-Saclay	         }
+%************************************
+\vspace*{.5cm} % ALIGNER EN BAS DE PAGE
+%************************************
 
-\noindent Espace Technologique / Immeuble Discovery 
-
-\noindent Route de l’Orme aux Merisiers RD 128 / 91190 Saint-Aubin, France 
-\end{textblock*}
-
-\begin{textblock*}{0mm}(182mm,255mm)
-\textblockcolour{white}
-\includegraphics[width=20mm]{media/UPSACLAY-petit}
-\end{textblock*}
+\fontfamily{fvs}\fontseries{m}\selectfont
+%\begin{tabular}{p{14cm}r}
+%\multirow{1}{17cm}[+0mm]{
+{\color{Prune} \noindent Université Paris-Saclay\\
+Espace Technologique / Immeuble Discovery\\
+Route de l’Orme aux Merisiers RD 128 / 91190 Saint-Aubin, France} %\multirow{3}{2.19cm}[+9mm]{\includegraphics[height=2.19cm]{e.pdf}}\\
+%\end{tabular}
 \end{singlespace}

@@ -1,7 +1,8 @@
 % created on 2019-12-13
 % @author : bmazoyer
-\documentclass[a4paper, twoside]{report}
+\documentclass[11pt,a4paper]{book}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{geometry}
@@ -12,13 +13,14 @@ right=16mm,
 bottom=30mm
 }
 \usepackage[table]{xcolor}
-\definecolor{bordeau}{rgb}{0.3515625,0,0.234375}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{graphicx}
 \usepackage{lipsum}
 \usepackage{array}
 \usepackage{caption}
+\usepackage{multirow} %% Pour mettre un texte sur plusieurs rangées
 \usepackage{multicol}
+\usepackage{scrextend} %Forcer la 4eme  de couverture en page pair
 \usepackage{hyperref}
 \usepackage{afterpage}
 \usepackage{setspace}
@@ -27,13 +29,21 @@ bottom=30mm
 \usepackage{mathrsfs}
 \usepackage{mathtools}
 \usepackage{xcolor}
+\definecolor{Prune}{RGB}{99,0,60}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{rotating}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage[absolute]{textpos} 
 \usepackage{booktabs}
+\usepackage{mdframed}
+\usepackage{colortbl}
+\usepackage{array}
 \usepackage[nottoc]{tocbibind}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -54,10 +64,11 @@ bottom=30mm
 \bibliographystyle{abbrvnat}
 %\bibliographystyle{apalike}
 % Thesis title
-\newcommand{\PhDTitle}{Thesis title. It can extend over several lines (even 4 or 5)} 
+\newcommand{\PhDTitle}{Social Media Stories}
+\newcommand{\PhDSubtitle}{Event detection in heterogeneous streams of news to study the influences of social networks on traditional media}
 
 % Name
-\newcommand{\PhDname}{FirstName LastName} 
+\newcommand{\PhDname}{Béatrice MAZOYER} 
 
 % Change this variable if you add or remove chapters
 \newcommand*{\NumOfChapters}{6}
@@ -71,13 +82,13 @@ bottom=30mm
 
 
 \begin{document}
-	\doublespacing
-	
-    \input{layout/firstpage.tex}
-    
-    \input{layout/dedication.tex}
+    \input{layout/firstpage}
     \cleardoublepage
+	
+    \input{layout/dedication.tex}
     
+    \doublespacing
+    \pagenumbering{roman}
     \input{layout/acknowledgements.tex}
     \cleardoublepage
     

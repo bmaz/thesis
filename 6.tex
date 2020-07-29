@@ -1,9 +1,65 @@
 \chapter{Conclusion}
 
-To conclude this thesis manuscript, we first summarize the work that we have presented, then we synthesize the main research perspectives opened by this work.
+To conclude this thesis manuscript, we first summarize the work that we have presented, then we put forward some of the research perspectives opened by this work.
 
 \section{Summary of the thesis}
 
-First of all, we proposed a novel method to collect tweets in a specific language, based on the use of the most frequent words in a given language. We show that the word distribution of the collected corpus is extremely similar to the word distribution in the sample collected with the Sample API, suggesting that our method provides a subset of the entire stream of tweets that is close to a random sample. Additionally, we show that for a given set of neutral words and a certain number of access tokens to the Twitter API, it is more efficient to use a spectral clustering algorithm in order to group together the terms that are frequently used in co-occurrence than to randomly distribute words 
+\subsection{Building a corpus for event detection on Twitter}
+In Chapter \ref{Chapter: Corpus}, we propose a novel method for collecting  random tweets, based on the use of the most frequent words in a given language. We demonstrate that the word distribution of the collected corpus is extremely similar to the word distribution in the sample collected with the Sample API, showing that our method provides a random subset of the entire stream of tweets. Additionally, we show that for a given set of neutral words and a certain number of access tokens to the Twitter API, it is more efficient to group together the terms that frequently co-occurr on the same API key than to randomly distribute words over the API keys. 
+
+With our method, we collected around 5 million tweets in French per day from June 2018 to present. Comparing the tweets in our dataset to other corpora collected by French researchers in December 2018, we estimate that we collect between 60\% and 75\% of all tweets in French sent on Twitter, and between 74\% and 78\% of all original tweets (i.e. retweets excluded). 
+
+Finally, we present an annotated corpus for the task of event detection in tweets, composed of more than 95,000 annotated tweets. This corpus is now publicly available along with the code of our event detection experiments, and should serve as a baseline to test new event detection algorithms. We also published the ids of all original tweets collected between the three weeks of annotation (38 million tweets).  This very large volume of tweets can also serve as a training corpus for language models.
+
+\subsection{Detecting Twitter events}
+In Chapter \ref{Chap: Decting Twitter events}, we introduce a ``mini batch" version of the First Story Detection (FSD) \citep{allan_introduction_2002} algorithm, which outperforms the Dirichlet Multinomial Mixture (DMM) model \citep{yin_dirichlet_2014} by a large margin for the task of tweets clustering on two different datasets. The FSD algorithm takes as input vector representations of documents (originally tf-idf vectors), which are then grouped together based on cosine similarity. Mini-batches make it possible to speed up the algorithm in the case of sparse vectors such as tf-idf vectors, due to the properties of sparse matrix multiplication. 
+
+We also investigate the performance of recent short-text/sentence embedding models including ELMo \citep{peters2018deep}, Universal Sentence Encoder \citep{cer2018universal}, BERT \citep{devlin2018bert} and Sentence-BERT \citep{reimers_2019_sentence} when used as input to the FSD algorithm. We show that these representations of tweets do not outperform tf-idf vectors for tweet clustering. Nor do naive text-image representations approaches based on the concatenation of text and image vectors (we tested SIFT \citep{lowe1999object} and ResNet \citep{he2016deep} models) for a given document.
+
+Finally, we note that the standard FSD algorithm is not designed to filter tweets that are too short or contain too common words. We therefore introduce a new variant of this algorithm to make clusters more stable on "realistic" (i.e. noisy) tweet corpora. Our variant makes it possible to exclude certain tweets from the potential nearest neighbors. It increases both time efficiency, precision and recall compared to the simple ``mini batch" FSD when tested on the 38 million-tweet dataset.
+
+\subsection{Linking Media events and Twitter events}
+
+In Chapter \ref{Chap: Linking Media events and Twitter events}, we present the approach we use to group together Twitter events and media events. This approach is based on community detection in a weighted graph of various similarities (word similarity, number of hashtags in common, number of URLs in common) between Twitter events and media events. We test our approach with several weight combinations on edges and on several subsets of our corpus. We show that keeping only the word-similarity on the edges of the graph is the simplest approach, and also the most robust to the change of sub-sample. We also show that adding a time-constraint in order to remove edges between events that are too distant in time improves the performance of our method: our performance results are decreasing the parameter $\Delta$, which sets the maximum number of days between two events.
+
+\subsection{Social Media and newsroom production decisions}
+Finally, in Chapter \ref{Chap: Social media and newsroom production decisions}, we apply the algorithms detailed in Chapters \ref{Chap: Decting Twitter events} and \ref{Chap: Linking Media events and Twitter events} to detect joint events on a corpus of tweets collected between July 2018 and July 2019 (1.8 billion tweets) using our collection method. For the joint events that start on Twitter (i.e. if the first document in the joint event is a tweet), we investigate whether the popularity of Twitter events has an influence on the decisions made by news editors in terms of coverage of the event.
+
+We use an instrumental variable based on the interaction between measures of user centrality and news pressure to isolate a causal effect of story popularity on media coverage. The centrality of the author of the first tweet in the event is estimated through the number of likes, retweets and quotes of the user's previous tweets, while news pressure is measured by the number of likes, retweets and quotes in the entire dataset in the hour before the event.
+
+We show that story popularity has a positive effect on media coverage, but that this effect varies depending on the characteristics of media outlets: the effect is stronger for TV websites than for national daily newspapers, and it is also stronger for media outlets with a high social media presence. However, we do not observe a significant role of advertising revenues (observed by the existence of a paywall) on this effect. These findings shed a new light on our understanding of how editors decide on the coverage for stories.
 
 \section{Directions for future research}
+In this section, we propose two different ways to improve our results: first, training text-image vectors depending on topical similarity, and second, better estimating the centrality of users in the network.
+%, and 3. include Twitter events that are not picked up by traditional media. 
+In addition, we propose longer term perspectives that could add interesting contributions to the present work.
+
+\subsection{Training text-image vectors using appropriate tasks}
+In Chapter \ref{Chap: Decting Twitter events}, we fail to build text-image representations of tweets that improve event detection. This is due to the fact that we only concatenate text and image vectors, without training our model to generate useful feature representations from both modalities. 
+
+However, the manual annotation of Twitter users that we have performed (see Chapter \ref{Chap: Social media and newsroom production decisions}) in order to identify the journalist and media accounts in our dataset can provide us with a good pretext-task\footnote{A pretext-task in machine learning is an intermediary task used to pre-train neural networks, in order to learn useful representations that should be easily adaptable for other tasks}: we could train a binary classifier to distinguish between tweets from journalists/media outlets and "regular" users' tweets. Indeed, one can assume that spotting images shared by the media outlets/journalists would allow the model to learn useful text-image features. Alternatively, one could try to predict whether or not the tweet contains an URL.
+
+We could then add a final task to train the obtained network in such a way that the produced
+sentence embeddings are semantically meaningful and can be compared with cosine-similarity, in the spirit of \cite{reimers_2019_sentence} and \cite{danovitch2020linking}. To do so, we plan to build a siamese network trained to compute a topical similarity score between two tweets containing images. This last task would require us to annotate pairs of tweets as we did in Chapter \ref{Chap: Decting Twitter events}, Section \ref{Subsec: Fine-tuning}.
+
+
+\subsection{Predicting the followers of a given user}
+
+In Chapter \ref{Chap: Social media and newsroom production decisions}, we use the centrality of the \textit{seed} (i.e. the author of the first tweet) of an event as a variation of popularity exogenous to the intrinsic interest of the event. Centrality is computed using the total number of retweets, quotes and replies received by the seed's previous tweets. However, a better estimation of a user's centrality would be to measure her distance to a 
+``central node" in the chains of followers in the Twitter network.
+``Central nodes" could be the accounts of media and journalists, and the account labeled as ``verified" by Twitter.
+
+So far we have not been able to obtain the graph of Twitter users' relationships (in terms of who follows whom), as this is one of the most complicated piece of data to obtain using the Twitter API. What we do have in our dataset is the history of interactions between two users (in terms of number of retweets, likes, quotes and mentions since June 2018). We plan to establish a model capable of predicting whether a user follows another user, based on their interactions data. 
+
+The model of interrelationships between followers and followees would rely on a Matrix Factorization method. This family of methods consists in projecting two sets of items in a common latent space in order to model their interactions. These methods have been used extensively in the last 10 years by recommender systems, in order to model purchasing decisions based on ``implicit feedback" \citep{hu2008collaborative} such as reading a web page, or clicking on an item. The same type of approach is also used by \cite{rappaz2019dynamic} in order to predict the likelihood of a media outlet to cover a certain type of news events.
+
+\subsection{Longer term perspectives: patterns of news propagation}
+
+In this thesis, we only focused on one type of interaction between Twitter events and media events: the case of events that break on Twitter and are relayed by mainstream media outlets. However, a further research objective would be to identify more complex patterns in the dissemination of information. \cite{ning_uncovering_2015} propose a first step towards this type of approach by representing interaction patterns as chains of interactions (N: the information goes from News to Twitter, T: the information goes from Twitter to News, B: bi-directional information flow, E: absence of significant information flow) and then clustering interaction patterns into 5 groups.
+
+Instead, we would represent the propagation of information as a graph where the nodes would be groups of actors: mainstream media outlets, Twitter accounts of media outlets, Twitter accounts of journalists, Twitter accounts of potential ``sources" (that are followed by a minimum number of journalists), Twitter users that directly follow one of these groups, and other Twitter users.
+
+For each event, we would like to quantify the spread of information among each group of users: we would then be able to know which group shared the information first and whether the other groups also shared the story. This should allow us to identify gaps between different types of Twitter users in the access to information.
+
+Using graph embedding methods such as Graph2Vec \citep{narayanan2017graph2vec} would enable us to learn embeddings of the created graphs and cluster together similar interaction patterns. This type of approach would be an interesting way to investigate how information spreads across social media and traditional news media, and to explore recurrent patterns of dissemination. Using graph embedding methods such as Graph2Vec \citep{narayanan2017graph2vec}, we could learn embeddings of the created graphs and cluster together similar interaction patterns. This type of approach would be an interesting way to investigate how information spreads across social media and traditional news media, and what are the recurrent patterns of dissemination.
+

@@ -1,0 +1,24 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{2}{c}{Number of articles}     &\multicolumn{2}{c}{Articles length}        \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         \\
+\hline
+main                &                     &                     &                     &                     \\
+Number of tweets    &        0.02\sym{***}&        0.02\sym{***}&        1.17         &        1.52         \\
+                    &      (0.01)         &      (0.01)         &      (2.55)         &      (2.61)         \\
+Seed's number of followers&       -0.00         &       -0.00         &        3.51         &        2.84         \\
+                    &      (0.01)         &      (0.01)         &      (4.12)         &      (4.17)         \\
+\hline
+Media FEs           &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Month \& DoW FEs    &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &  \checkmark         &                     &  \checkmark         \\
+Drop multiple       &                     &  \checkmark         &                     &  \checkmark         \\
+Model               &     Neg bin         &     Neg bin         &      Linear         &      Linear         \\
+Observations        &      76,703         &      75,256         &      76,694         &      75,246         \\
+Clusters (events)   &       4,393         &       4,314         &       4,393         &       4,314         \\
+Marginal Effect     &        0.06         &        0.05         &                     &                     \\
+\hline\hline
+\end{tabular}
+}

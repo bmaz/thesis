@@ -1,0 +1,24 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+                    &\multicolumn{3}{c}{Low social media presence}                    &\multicolumn{3}{c}{High social media presence}                   \\\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+                    &\multicolumn{1}{c}{Number of articles}&\multicolumn{1}{c}{Number of articles}&\multicolumn{1}{c}{Coverage}&\multicolumn{1}{c}{Number of articles}&\multicolumn{1}{c}{Number of articles}&\multicolumn{1}{c}{Coverage}\\
+\hline
+main                &                     &                     &                     &                     &                     &                     \\
+Number of tweets    &       0.033\sym{***}&       0.033\sym{***}&       0.012\sym{***}&       0.055\sym{***}&       0.054\sym{***}&       0.017\sym{***}\\
+                    &     (0.008)         &     (0.008)         &     (0.003)         &     (0.013)         &     (0.013)         &     (0.004)         \\
+Seed's number of followers&      -0.017         &      -0.017         &      -0.010\sym{**} &      -0.015         &      -0.017         &      -0.009\sym{***}\\
+                    &     (0.011)         &     (0.011)         &     (0.004)         &     (0.011)         &     (0.011)         &     (0.004)         \\
+\hline
+Media FEs           &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Month \& DoW FEs    &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &  \checkmark         &  \checkmark         &                     &  \checkmark         &  \checkmark         \\
+Drop multiple       &                     &  \checkmark         &  \checkmark         &                     &  \checkmark         &  \checkmark         \\
+Observations        &     421,728         &     414,144         &     414,144         &     417,335         &     409,830         &     409,830         \\
+Clusters (events)   &       4,393         &       4,314         &       4,314         &       4,393         &       4,314         &       4,314         \\
+Marginal Effect     &       0.006         &       0.006         &       0.001         &       0.021         &       0.020         &       0.003         \\
+\hline\hline
+\end{tabular}
+}

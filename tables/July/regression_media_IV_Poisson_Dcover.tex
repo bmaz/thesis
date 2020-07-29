@@ -1,0 +1,36 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+                    &\multicolumn{2}{c}{First stage}            &\multicolumn{4}{c}{Second stage}                                                       \\\cmidrule(lr){2-3}\cmidrule(lr){4-7}
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+                    &\multicolumn{1}{c}{Nb tweets}&\multicolumn{1}{c}{Nb tweets}&\multicolumn{1}{c}{Nb articles}&\multicolumn{1}{c}{Nb articles}&\multicolumn{1}{c}{Art. length}&\multicolumn{1}{c}{Art. length}\\
+\hline
+main                &                     &                     &                     &                     &                     &                     \\
+\textbf{Instrument} &                     &                     &                     &                     &                     &                     \\
+Low*Interactions    &        0.17\sym{***}&        0.17\sym{***}&                     &                     &                     &                     \\
+                    &      (0.04)         &      (0.04)         &                     &                     &                     &                     \\
+\textbf{Controls}   &                     &                     &                     &                     &                     &                     \\
+Low                 &        0.43\sym{*}  &        0.42\sym{*}  &        0.11         &        0.10         &        0.01         &        0.01         \\
+                    &      (0.25)         &      (0.25)         &      (0.07)         &      (0.07)         &      (0.01)         &      (0.01)         \\
+Interactions        &       -0.01         &       -0.01         &       -0.02\sym{*}  &       -0.02\sym{*}  &       -0.00         &       -0.00         \\
+                    &      (0.03)         &      (0.03)         &      (0.01)         &      (0.01)         &      (0.00)         &      (0.00)         \\
+Seed’s followers    &       -0.03         &       -0.03         &        0.01         &        0.01         &        0.00         &        0.00         \\
+                    &      (0.04)         &      (0.04)         &      (0.01)         &      (0.01)         &      (0.00)         &      (0.00)         \\
+Residuals (1st stage)&                     &                     &       -0.66         &       -0.93         &                     &                     \\
+                    &                     &                     &     (19.73)         &     (20.18)         &                     &                     \\
+\textbf{Second stage}&                     &                     &                     &                     &                     &                     \\
+Number of tweets    &                     &                     &       19.70\sym{***}&       19.66\sym{***}&        1.99         &        2.08         \\
+                    &                     &                     &      (5.91)         &      (5.98)         &      (2.31)         &      (2.32)         \\
+\hline
+Media FEs           &                     &                     &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Month \& DoW FEs    &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &                     &                     &                     &                     &                     \\
+Drop multiple       &                     &                     &                     &                     &                     &                     \\
+Model               &     Neg bin         &     Neg bin         &     Neg bin         &     Neg bin         &      Linear         &      Linear         \\
+Observations        &      58,836         &      57,799         &      58,836         &      57,799         &      58,836         &      57,799         \\
+Clusters (events)   &       3,435         &       3,374         &       3,435         &       3,374         &       3,435         &       3,374         \\
+Marginal effect (tweets)&                     &                     &       0.058         &       0.058         &                     &                     \\
+\hline\hline
+\end{tabular}
+}

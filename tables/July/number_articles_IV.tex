@@ -1,0 +1,32 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{2}{c}{Number of tweets}       &\multicolumn{2}{c}{Number of articles}     \\\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         \\
+\hline
+\textbf{Instrument} &                     &                     &                     &                     \\
+High pressure * Previous interactions&      -0.001\sym{***}&       0.012\sym{***}&                     &                     \\
+                    &     (0.000)         &     (0.000)         &                     &                     \\
+\textbf{Controls}   &                     &                     &                     &                     \\
+Previous interactions&       0.003\sym{***}&       0.002\sym{***}&       0.170\sym{***}&      -0.066\sym{***}\\
+                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+High pressure       &      -0.094\sym{***}&      -0.093\sym{***}&      -3.256\sym{***}&       2.210\sym{***}\\
+                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+Seed's followers (thsd)&       0.000\sym{***}&       0.000\sym{***}&       0.000\sym{***}&      -0.000\sym{***}\\
+                    &     (0.000)         &     (0.000)         &     (0.000)         &     (0.000)         \\
+\textbf{Second stage}&                     &                     &                     &                     \\
+Nb of tweets        &                     &                     &     -34.195\sym{***}&      60.562\sym{***}\\
+                    &                     &                     &     (0.000)         &     (0.000)         \\
+\hline
+Media FEs           &                     &                     &  \checkmark         &  \checkmark         \\
+Month \& DoW FEs    &                     &                     &  \checkmark         &  \checkmark         \\
+Drop media          &                     &                     &                     &  \checkmark         \\
+Drop multiple       &                     &                     &                     &  \checkmark         \\
+Observations        &     798,429         &     634,461         &     798,429         &     634,461         \\
+Underidentification (p-value)&                     &                     &        0.00         &        0.00         \\
+Mean DepVar         &                     &                     &       52.51         &       51.70         \\
+Sd DepVar           &                     &                     &      107.99         &      103.33         \\
+\hline\hline
+\end{tabular}
+}

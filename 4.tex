@@ -63,17 +63,17 @@ We downloaded the dataset and examined it: it seems that the data provided is in
 Compared to the previous works reviewed in this section, our contribution is fourfold:
 \begin{enumerate}
     \item We propose a new detection method capable of taking into account the temporal evolution of events.
-    \item Our approach treats articles from traditional media and Twitter separately at first, so as to preserve distinctive features of Twitter events. The identification of common events is a second step in the process.
+    \item Our approach deals with articles from traditional media and Twitter separately at first, so as to preserve distinctive features of Twitter events. The identification of common events is a second step in the process.
     \item We investigate the impact of URLs and hashtags (in addition to word similarity) in joint event detection.
     \item We conduct our experiments on a realistic dataset, which is not only composed of tweets that contain URLs, or tweets from media accounts.
 \end{enumerate}
 We describe the details of our joint event detection method in the following Section.
 \section{Methodology}
 \label{JointEventsMethodo}
-Our approach can be broken down into three steps: first, we perform the detection of Twitter events and media events separately. Then we represent the similarity between detected events in a weighted bi-partite graph. Finally, we apply a community detection algorithm in order to discover common events accross the two spheres.
+Our approach can be broken down into three steps: first, we perform the detection of Twitter events and media events separately. Then we represent the similarity between detected events in a weighted bi-partite graph. Finally, we apply a community detection algorithm in order to discover common events across the two spheres.
 
 \subsection{First Story Detection}
-Tweets and news articles are quite different in terms of length and type of vocabulary. Detecting joint events directly from a heterogeneous collection of documents may thus lead to a poor performance (see Section \ref{Joint_results}). In order to let Twitter-specific and media-specific clusters emerge, we thus perform a first event detection step separately for each type of document. We use the First Story Detection algorithm as described in Algorithm \ref{FSD mini}, which proved to be efficient both on tweets \citep{mazoyer2020french} and news articles \citep{cage2020production}. Since the total number of news articles is much smaller than the number of tweets, we only use mini-batches for tweets, and not for news articles. Second, since words are likely to be used multiple times in each news article, we use the standard tf-idf formulation for news articles representation while we only compute idf for tweets. The formula of idf and tf-idf are given below:
+Tweets and news articles are quite different in terms of length and type of vocabulary. Detecting joint events directly from a heterogeneous collection of documents may thus lead to a poor performance (see Section \ref{Joint_results}). In order to let Twitter-specific and media-specific clusters emerge, we thus perform a first event detection step separately for each type of document. We use the First Story Detection algorithm as described in Algorithm \ref{FSD mini}, Section \ref{Subsec: FSD}, which proved to be efficient both on tweets \citep{mazoyer2020french} and news articles \citep{cage2020production}. Since the total number of news articles is much smaller than the number of tweets, we only use mini-batches for tweets, and not for news articles. Second, since words are likely to be used multiple times in each news article, we use the standard tf-idf formulation for news articles representation while we only compute idf for tweets. The formula of idf and tf-idf are given below:
 \begin{align}
 idf(t) = 1 + log(n+1/df(t)+1)
 \end{align}
@@ -83,15 +83,15 @@ tf{\text -}idf(t, d) = tf(t, d) \times idf(t)
 where $n$ is the number of documents in the collection, $tf(t, d)$ is the term frequency, \textit{i.e.} the number of times a term $t$ occurs in a document $d$ and $df(t)$ is the document frequency, i.e. the number of documents in the collection that contain term $t$.
 
 \subsection{Event-similarity graph}
-Once events are detected separately in each sphere, we model the relationships between Twitter events and media events as a weighted bi-partite graph. In the rest of the Chapter, we denote $E_T = \{e_{T,1},\ldots,e_{T,f}\}$ the set of all Twitter events, and $E_M = \{e_{M,1},\ldots,e_{M,g}\}$ the set of all media events. We explore three types of links between Twitter events and media events: word-similarity, URLs and hashtags. 
+Once events are detected separately in each sphere, we model the relationships between Twitter events and media events as a weighted bi-partite graph. In the rest of the Chapter, we denote $E_T = \{e_{T,1},\ldots,e_{T,f}\}$ the set of all Twitter events, and $E_M = \{e_{M,1},\ldots,e_{M,g}\}$ the set of all media events. A Twitter event is composed of a set of tweets, and a media event is composed of a set of news articles. We explore three types of links between Twitter events and media events: word-similarity, URLs and hashtags. 
 \paragraph{Word-similarity.}
-In order to compute a word-similarity metric between Twitter events and media events, we represent each event as the average of the tf-idf vectors of all documents it contains. The word-similarity between two events is computed as the cosine similarity between these average vectors and used to weight the edge between the two events:
+In order to compute a word-similarity metric between Twitter events and media events, we represent each event as the average of the tf-idf vectors of all documents it contains. The vocabulary used to compute tf-idf is the union of the two vocabularies (vocabulary of tweets and vocabulary of news). The word-similarity between two events is computed as the cosine similarity between these average vectors and used to weight the edge between the two events:
 	\begin{equation}
     weight_{text}(e_T, e_M) = \frac{\vec{e_T} \cdot \vec{e_M}}{\| \vec{e_T}\|\| \vec{e_M}\|}
 	\end{equation}
-Where $\vec{e}$ is the average of the tf-idf vectors of all documents in $e$. To facilitate the community detection step (see Section \ref{Community detection}) , we then remove the edges with a too weak cosine similarity. We denote $s$ the minimum similarity.
+Where $\vec{e}$ is the average of the tf-idf vectors of all documents in $e$. To facilitate the community detection step (see Section \ref{Community detection}) , we then remove the edges with a too weak cosine similarity. We denote $s$ the similarity threshold.
 
-\paragraph{Hashtags.} The graph of hashtag relationships between Twitter events and media events is built as follows: if some of the tweets of a Twitter event and some of the articles of a media event have hashtags in common, we draw an edge between the two events. The weight of hashtags is computed as follows:
+\paragraph{Hashtags.} The graph of hashtag relationships between Twitter events and media events is built as follows: if some of the tweets of a Twitter event and some of the articles of a media event have hashtags in common, we draw an edge between the two events. Thehashtag weight is computed as follows:
 \begin{equation}
     weight_{htag}(e_T, e_M) = \frac{h(e_T, e_M)}{\max \{h(e_T, e_M): e_T \in E_T,e_M \in E_M \}}
 \end{equation}
@@ -131,11 +131,11 @@ The most common of these objective functions is the modularity \citep{newman2004
 \end{equation}
 where 
 \begin{itemize}
-    \item $weight(i,j)$ represents the weight of the edge between $i$ and $j$, 
+    \item $weight(i,j)$ represents the weight of the edge between nodes $i$ and $j$, 
     \item $k_i = \sum\limits_j weight(i,j)$ is the weighted degree of $i$,
     \item $c_i$ is the community to which node $i$ is assigned,
     \item $\delta(x, y)$ is $1$ if $x = y$ and $0$ otherwise, and
-    \item $m= \sum\limits_{ij} weight(i,j)$ is the weighted sum of edges.
+    \item $m= \sum\limits_{ij} weight(i,j)$ is the weighted sum of all edges in the graph.
 \end{itemize}
 The Louvain algorithm \citep{blondel2008fast} is, to the best of our knowledge, the fastest algorithm to find a partition of the nodes that maximizes modularity. We therefore use this algorithm to identify communities within the event-similarity graph.
 
@@ -155,7 +155,7 @@ Our event similarity graph is expected to contain a lot of very small communitie
 
 \section{Experimental Setup}
 \subsection{Dataset}
-We test our approach on the dataset presented in Chapter 2: it contains 95,796 tweets annotated as being related to one of 327 ``daily events" (events were drawn day by day and merged afterwards into 257 ``macro events"). Among these daily events, 296 are actually news articles drawn randomly from a pool of French daily newspapers. The 31 remaining events were detected by monitoring unusually frequent terms on Twitter every day (see Section \ref{Twitter events selection}). We could manually associate 27 of them to a news article from the OTMedia collection \citep{herve2019otmedia}. Concerning the last 4 events, we consider them to be purely Twitter events that cannot be merged into a joint event, since we could not find any coverage of these events in traditional media. This makes our dataset all the more realistic: many Twitter events never lead to an article in mainstream media.
+We test our approach on the dataset presented in Chapter 2: it contains 95,796 tweets annotated as being related to one of 327 ``daily events" (events were drawn day by day and merged afterwards into 257 ``macro events"). Among these daily events, 296 are actually news articles drawn randomly from a pool of French daily newspapers. The 31 remaining events were detected by monitoring unusually frequent terms on Twitter every day (see Section \ref{Twitter events selection}). We could manually associate 27 of them to a news article from the OTMedia collection \citep{herve2019otmedia}. Concerning the last 4 events, we consider them to be purely Twitter events that cannot be merged into a joint event, since we could not find any coverage of these events in traditional media. This is not surprising: many Twitter events never lead to an article in mainstream media.
 
 We ran the FSD algorithm on the OTMedia collection in order to automatically group the selected articles with other articles adressing the same topics. From these 323 articles (296 + 27), 167 were automatically clustered with other articles from our pool. In total, we obtained 15,544 news articles from 61 media outlets. We are aware that automatically grouping articles using the FSD algorithm may bias the dataset in favour of our approach, since part of it relies on the FSD algorithm. In order to prove the validity of our approach, we therefore systematically present two type of results: first, results computed on the entire dataset, second, results computed only on tweets (which were all manually annotated and are therefore not biased).
 
@@ -252,6 +252,6 @@ Table \ref{Tab: best_results_louvain} shows the comparative results of our appro
 
 
 \section{Conclusion}
-In this Chapter, we propose a novel event detection method across heterogeneous types of news documents. Our approach is able to take into account the multi-modal relationships (URLs, hashtags, words) between Twitter events and media events. However, we show that using word similarity alone does not significantly decrease performance and simplifies the model in terms of the number of parameters. Overall, our model outperforms a joint clustering algorithm on all tested subsets. Future works should focus on implementing existing methods from the literature \citep{mele_linking_2017, hua_topical_2016} in order to prove the superiority of our approach on a realistic dataset.
+In this Chapter, we propose a novel event detection and linking method across heterogeneous types of news documents. Our approach is able to take into account the multi-modal relationships (URLs, hashtags, words) between Twitter events and media events. However, we show that using word similarity alone does not significantly decrease performance and simplifies the model in terms of the number of parameters. Overall, our model outperforms a joint clustering algorithm on all tested subsets. Future works should focus on implementing existing methods from the literature \citep{mele_linking_2017, hua_topical_2016} in order to prove the superiority of our approach on a realistic dataset.
 
 This work opens the way for an in-depth analysis of the relationships between Twitter and traditional news media, which we present in the next Chapter.

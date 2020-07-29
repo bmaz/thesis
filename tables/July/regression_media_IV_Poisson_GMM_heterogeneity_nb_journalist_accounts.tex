@@ -1,0 +1,29 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+                    &\multicolumn{3}{c}{Low nb journalists on Twitter}                &\multicolumn{3}{c}{High nb journalists on Twitter}               \\\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         &\multicolumn{1}{c}{(6)}         \\
+\hline
+Number of articles  &                     &                     &                     &                     &                     &                     \\
+Number of tweets    &       0.048\sym{***}&       0.048\sym{***}&       0.048\sym{***}&       0.039\sym{***}&       0.039\sym{***}&       0.038\sym{***}\\
+                    &     (0.010)         &     (0.010)         &     (0.010)         &     (0.009)         &     (0.009)         &     (0.009)         \\
+Low                 &       0.150         &       0.141         &       0.141         &       0.193\sym{**} &       0.186\sym{**} &       0.188\sym{**} \\
+                    &     (0.101)         &     (0.102)         &     (0.102)         &     (0.092)         &     (0.093)         &     (0.094)         \\
+Interactions        &      -0.042\sym{**} &      -0.044\sym{**} &      -0.044\sym{**} &      -0.034\sym{**} &      -0.035\sym{**} &      -0.034\sym{**} \\
+                    &     (0.020)         &     (0.021)         &     (0.021)         &     (0.016)         &     (0.016)         &     (0.016)         \\
+Seed's number of followers&       0.002         &       0.003         &       0.003         &       0.005         &       0.006         &       0.005         \\
+                    &     (0.018)         &     (0.019)         &     (0.019)         &     (0.017)         &     (0.017)         &     (0.018)         \\
+Number of journalists&                     &                     &       0.025\sym{***}&                     &                     &       0.002\sym{***}\\
+                    &                     &                     &     (0.000)         &                     &                     &     (0.000)         \\
+\hline
+Media FEs           &  \checkmark         &  \checkmark         &                     &  \checkmark         &  \checkmark         &                     \\
+Month \& DoW FEs    &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &  \checkmark         &  \checkmark         &                     &  \checkmark         &  \checkmark         \\
+Drop multiple       &                     &  \checkmark         &  \checkmark         &                     &  \checkmark         &  \checkmark         \\
+Observations        &     103,050         &     101,220         &     101,220         &     309,150         &     303,660         &     161,952         \\
+Clusters (events)   &       3,435         &       3,374         &       3,374         &       3,435         &       3,374         &       3,374         \\
+Marginal Effect     &       0.012         &       0.013         &       0.013         &       0.018         &       0.018         &       0.032         \\
+\hline\hline
+\end{tabular}
+}

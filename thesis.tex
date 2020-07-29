@@ -65,7 +65,7 @@ bottom=30mm
 %\bibliographystyle{apalike}
 % Thesis title
 \newcommand{\PhDTitle}{Social Media Stories}
-\newcommand{\PhDSubtitle}{Event detection in heterogeneous streams of news to study the influences of social networks on traditional media}
+\newcommand{\PhDSubtitle}{Event detection in heterogeneous streams of documents applied to the study of information spreading across social and news media}
 
 % Name
 \newcommand{\PhDname}{Béatrice MAZOYER} 
@@ -105,7 +105,10 @@ bottom=30mm
     \bibliography{bibliography.bib}
     \appendix
     \input{appendices/1}
+    \cleardoublepage
     
-    \blankpage{}
+    \input{layout/publications}
+    \cleardoublepage
+    
     \input{layout/lastpage.tex}
 \end{document}

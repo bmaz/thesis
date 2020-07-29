@@ -53,7 +53,7 @@ one that is as complete as possible.
 
 The properties of a given corpus have an impact on the implementation of the detection algorithm: for example, if all events in our corpus tend to grow at a high rate (i.e. people react very quickly to that event on social media), a simple way to increase the performance of our algorithm would be to select groups of tweets that have a high growth rate and discard others as ``non-events". However, the resulting approach would be incapable of detecting other types of events and would thus introduce bias in our results. Therefore, the choices made during the creation of the annotated corpus are critical to ensure that our program can detect a large variety of events.
 
-The size of events is also an important parameter that needs to be taken into account: small events that generate few tweets are difficult to detect automatically and this is precisely why they need to be represented in our test corpus. On the other hand, large events, such as the 2018 FIFA World Cup, generate such a large volume of tweets that it is impossible to annotate all of them manually. This is an inevitable flaw in any manually annotated corpus. We take this flaw into account when evaluating the event detection algorithm  \textbf{\color{orange}(see Section?).}
+The size of events is also an important parameter that needs to be taken into account: small events that generate few tweets are difficult to detect automatically and this is precisely why they need to be represented in our test corpus. On the other hand, large events, such as the 2018 FIFA World Cup, generate such a large volume of tweets that it is impossible to annotate all of them manually. This is an inevitable flaw in any manually annotated corpus.
 
 It is also necessary to ensure the diversity of events in the corpus in terms of topic (sport, economy, science and technology, etc.) and regarding the origin of events (events having emerged on Twitter vs. events first covered by news media). The diversity of tweets inside each annotated event is also of importance: ideally, tweets should originate from a variety of sources, and not be written only by journalists or media accounts.
 
@@ -85,8 +85,7 @@ The SNOW dataset \citep{papadopoulos_snow_2014} can also be used as a test corpu
 \input{tables/summary_datasets}
 }
 \end{center}
-\scriptsize \textbf{Notes:} The number of collected documents only takes tweets (or images for the MediaEval dataset) into account: news articles or RSS-feeds are not taken into account. The Event2018 dataset in the last row is not presented in this state of the art since it is our own dataset.
-\caption{Summary table of existing datasets for event detection on social networks \label{Tab:datasets}}
+\caption[Summary table of existing datasets for event detection on social networks]{Summary table of existing datasets for event detection on social networks \label{Tab:datasets}. The number of collected documents only takes tweets (or images for the MediaEval dataset) into account: news articles or RSS-feeds are not taken into account. The Event2018 dataset in the last row is not presented in this state of the art since it is our own dataset.}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -131,8 +130,8 @@ This API does not meet our needs, since the proportion of tweets in French is on
 \begin{center}
 \includegraphics[width=1\textwidth]{figures/HistogramLanguages.pdf}
 \end{center}
-{\scriptsize \textbf{Notes:} This figure plots the average number of tweets collected  per day using the Sample API in the 20 most frequent languages on Twitter. The language metadata is provided by Twitter. "und" stands for "undefined" language.}
-\caption{Average number of tweets per day in each language collected using the Sample API}
+
+\caption[Average number of tweets per day in each language collected using the Sample API]{Average number of tweets per day in each language collected using the Sample API. This figure plots the average number of tweets collected  per day using the Sample API in the 20 most frequent languages on Twitter. The language metadata is provided by Twitter. "und" stands for "undefined" language.}
 \label{Figure:HistogramLanguages}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -181,8 +180,7 @@ In practice, we collected our corpus $C_0$ of sample tweets between $d_{t,start}
 \begin{center}
 \includegraphics[scale=.5]{figures/KL_K=3.pdf}
 \end{center}
-{\scriptsize \textbf{Notes:} This figure plots the daily evolution of the KL-divergence between the word distribution in collection $C_1 French$ and the distribution obtained using 4 collection methods. The ``Reference" is obtained by splitting the collection $C_1 French$ into two sets and computing the KL-divergence between them. A KL-divergence of 0 indicates a perfect similarity between 2 distributions.}
-\caption{Daily evolution of the divergence between collection $C_1 French$ and the collections $C_{K,N}$ with $K = 3$}
+\caption[Daily evolution of the divergence between collection $C_1 French$ and the collections $C_{K,N}$ with $K = 3$.]{Daily evolution of the divergence between collection $C_1 French$ and the collections $C_{K,N}$ with $K = 3$. This figure plots the daily evolution of the KL-divergence between the word distribution in collection $C_1 French$ and the distribution obtained using 4 collection methods. The ``Reference" is obtained by splitting the collection $C_1 French$ into two sets and computing the KL-divergence between them. A KL-divergence of 0 indicates a perfect similarity between 2 distributions.}
 \label{Figure:KL_K=3}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -229,9 +227,8 @@ This measure is not symmetric, since it is meant to measure the difference betwe
 \begin{center}
 \includegraphics[width=1\textwidth]{figures/HistogramLanguagesFilter.pdf}
 \end{center}
-\scriptsize \textbf{Notes:} This figure plots the average number of tweets collected per day using our best collection method in the 20 most frequent languages on Twitter. The language metadata is provided by Twitter. "und" stands for "undefined" language.
 
-\caption{Average number of tweets per day in each language collected using the Sample API combined to our best collection method}
+\caption[Average number of tweets per day in each language collected using the Sample API combined to our best collection method]{Average number of tweets per day in each language collected using the Sample API combined to our best collection method. This figure plots the average number of tweets in the 20 most frequent languages on Twitter. The language metadata is provided by Twitter. "und" stands for "undefined" language.}
 \label{Figure:HistogramLanguagesFilter}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -251,9 +248,8 @@ The tweet collection tool has been running from June 2018 to the present day, al
 \begin{center}
 \includegraphics[width=1\textwidth]{figures/ShareinCommonWithDL.pdf}
 \end{center}
-\scriptsize \textbf{Notes:} This Figure plots the share of tweets from the DLWeb that we were also able to capture using our collection method. Blue columns represent the ratio for all tweets, yellow columns represent the ratio for original tweets (\textit{i.e.} retweets excluded). The grey line shows the number of original tweets (\textit{i.e.} retweets excluded) captured by the DLWeb for each hashtag. Tweets were collected from December 1st to December 31st, 2018.
 
-\caption{Share of DLWeb tweets captured using our collection method for a set of 25 hashtags}
+\caption[Share of DLWeb tweets captured using our collection method for a set of 25 hashtags.]{Share of DLWeb tweets captured using our collection method for a set of 25 hashtags. Blue columns represent the ratio for all tweets, yellow columns represent the ratio for original tweets (\textit{i.e.} retweets excluded). The grey line shows the number of original tweets (\textit{i.e.} retweets excluded) captured by the DLWeb for each hashtag. Tweets were collected from December 1st to December 31st, 2018.}
 \label{Figure:HistogramHashtagsDLWeb}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -271,9 +267,8 @@ In order to validate our collection method with a more stable comparison dataset
 \begin{center}
 \includegraphics[width=1\textwidth]{figures/ShareInCommonWithMedialab.pdf}
 \end{center}
-\scriptsize \textbf{Notes:} This Figure plots the share of tweets from the Médialab that we were also able to capture using our collection method for the first 25 domain names in terms of original tweets in their dataset. Blue columns represent the ratio for all tweets, yellow columns represent the ratio for original tweets (\textit{i.e.} retweets excluded). The grey line shows the number of original tweets (\textit{i.e.} retweets excluded) captured by the Médialab for each domain. Tweets were collected from December 1st to December 31st, 2018.
 
-\caption{Share of tweets from the Médialab also captured using our collection method for 25 domain names}
+\caption{Share of tweets from the Médialab also captured using our collection method for 25 domain names. Blue columns represent the ratio for all tweets, yellow columns represent the ratio for original tweets (\textit{i.e.} retweets excluded). The grey line shows the number of original tweets (\textit{i.e.} retweets excluded) captured by the Médialab for each domain. Tweets were collected from December 1st to December 31st, 2018.}
 \label{Figure:HistogramUrlsMedialab}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -424,10 +419,9 @@ descriptive statistics are presented in Table \ref{Tab:event_distrib}.
 \begin{table}
 \begin{center}
 \makebox[\textwidth][c]{\input{tables/distribution_events}}
-{\scriptsize \textbf{Note:} \textit{annotated} tweets were found by annotators using search
-keywords but not necessarily considered \\as \textit{linked to an event}. \textit{Macro events} were built manually after annotation by grouping \textit{daily events} together.}
 \end{center}
-\caption{Distribution of the number of tweets per event. \label{Tab:event_distrib}}
+\caption[Distribution of the number of tweets per event]{Distribution of the number of tweets per event. \label{Tab:event_distrib}. \textit{annotated} tweets were found by annotators using search
+keywords but not necessarily considered \\as \textit{linked to an event}. \textit{Macro events} were built manually after annotation by grouping \textit{daily events} together.}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -517,9 +511,8 @@ where $N$ is the total number of cases (here the number of tweets to annotate), 
 \begin{center}
 \includegraphics[width=1\textwidth]{figures/HistogramEventsDistributionByKappa.pdf}
 \end{center}
-{\scriptsize \textbf{Lecture Note:} In our corpus, 121 events have a free-marginal multirater kappa higher than 0.9, 69 events have a free-marginal multirater kappa between 0.8 and 0.9, etc.
-}
-\caption{Distribution of the events depending on annotators' agreement, measured by free-marginal multirater kappa}
+
+\caption[Distribution of the events depending on annotators' agreement, measured by free-marginal multirater kappa]{Distribution of the events depending on annotators' agreement, measured by free-marginal multirater kappa. In our corpus, 121 events have a free-marginal multirater kappa higher than 0.9, 69 events have a free-marginal multirater kappa between 0.8 and 0.9, etc.}
 \label{Figure:HistogramEventsByKappa}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%

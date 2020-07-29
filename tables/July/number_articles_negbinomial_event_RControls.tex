@@ -1,0 +1,32 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{5}{c}}
+\hline\hline
+                    &\multicolumn{5}{c}{Number of articles}                                                                       \\\cmidrule(lr){2-6}
+                    &\multicolumn{1}{c}{(1)}         &\multicolumn{1}{c}{(2)}         &\multicolumn{1}{c}{(3)}         &\multicolumn{1}{c}{(4)}         &\multicolumn{1}{c}{(5)}         \\
+\hline
+Nb articles         &                     &                     &                     &                     &                     \\
+Number of tweets    &       0.057\sym{***}&       0.058\sym{***}&       0.028\sym{***}&       0.028\sym{***}&       0.028\sym{***}\\
+                    &     (0.015)         &     (0.015)         &     (0.010)         &     (0.010)         &     (0.011)         \\
+Seed's number of followers&      -0.011         &      -0.011         &       0.003         &       0.000         &      -0.001         \\
+                    &     (0.011)         &     (0.011)         &     (0.011)         &     (0.013)         &     (0.013)         \\
+Reaction time 1st media&                     &                     &       0.199\sym{***}&       0.202\sym{***}&       0.199\sym{***}\\
+                    &                     &                     &     (0.018)         &     (0.018)         &     (0.018)         \\
+Nb of tweets the seed has liked&                     &                     &                     &      -0.000\sym{*}  &      -0.000\sym{*}  \\
+                    &                     &                     &                     &     (0.000)         &     (0.000)         \\
+Nb of users the seed's account is following&                     &                     &                     &      -0.000         &      -0.000         \\
+                    &                     &                     &                     &     (0.000)         &     (0.000)         \\
+Nb of public lists  &                     &                     &                     &       0.000         &       0.000         \\
+                    &                     &                     &                     &     (0.000)         &     (0.000)         \\
+Seed's total nb of tweets&                     &                     &                     &       0.000         &       0.000         \\
+                    &                     &                     &                     &     (0.000)         &     (0.000)         \\
+\hline
+Month \& DoW FEs    &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &                     &                     &                     &                     &  \checkmark         \\
+Drop multiple       &                     &                     &                     &                     &  \checkmark         \\
+Time of the day     &                     &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Observations        &       4,392         &       4,392         &       4,392         &       4,392         &       4,313         \\
+Marginal Effect (tweets)&         3.2         &         3.4         &         1.5         &         1.5         &         1.5         \\
+\hline\hline
+\end{tabular}
+}

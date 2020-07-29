@@ -1,0 +1,32 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{Nat. dail.}&\multicolumn{1}{c}{Local dail.}&\multicolumn{1}{c}{Weeklies}&\multicolumn{1}{c}{Pure online}&\multicolumn{1}{c}{TV}&\multicolumn{1}{c}{Radio}\\\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}\cmidrule(lr){6-6}\cmidrule(lr){7-7}
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+                    &\multicolumn{1}{c}{Nb articles}&\multicolumn{1}{c}{Nb articles}&\multicolumn{1}{c}{Nb articles}&\multicolumn{1}{c}{Nb articles}&\multicolumn{1}{c}{Nb articles}&\multicolumn{1}{c}{Nb articles}\\
+\hline
+Nb articles         &                     &                     &                     &                     &                     &                     \\
+\textbf{Second stage}&                     &                     &                     &                     &                     &                     \\
+Number of tweets    &       28.81\sym{***}&       32.06\sym{***}&       32.20\sym{***}&       36.42\sym{***}&       43.05\sym{***}&       31.81\sym{***}\\
+                    &      (6.50)         &      (6.58)         &      (6.95)         &      (7.36)         &      (7.25)         &      (6.17)         \\
+\textbf{Controls}   &                     &                     &                     &                     &                     &                     \\
+Low                 &        0.14         &        0.22\sym{**} &        0.17\sym{*}  &        0.00         &        0.14         &        0.30\sym{***}\\
+                    &      (0.10)         &      (0.09)         &      (0.10)         &      (0.10)         &      (0.11)         &      (0.11)         \\
+Interactions        &       -0.02         &       -0.01         &       -0.01         &       -0.01         &        0.01         &       -0.00         \\
+                    &      (0.02)         &      (0.02)         &      (0.02)         &      (0.02)         &      (0.02)         &      (0.01)         \\
+Seed’s followers    &        0.00         &       -0.00         &       -0.00         &       -0.01         &       -0.01         &        0.01         \\
+                    &      (0.02)         &      (0.02)         &      (0.02)         &      (0.02)         &      (0.02)         &      (0.02)         \\
+Residuals (1st stage)&      -23.45         &      -70.53         &      -26.74         &      -15.27         &     -157.53         &     -141.60\sym{*}  \\
+                    &     (68.24)         &     (73.17)         &     (74.17)         &     (94.86)         &    (112.95)         &     (74.14)         \\
+\hline
+Media FEs           &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Month \& DoW FEs    &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop media          &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Drop multiple       &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         &  \checkmark         \\
+Observations        &      37,114         &      94,472         &     121,464         &     219,310         &      23,618         &      37,114         \\
+Clusters (events)   &       3,374         &       3,374         &       3,374         &       3,374         &       3,374         &       3,374         \\
+Marginal effect (tweets)&       0.018         &       0.012         &       0.008         &       0.003         &       0.015         &       0.013         \\
+\hline\hline
+\end{tabular}
+}

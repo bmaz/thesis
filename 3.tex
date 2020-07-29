@@ -52,7 +52,7 @@ only on English language corpora.
 
 Finally, most of these models are designed to be used as input to
 end-to-end systems. For example, to calculate a similarity score between sentences
-with BERT~\citep{devlin2018bert}, it is necessary to process each couple of sentences instead of each sentence. Using the example proposed in \citep{reimers_2019_sentence}, to find the two most similar sentences in a corpus of $n = 10,000$ sentences, the number of treatments to be performed is $n\frac{(n - 1)}{2} = 49,995,000$ operations, which represents approximately 65 hours of processing with BERT on a V100 GPU.
+with BERT~\citep{devlin2018bert}, it is necessary to process sentences in pair instead of individually. Using the example proposed in \citep{reimers_2019_sentence}, to find the two most similar sentences in a corpus of $n = 10,000$ sentences, the number of treatments to be performed is $n\frac{(n - 1)}{2} = 49,995,000$ operations, which represents approximately 65 hours of processing with BERT on a V100 GPU.
 These architectures do not apply well to information retrieval systems that involve comparing
 hundreds of thousands of sentences. For clustering or information retrieval tasks, 
 it is more efficient to represent each sentence in a vector space where similar sentences
@@ -151,14 +151,14 @@ However, these advances seem to increase calculation times by several orders of 
  	 
 
 
-	\subsubsection{Dynamic clustering \label{Subsubsec: incremental clustering}} Dynamic clustering approaches do not require a fixed number of clusters. These methods are well fitted for discovering clusters of textual documents dynamically as new documents are added to the collection. For this type of clustering, the algorithms that are often used take into account both the thematic similarity of the documents and their temporal proximity, in order to avoid grouping in the same cluster tweets sent at very distant times. This type of approach generally uses the state-of-the-art First Story Detection (FSD) \citep{allan_introduction_2002} algorithm as a reference method. In this method (see Algorithm \ref{FSD}), documents are represented using tf-idf (see Section \ref{Text embeddings} for a presentation of tf-idf encoding) and their similarity is evaluated using cosine similarity. The cosine similarity of two vectors $a$ and $b$  is computed as follows:
+	\subsubsection{Dynamic clustering \label{Subsubsec: incremental clustering}} Dynamic clustering approaches do not require a fixed number of clusters. These methods are well fitted for discovering clusters of textual documents dynamically as new documents are added to the collection. For this type of clustering, the algorithms that are often used take into account both the thematic similarity of the documents and their temporal proximity, in order to avoid grouping in the same cluster tweets sent at very distant times. This type of approach generally uses the state-of-the-art First Story Detection (FSD) \citep{allan_introduction_2002} algorithm as a reference method. In this method (see Algorithm \ref{FSD}), documents are represented using tf-idf (see Section \ref{Text embeddings} for a presentation of tf-idf encoding) and their similarity is evaluated using cosine similarity. The cosine similarity of two vectors $u$ and $v$  is computed as follows:
 	\begin{align}
-    cos(a, b) = \frac{a \cdot b}{\| a\|\| b\|}
+    cos(u, v) = \frac{u \cdot v}{\| u\|\| v\|}
 	\end{align}
 	
-	We denote $\delta(a,b)$ the cosine distance between $a$ and $b$, which is defined as:
+	We denote $\delta(u,v)$ the cosine distance between $u$ and $v$, which is defined as:
 	\begin{align}
-	    \delta(a,b) = 1 - cos(a, b)
+	    \delta(u,v) = 1 - cos(u, v)
 	\end{align}
 	
 	Each new document joins the cluster of its nearest neighbor in the collection. If the cosine distance to the nearest neighbor is higher than a pre-defined threshold $t$, a new cluster is created containing the new document. The oldest documents are dropped from the collection at regular intervals. This insures that each new document is only compared to the most recent documents. 
@@ -304,7 +304,7 @@ In order to match the listed requirements, we model the event detection problem 
 \subsubsection{Mini-batch First Story Detection}
 \label{Subsec: FSD}
  Our first change consists in introducing ``mini-batches" of $b$ tweets. Strictly speaking, we do not parallel the search for a closer neighbor. We use the fact that 
-computing cosine distances between two sets of documents is essentially a matrix multiplication. In the multiplication of two sparse\footnote{A sparse matrix is a matrix in which most elements are zeros. This is the case for tf-idf matrices: since each column represents a word in the vocabulary, and since each document only contains a few words, the rows (which represent documents) are therefore mostly composed of zeros. Sparse matrices require a specific format, where only nonzero elements are stored.} matrices, it is much more efficient to multiply a matrix $A_{(b,|V|)}$ ($|V|$ is the size of the vocabulary) by a matrix $B_{(|V|,w)}$ ($w$ is the number of past tweets among which we search for a nearest neighbor) than to multiply $b$ vectors of size $|V|$ by the same matrix $B_{(|V|,w)}$. Indeed, using the SMMP algorithm\footnote{This algorithm is implemented for sparse matrix multiplication in the python scipy module.} \citep{banks_sparse_1993}, the complexity of sparse matrix multiplication is $o(bZ^2 + max(b,w))$  where $Z$ is the maximum number of non-zero values in a row of $A$ and in a column of $B$. If we took the documents one-by-one (no batch), computing the cosine similarities for $b$ documents would be of complexity $o(b(Z
+computing cosine distances between two sets of documents is essentially a matrix multiplication. In the multiplication of two sparse\footnote{A sparse matrix is a matrix in which most elements are zeros. This is the case for tf-idf matrices: since each column represents a word in the vocabulary, and since each document only contains a few words, the rows (which represent documents) are therefore mostly composed of zeros. Sparse matrices require a specific format, where only nonzero elements are stored.} matrices, it is much more efficient to multiply a matrix $A_{(b,|V|)}$ ($|V|$ is the size of the vocabulary) by a matrix $B_{(|V|,w)}$ ($w$ is the window size, i.e. number of past tweets among which we search for a nearest neighbor) than to multiply $b$ vectors of size $|V|$ by the same matrix $B_{(|V|,w)}$. Indeed, using the SMMP algorithm\footnote{This algorithm is implemented for sparse matrix multiplication in the python scipy module.} \citep{banks_sparse_1993}, the complexity of sparse matrix multiplication is $o(bZ^2 + max(b,w))$  where $Z$ is the maximum number of non-zero values in a row of $A$ and in a column of $B$. If we took the documents one-by-one (no batch), computing the cosine similarities for $b$ documents would be of complexity $o(b(Z
 ^2 + max(1, w))$.
  
  Our version of the algorithm also deals with ``empty" documents, i.e. documents that contain no words or only stop-words. This is frequently the case in datasets of tweets. Empty documents are not clustered, i.e. labeled as $-1$. Our version of the algorithm is described in Algorithm \ref{FSD mini}.
@@ -404,7 +404,7 @@ The generative process of DMM is presented in Section \ref{topic models}. We use
 For each of the tested approaches, we optimize the parameters in order to obtain the best possible results for a given algorithm. In this section, we first present our choice of parameters for each model. We then detail the different types of vector representations of tweets tested with the FSD algorithm. Finally, we justify our choice of evaluation metrics.
 
 \subsection{Choice of parameters}
-
+\label{SubSec: Choice of parameters}
 \subsubsection{FSD parameters}
 The parameters of the FSD algorithm are $w$, the number of past tweets among which we search for a nearest neighbor, and $t$, the distance threshold above which a tweet is considered sufficiently distant from past tweets to form a new cluster. The value of $w$ has been set differently for each corpus: it is set to approximately one day of tweet history, based on the average number of tweets per day in each corpus. We then tested different values of $t$ for each type of representation. Generally speaking, lower $t$ values lead to more frequent clustering, and thus better intra-cluster homogeneity (better precision), but may lead to over-clustering (lower recall).
 
@@ -423,7 +423,7 @@ Thus, we select the minimum value of $r$ on a dataset where all tweets are consi
 Both RBF and triangular classifiers are trained on a random sample of 50\% of the corpus. For the RBF kernel, we perform a grid search to optimize the $\gamma$ parameter. 
 
 \subsubsection{DBSCAN parameters}
-DBSCAN uses 2 parameters: the distance $\epsilon$ and the minimum number of points $m$ that must be within a radius $\epsilon$ for these points to be considered a cluster. The $\epsilon$ parameter controls the local neighborhood of each point. A too large $\epsilon$ leads to different clusters being merged, while a too small $\epsilon$ will cause most points to be labelled as ``outliers". The $m$ parameter controls the tolerance to noise. Since we run tests only on the annotated part of the datasets (only event-related tweets), the level of noise is rather low, and small values of $m$ are sufficient. We test different values of $m$ and $\epsilon$ for each corpus.
+DBSCAN uses 2 parameters: the distance $\epsilon$ and the minimum number of points $\mu$ that must be within a radius $\epsilon$ for these points to be considered a cluster. The $\epsilon$ parameter controls the local neighborhood of each point. A too large $\epsilon$ leads to different clusters being merged, while a too small $\epsilon$ will cause most points to be labelled as ``outliers". The $\mu$ parameter controls the tolerance to noise. Since we run tests only on the annotated part of the datasets (only event-related tweets), the level of noise is rather low, and small values of $\mu$ are sufficient. We test different values of $\mu$ and $\epsilon$ for each corpus.
 
 The vectors given as input to the DBSCAN algorithm are the same tdidf vectors as for the FSD algorithm (tfidf-all-tweets, see Section \ref{Subsubsec: text} for the detail of textual representations). Therefore, we also selected the cosine distance as metric.
 
@@ -432,7 +432,7 @@ The vectors given as input to the DBSCAN algorithm are the same tdidf vectors as
 
 \citet{yin_dirichlet_2014} provide an in-depth analysis of the role of the different parameters. They show that the parameter $\alpha$ has a rather small influence on the performance of the algorithm when set to values between 0 and 1. The value of $\beta$ has an influence on the number of non-empty clusters, and hence on the homogeneity of GSDMM: higher values of $\beta$ will result in a lower homogeneity, and a higher completeness. Concerning the number of iterations, GSDMM seems to reach a stable number of clusters within 10 iterations on all 4 tested datasets. Finally, the optimal value of the initial number of clusters $K$ depends on the actual number of topics within the dataset: $K$ has to be significantly larger than the ground truth number of topics. However, setting $K$ to a high value can decrease the time efficiency of the algorithm, since the time complexity of GSDMM is $O(KD\Bar{L})$ with $D$ the total number of documents, and $\Bar{L}$ the average document length.
 
-Taking into account these different factors, we conducted the experiments by setting $\alpha=0.1$, $i=20$, and $\beta \in [0.08, 0.12]$, which seem to be the values for which the algorithm's performance is the best. We set $K$ differently for each corpus: for the French corpus, with 257 events, we set $K$ to 450. For the corpus by \citet{mcminn_building_2013}, with 505 events, we set $K$ to 700. For each corpus, we apply the same preprocessing as for the FSD algorithm with tf-idf (see Table \ref{Tab:preprocessing}) : remove mentions, stop-words, urls, long numbers, punctuation, split hashtags on capital letters, lowercase and transpose to ASCII characters.
+Taking into account these different factors, we conducted the experiments by setting $\alpha=0.1$, $i=100$, and $\beta \in [0.001, 0.1]$, which seem to be the values for which the algorithm's performance is the best. We set $K$ differently for each corpus: for the French corpus, with 257 events, we set $K$ to 500. For the corpus by \citet{mcminn_building_2013}, with 505 events, we set $K$ to 1000. For each corpus, we apply the same preprocessing as for the FSD algorithm with tf-idf (see Table \ref{Tab:preprocessing}) : remove mentions, stop-words, urls, long numbers, punctuation, split hashtags on capital letters, lowercase and transpose to ASCII characters.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[ht]
@@ -556,7 +556,7 @@ F1{\text -}score = 2 \cdot \frac{precison \cdot recall}{precision + recall}
 \label{metric_best_matching}
 Event detection performance is evaluated by a measure we call ``best matching F1". It is defined by \citet{yang1998study}: we evaluate the F1 score of each (cluster, event) pair.\footnote{Clusters are detected by the algorithm, while events are annotated in the ground truth} Each event is then matched to the cluster for which the F1-score is the best. Each event can be associated to only one cluster. The best matching F1 thus corresponds to the average of the F1-scores of the cluster/event pairs, once the matching is done.
 
-We chose to use this metric, rather than the one defined by \citet{mcminn_real_2015}: they consider all clusters with more than 75 tweets as candidate events. A candidate is evaluated as true positive if 5\% or more than 15 tweets of the candidate's tweets match those of an annotated event. We denote $a$ the number of true positives. From the detail of their experimental results, we can deduce that all candidates that match with a ground truth's event are counted as true positives, even if several clusters match the same event. Conversely, all candidates that do not match an event from the ground truth are considered false positives. 
+We chose to use this metric, rather than the one defined by \citet{mcminn_real_2015}: they consider all clusters with more than 75 tweets as candidate events. A candidate is evaluated as true positive if 5\% or more than 15 tweets of the candidate's tweets match those of an annotated event. From the detail of their experimental results, we can deduce that all candidates that match with a ground truth's event are counted as true positives, even if several clusters match the same event. Conversely, all candidates that do not match an event from the ground truth are considered false positives. 
 
 We decided not to use this metric for two reasons: first, we only have access to the portion of the \citet{mcminn_building_2013} dataset that was not deleted over time. Therefore, we cannot keep the threshold of 75 tweets per event, and we would not be able to compare our results with those obtained by McMinn and Jose. Second, this measure favors over-clustering by not penalizing the fact that several clusters match the same event. We consider the Best Matching F1 score as a better evaluation metric for this task.
 
@@ -582,10 +582,7 @@ while, with the triangular kernel, tf-idf, Word2Vec and Universal Sentence Encod
 \rowcolors{2}{gray!25}{white}
 \input{tables/results_classif_SVD_en}
 }
-\\
-
-{\scriptsize \textbf{Note:} Each cell indicates the mean and standard deviation of 5 runs (with different train/test splits), in percentages.}
-\caption{SVM classification results on the English corpus} \label{classif_en}
+\caption[SVM classification results on the English corpus]{SVM classification results on the English corpus. Each cell indicates the mean and standard deviation of 5 runs (with different train/test splits), in percentages.} \label{classif_en}
 \end{center}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -597,10 +594,7 @@ while, with the triangular kernel, tf-idf, Word2Vec and Universal Sentence Encod
 \rowcolors{2}{gray!25}{white}
 \input{tables/results_classif_SVD_fr}
 }
-\\
-
-{\scriptsize \textbf{Note:} Each cell indicates the mean and standard deviation of 5 runs (with different train/test splits), in percentages.}
-\caption{SVM classification results on the French corpus} \label{classif_fr}
+\caption[SVM classification results on the French corpus]{SVM classification results on the French corpus. Each cell indicates the mean and standard deviation of 5 runs (with different train/test splits), in percentages.} \label{classif_fr}
 \end{center}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -613,11 +607,7 @@ while, with the triangular kernel, tf-idf, Word2Vec and Universal Sentence Encod
 \begin{center}
 \rowcolors{2}{gray!25}{white}
 \input{tables/results_clustering}
-\\
-
-{\scriptsize \textbf{Note:} Performance is assessed using the "Best Matching F1" score.\\ 
-For each model, the best $t$ threshold value was selected by successive tests.}
-\caption{FSD clustering results for each corpus} \label{clustering}
+\caption[FSD clustering results for each corpus.]{FSD clustering results for each corpus. Performance is assessed using the "Best Matching F1" score. For each model, the best $t$ threshold value was selected by successive tests. The batch size parameter $b$ is fixed to 8. The window-size parameter $w$ is fixed to the average number of tweets per day in each corpus.} \label{clustering}
 \end{center}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -655,8 +645,8 @@ threshold value.
   \caption{French}
   \label{fig: graph_FSD_fr}
 \end{subfigure}
-\caption{Best Matching F1 score for FSD clustering depending on the
-threshold parameter $t$ for each corpus}
+\caption[Best Matching F1 score for FSD clustering depending on the threshold parameter $t$ for each corpus]{Best Matching F1 score for FSD clustering depending on the
+threshold parameter $t$ for each corpus. The batch size parameter $b$ is fixed to 8. The window-size parameter $w$ is fixed to the average number of tweets per day in each corpus.}
 \label{fig: graph_FSD}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -684,9 +674,7 @@ separate for the algorithm.
 \input{tables/text_image_clustering}
 \\
 
-{\scriptsize \textbf{Note:} Performance is assessed using the "Best Matching F1" score.\\ 
-For each model, the best $t$ threshold value was selected by successive tests.}
-\caption{FSD clustering results on "text only" and "text-image" vectors on the tweets of the French corpus that include visual content} \label{Tab: text_image}
+\caption[FSD clustering results on "text only" and "text-image" vectors]{FSD clustering results on "text only" and "text-image" vectors on the tweets of the French corpus that include visual content. Performance is assessed using the "Best Matching F1" score. For each model, the best $t$ threshold value was selected by successive tests. The batch size parameter $b$ is fixed to 8. The window-size parameter $w$ is fixed to the average number of tweets per day.} \label{Tab: text_image}
 \end{center}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -699,7 +687,7 @@ Conversely, our dataset built up in 2018 contains many visual contents. Out of t
 \begin{figure}[ht]
   \centering
   \includegraphics[width=.7\linewidth]{figures/text_image_clustering.png}
-  \caption{Best Matching F1 score for FSD clustering depending on the treshold parameter $t$ for text-only and text-image vectors on the tweets of the French corpus that include visual content}
+  \caption{Best Matching F1 score for FSD clustering depending on the treshold parameter $t$ for text-only and text-image vectors on the tweets of the French corpus that include visual content. The batch size parameter $b$ is fixed to 8. The window-size parameter $w$ is fixed to the average number of tweets per day.}
   \label{Fig:text-image}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -719,27 +707,49 @@ In the previous parts (\ref{Subsec: text embeddings} and \ref{Subsec: text-image
 
 {\scriptsize \textbf{Note:} Performance is assessed using the "Best Matching F1" score.\\ 
 For each model, the best $t$, $t_1$ and $p_1$ values were selected by successive tests.}
-\caption{Clustering performance of the FSD algorithm and re-clustering algorithms on the tweets of the French corpus that include visual content} \label{Tab: reclustering}
+\caption[Clustering performance of the FSD algorithm and re-clustering algorithms on the tweets of the French corpus that include visual content.]{Clustering performance of the FSD algorithm and re-clustering algorithms on the tweets of the French corpus that include visual content. Performance is assessed using the "Best Matching F1" score. For each model, the best  $t$, $t_1$ and $p_1$ values were selected by successive tests. The batch size parameter $b$ is fixed to 8. The window-size parameter $w$ is fixed to the average number of tweets per day.} \label{Tab: reclustering}
 \end{center}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Table \ref{Tab: reclustering} shows the results of the re-clustering approach using each type of visual representation: either a semantic representation, with ResNet vectors, or local features representation, with SIFT similarities. These results indicate that local features tend to perform best to improve the first clustering step. Overall, however, this way of combining representations degrades the performance of the FSD algorithm alone. The very high values selected for the $p_1$ parameter, which indicate that very few clusters are allowed to merge, seem to indicate that the only way to obtain correct results with the re-clustering algorithm is to minimize the role of the second step. The obtained results are thus close to the results of the FSD algorithm alone with a too low $t$ parameter.
 
-The comparative results of DBSCAN, DMM and FSD are summarized in Table \ref{}. The First Story Detection algorithm outperforms the other tested methods by a clear margin on both datasets.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[]
+\begin{subtable}{1\textwidth}
+    \resizebox{\textwidth}{!}{%
+    \rowcolors{2}{white}{gray!25}
+    \input{tables/DMM_DBSCAN_FSD_en}
+    }
+    \label{tab:DMM_DBSCAN_FSD_en}
+    \caption{Results on the English corpus}
+\end{subtable}
+\begin{subtable}{1\textwidth}
+    \resizebox{\textwidth}{!}{%
+    \rowcolors{2}{white}{gray!25}
+    \input{tables/DMM_DBSCAN_FSD_fr}
+    }
+    \label{tab:DMM_DBSCAN_FSD_fr}
+    \caption{Results on the French corpus}
+\end{subtable}
+\caption[Comparative results of DMM, DBSCAN and FSD algorithms]{Comparative results of DMM, DBSCAN and FSD algorithms. For each model, the best parameter values were selected by successive tests. See Section \ref{SubSec: Choice of parameters} for the definition of each parameter. Since DMM results depend on random initialization, we provide the mean and standard deviation of 5 runs.}
+\label{tab:DMM_DBSCAN_FSD}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The comparative results of DBSCAN, DMM and FSD are summarized in Table \ref{tab:DMM_DBSCAN_FSD}. The First Story Detection algorithm outperforms the other tested methods by a clear margin. The DMM algorithm appears to be less performant than DBSCAN on both datasets.
 
 \subsection{Results on the entire collection}
-All previous experiments were conducted on the annotated part of our dataset. However, the final objective of our study is to detect events in the entire collection of tweets (4.5 million tweets per day on average) and over a period of several months. 
+All previous experiments were conducted on the annotated part of our dataset. However, the final objective of our study is to detect events in the entire collection of tweets (5 million tweets per day on average) and over a period of several months. 
 
-We tested the mini-batch FSD algorithm with and without relevance thresholds on the entire corpus (retweets excluded), i.e. 38 million tweets.  The results of both methods are displayed in Table \ref{Tab: FSD_thresholds}. The method with relevance thresholds seems to obtain better scores, but these results must be interpreted with caution: indeed, the thresholds "fit" the algorithm to the characteristics of the annotated corpus, resulting in better performance on annotated tweets. This does not tell us whether performance is also better over the entire collection. However, it can legitimately be assumed that these rather low thresholds do not degrade performance, while allowing a gain in time efficiency.
+We tested the mini-batch FSD algorithm with and without relevance thresholds on the entire 3 weeks corpus (retweets excluded), i.e. 38 million tweets.  The results of both methods are displayed in Table \ref{Tab: FSD_thresholds}. The method with relevance thresholds seems to obtain better scores, but these results must be interpreted with caution: indeed, the thresholds "fit" the algorithm to the characteristics of the annotated corpus, resulting in better performance on annotated tweets. This does not tell us whether performance is also better over the entire collection. However, it can legitimately be assumed that these rather low thresholds do not degrade performance, while allowing a gain in time efficiency.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[ht]
 \begin{center}
 \input{tables/threshold_FSD}
-\\
 
-{\scriptsize \textbf{Note:} Performance is assessed using the "Best Matching F1" score on the annotated tweets of the collection.}
-\caption{Clustering performance of the FSD algorithm with and without relevance thresholds} \label{Tab: FSD_thresholds}
+\caption[Clustering performance of the FSD algorithm with and without relevance thresholds on the entire corpus]{Clustering performance of the FSD algorithm with and without relevance thresholds on the entire (38 million tweets) French corpus. Performance is assessed using the "Best Matching F1" score on the annotated tweets of the collection. The batch size parameter $b$ is fixed to 200. The window-size parameter $w$ is fixed to the average number of tweets per day.} \label{Tab: FSD_thresholds}
 \end{center}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
